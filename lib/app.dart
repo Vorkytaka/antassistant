@@ -1,4 +1,5 @@
 import 'package:antassistant/generated/l10n.dart';
+import 'package:antassistant/ui/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -15,7 +16,10 @@ class App extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
         S.delegate,
       ],
-      home: SizedBox(),
+      routes: {
+        MainScreen.path: MainScreen.builder,
+      },
+      initialRoute: MainScreen.path,
     );
   }
 }
