@@ -9,7 +9,9 @@ class MainScreenProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => MainScreenBloc(),
+      create: (context) => MainScreenBloc(
+        repository: context.read(),
+      ),
       lazy: false,
       child: const MainScreen(),
     );

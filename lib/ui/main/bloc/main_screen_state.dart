@@ -7,6 +7,16 @@ class MainScreenState {
   const MainScreenState({
     required this.status,
   });
+
+  MainScreenState copyWith({
+    MainScreenStatus? status,
+  }) =>
+      MainScreenState(
+        status: status ?? this.status,
+      );
+
+  @override
+  String toString() => 'MainScreenState($status)';
 }
 
 enum MainScreenStatus {
