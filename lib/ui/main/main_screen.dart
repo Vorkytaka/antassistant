@@ -13,20 +13,78 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<MainScreenBloc, MainScreenState>(
-        buildWhen: (prev, curr) => prev.status != curr.status,
-        builder: (context, state) {
-          switch (state.status) {
-            case MainScreenStatus.loading:
-              return Container();
-            case MainScreenStatus.noAccounts:
-              return Container();
-            case MainScreenStatus.oneAccount:
-              return Container();
-            case MainScreenStatus.manyAccounts:
-              return Container();
-          }
-        },
+      body: SafeArea(
+        child: BlocBuilder<MainScreenBloc, MainScreenState>(
+          buildWhen: (prev, curr) => prev.status != curr.status,
+          builder: (context, state) {
+            switch (state.status) {
+              case MainScreenStatus.loading:
+                return _Loading();
+              case MainScreenStatus.noAccounts:
+                return _NoAccounts();
+              case MainScreenStatus.oneAccount:
+                return Container();
+              case MainScreenStatus.manyAccounts:
+                return Container();
+            }
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _Loading extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+}
+
+class _NoAccounts extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: Center(
+              child: Text(
+                'Добавьте свой аккаунт,\nчтобы отслеживать его состояние',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+            ),
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                height: 56,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('ДОБАВИТЬ АККАУНТ'),
+                ),
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                height: 56,
+                child: OutlinedButton(
+                  onPressed: () {},
+                  child: const Text('СЛУЖБА ПОДДЕРЖКИ'),
+                ),
+              ),
+              const SizedBox(height: 56 + 16),
+            ],
+          ),
+        ],
       ),
     );
   }
