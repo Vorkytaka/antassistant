@@ -1,5 +1,6 @@
 import 'package:antassistant/data/repository.dart';
 import 'package:antassistant/generated/l10n.dart';
+import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/ui/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,18 +13,25 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider<Repository>(
       create: (context) => MockRepository(),
-      child: const MaterialApp(
+      child: MaterialApp(
         title: 'ANTAssistant',
-        localizationsDelegates: [
+        localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
           S.delegate,
         ],
-        routes: {
+        routes: const {
           MainScreen.path: MainScreen.builder,
+          LoginScreen.path: LoginScreen.builder,
         },
         initialRoute: MainScreen.path,
+        theme: ThemeData(
+          inputDecorationTheme: const InputDecorationTheme(
+            border: OutlineInputBorder(),
+            filled: true,
+          ),
+        ),
       ),
     );
   }

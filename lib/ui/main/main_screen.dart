@@ -1,5 +1,7 @@
+import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/ui/main/bloc/main_screen_bloc.dart';
 import 'package:antassistant/ui/main/main_screen_provider.dart';
+import 'package:antassistant/utils/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,7 +49,7 @@ class _NoAccounts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -69,7 +71,8 @@ class _NoAccounts extends StatelessWidget {
               SizedBox(
                 height: 56,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(LoginScreen.path),
                   child: const Text('ДОБАВИТЬ АККАУНТ'),
                 ),
               ),
