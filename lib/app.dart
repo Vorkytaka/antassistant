@@ -1,5 +1,6 @@
 import 'package:antassistant/data/repository.dart';
 import 'package:antassistant/generated/l10n.dart';
+import 'package:antassistant/theme.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/ui/main/main_screen.dart';
 import 'package:flutter/material.dart';
@@ -26,12 +27,7 @@ class App extends StatelessWidget {
           LoginScreen.path: LoginScreen.builder,
         },
         initialRoute: MainScreen.path,
-        theme: ThemeData(
-          inputDecorationTheme: const InputDecorationTheme(
-            border: OutlineInputBorder(),
-            filled: true,
-          ),
-        ),
+        theme: ThemeHolder.light,
       ),
     );
   }
