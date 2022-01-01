@@ -16,10 +16,8 @@ class RepositoryImpl implements Repository {
   @override
   Future<List<AccountData>> getData() async {
     final credentials = await credentialsDao.readAll();
-    for (final c in credentials) {
-      api.getData(credentials: c);
-    }
-    return const [];
+    return Future.wait(credentials.map((e) => api.getData(credentials: e)))
+        .then((value) => value.map((e) => parseUserData(e!)).toList());
   }
 
   @override

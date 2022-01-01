@@ -10,7 +10,7 @@ class AccountData {
   final Tariff tariff;
   final int credit;
   final String dynDns;
-  final bool smsNotifications;
+  final String smsInfo;
   final int daysLeft;
 
   AccountData({
@@ -22,7 +22,7 @@ class AccountData {
     required this.tariff,
     required this.credit,
     required this.dynDns,
-    required this.smsNotifications,
+    required this.smsInfo,
   }) : daysLeft = balance ~/ tariff.pricePerDay;
 }
 

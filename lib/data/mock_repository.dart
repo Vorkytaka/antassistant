@@ -23,7 +23,7 @@ class MockRepository implements Repository {
         ),
         credit: 0,
         dynDns: '',
-        smsNotifications: false,
+        smsInfo: '',
       ),
     )
         .toList(growable: false);
