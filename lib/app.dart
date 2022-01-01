@@ -9,6 +9,7 @@ import 'package:antassistant/ui/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -48,7 +49,8 @@ class Dependencies extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<CredentialsDao>(
-          create: (context) => InMemoryCredentialsDao(),
+          create: (context) =>
+              const SecureCredentialsDao(storage: FlutterSecureStorage()),
         ),
         RepositoryProvider<Api>(
           create: (context) => DioApi(),
