@@ -1,5 +1,3 @@
-import 'package:antassistant/domain/credentials/credentials_bloc.dart';
-import 'package:antassistant/entity/credentials.dart';
 import 'package:antassistant/ui/login/bloc/login_screen_bloc.dart';
 import 'package:antassistant/ui/login/login_screen_provider.dart';
 import 'package:antassistant/utils/consts.dart';
@@ -59,12 +57,7 @@ class _FormState extends State<_Form> {
             );
             break;
           case LoginScreenStatus.success:
-            context.read<CredentialsBloc>().add(
-                    credentials: Credentials(
-                  login: state.login!,
-                  password: state.password!,
-                ));
-            Navigator.of(context).pop();
+            Navigator.of(context).pop(true);
             break;
           default:
             break;

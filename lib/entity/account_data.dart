@@ -11,8 +11,9 @@ class AccountData {
   final int credit;
   final String dynDns;
   final bool smsNotifications;
+  final int daysLeft;
 
-  const AccountData({
+  AccountData({
     required this.balance,
     required this.name,
     required this.status,
@@ -22,7 +23,7 @@ class AccountData {
     required this.credit,
     required this.dynDns,
     required this.smsNotifications,
-  });
+  }) : daysLeft = balance ~/ tariff.pricePerDay;
 }
 
 @immutable
@@ -31,11 +32,12 @@ class Tariff {
   final double price;
   final String downloadSpeed;
   final String uploadSpeed;
+  final double pricePerDay;
 
   const Tariff({
     required this.name,
     required this.price,
     required this.downloadSpeed,
     required this.uploadSpeed,
-  });
+  }) : pricePerDay = price / 30;
 }

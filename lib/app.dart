@@ -1,5 +1,4 @@
 import 'package:antassistant/data/repository.dart';
-import 'package:antassistant/domain/credentials/credentials_bloc.dart';
 import 'package:antassistant/generated/l10n.dart';
 import 'package:antassistant/theme.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
@@ -45,11 +44,7 @@ class Dependencies extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider<Repository>(
       create: (context) => MockRepository(),
-      child: BlocProvider<CredentialsBloc>(
-        create: (context) => CredentialsBloc(repository: context.read()),
-        lazy: false,
-        child: child,
-      ),
+      child: child,
     );
   }
 }

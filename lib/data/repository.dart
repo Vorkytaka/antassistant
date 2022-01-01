@@ -1,7 +1,8 @@
+import 'package:antassistant/entity/account_data.dart';
 import 'package:antassistant/entity/credentials.dart';
 
 abstract class Repository {
-  Future<List<Credentials>> getCredentials();
+  Future<List<AccountData>> getData();
 
   Future<bool> login({required Credentials credentials});
 
@@ -14,8 +15,27 @@ class MockRepository implements Repository {
   List<Credentials> _credentials = const [];
 
   @override
-  Future<List<Credentials>> getCredentials() async {
-    return _credentials;
+  Future<List<AccountData>> getData() async {
+    return _credentials
+        .map(
+          (credentials) => AccountData(
+            balance: 0,
+            name: credentials.login,
+            status: '',
+            number: '',
+            downloaded: 0,
+            tariff: const Tariff(
+              name: '',
+              price: 720,
+              downloadSpeed: '0',
+              uploadSpeed: '0',
+            ),
+            credit: 0,
+            dynDns: '',
+            smsNotifications: false,
+          ),
+        )
+        .toList(growable: false);
   }
 
   @override

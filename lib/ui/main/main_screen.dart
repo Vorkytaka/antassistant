@@ -17,17 +17,13 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: BlocBuilder<MainScreenBloc, MainScreenState>(
-          buildWhen: (prev, curr) => prev.status != curr.status,
           builder: (context, state) {
-            switch (state.status) {
-              case MainScreenStatus.loading:
-                return _Loading();
-              case MainScreenStatus.noAccounts:
-                return _NoAccounts();
-              case MainScreenStatus.oneAccount:
-                return Container();
-              case MainScreenStatus.manyAccounts:
-                return Container();
+            if (state.loading) {
+              return _Loading();
+            } else if (state.data.isEmpty) {
+              return _NoAccounts();
+            } else {
+              return _AccountList();
             }
           },
         ),
@@ -71,8 +67,15 @@ class _NoAccounts extends StatelessWidget {
               SizedBox(
                 height: 56,
                 child: ElevatedButton(
-                  onPressed: () =>
-                      Navigator.of(context).pushNamed(LoginScreen.path),
+                  onPressed: () async {
+                    final bool result = (await Navigator.of(context)
+                            .pushNamed<dynamic>(LoginScreen.path)) ??
+                        false;
+
+                    if (result) {
+                      context.read<MainScreenBloc>().refresh();
+                    }
+                  },
                   child: const Text('ДОБАВИТЬ АККАУНТ'),
                 ),
               ),
@@ -89,6 +92,42 @@ class _NoAccounts extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _AccountList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.symmetric(vertical: 24),
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: horizontalPadding,
+          ),
+          child: Text(
+            'Аккаунты',
+            style: Theme.of(context).textTheme.headline5,
+          ),
+        ),
+        const SizedBox(height: 16),
+        BlocBuilder<MainScreenBloc, MainScreenState>(
+          buildWhen: (prev, curr) => prev.data != curr.data,
+          builder: (context, state) => ListView.separated(
+            shrinkWrap: true,
+            physics: const ScrollPhysics(),
+            itemCount: state.data.length,
+            separatorBuilder: (context, i) => const Divider(height: 1),
+            itemBuilder: (context, i) => ListTile(
+              title: Text(state.data[i].name),
+              onTap: () {},
+              trailing: Text(state.data[i].balance.toString()),
+              subtitle: Text('Осталось дней: ${state.data[i].daysLeft}'),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

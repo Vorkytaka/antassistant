@@ -22,12 +22,16 @@ class LoginScreenBloc extends Cubit<LoginScreenState> with Logger {
 
     emit(state.copyWith(status: LoginScreenStatus.loading));
 
-    final result = await repository.login(
-      credentials: Credentials(
-        login: state.login!,
-        password: state.password!,
-      ),
+    final credentials = Credentials(
+      login: state.login!,
+      password: state.password!,
     );
+
+    final result = await repository.login(credentials: credentials);
+
+    if (result) {
+      await repository.saveCredentials(credentials: credentials);
+    }
 
     emit(state.copyWith(
       status: result ? LoginScreenStatus.success : LoginScreenStatus.failure,
