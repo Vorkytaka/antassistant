@@ -1,9 +1,10 @@
 import 'package:antassistant/data/repository.dart';
 import 'package:antassistant/entity/credentials.dart';
+import 'package:antassistant/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
-class CredentialsBloc extends Cubit<CredentialsState> {
+class CredentialsBloc extends Cubit<CredentialsState> with Logger {
   final Repository repository;
 
   CredentialsBloc({
@@ -33,5 +34,13 @@ class CredentialsState {
   factory CredentialsState.init() => const CredentialsState(credentials: []);
 
   @override
-  String toString() => 'CredentialsState(${credentials.length})';
+  String toString() =>
+      'CredentialsState(${credentials.length}, ${credentials.join(', ')})';
+
+  @override
+  bool operator ==(Object other) =>
+      other is CredentialsState && credentials == other.credentials;
+
+  @override
+  int get hashCode => credentials.hashCode;
 }

@@ -11,11 +11,11 @@ abstract class Repository {
 }
 
 class MockRepository implements Repository {
-  final Set<Credentials> _credentials = {};
+  List<Credentials> _credentials = const [];
 
   @override
   Future<List<Credentials>> getCredentials() async {
-    return [];
+    return _credentials;
   }
 
   @override
@@ -25,11 +25,14 @@ class MockRepository implements Repository {
   }
 
   @override
-  Future<void> saveCredentials({required Credentials credentials}) async =>
-      _credentials.add(credentials);
+  Future<void> saveCredentials({required Credentials credentials}) async {
+    if (_credentials.contains(credentials)) return;
+    _credentials = [..._credentials, credentials];
+  }
 
   @override
   Future<void> removeCredentials({required String login}) async {
-    _credentials.removeWhere((credentials) => credentials.login == login);
+    _credentials = [..._credentials]
+      ..removeWhere((credentials) => credentials.login == login);
   }
 }
