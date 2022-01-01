@@ -1,3 +1,5 @@
+import 'package:antassistant/domain/credentials/credentials_bloc.dart';
+import 'package:antassistant/entity/credentials.dart';
 import 'package:antassistant/ui/login/bloc/login_screen_bloc.dart';
 import 'package:antassistant/ui/login/login_screen_provider.dart';
 import 'package:antassistant/utils/consts.dart';
@@ -47,13 +49,25 @@ class _FormState extends State<_Form> {
     return BlocConsumer<LoginScreenBloc, LoginScreenState>(
       listenWhen: (prev, curr) => prev.status != curr.status,
       listener: (context, state) {
-        if (state.status == LoginScreenStatus.failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Не удалось авторизоваться'),
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
+        switch (state.status) {
+          case LoginScreenStatus.failure:
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Не удалось авторизоваться'),
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+            break;
+          case LoginScreenStatus.success:
+            context.read<CredentialsBloc>().add(
+                    credentials: Credentials(
+                  login: state.login!,
+                  password: state.password!,
+                ));
+            Navigator.of(context).pop();
+            break;
+          default:
+            break;
         }
       },
       buildWhen: (prev, curr) => prev.status != curr.status,

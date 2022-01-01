@@ -1,4 +1,5 @@
 import 'package:antassistant/data/repository.dart';
+import 'package:antassistant/domain/credentials/credentials_bloc.dart';
 import 'package:antassistant/generated/l10n.dart';
 import 'package:antassistant/theme.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
@@ -12,8 +13,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider<Repository>(
-      create: (context) => MockRepository(),
+    return Dependencies(
       child: MaterialApp(
         title: 'ANTAssistant',
         localizationsDelegates: const [
@@ -28,6 +28,27 @@ class App extends StatelessWidget {
         },
         initialRoute: MainScreen.path,
         theme: ThemeHolder.light,
+      ),
+    );
+  }
+}
+
+class Dependencies extends StatelessWidget {
+  final Widget child;
+
+  const Dependencies({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RepositoryProvider<Repository>(
+      create: (context) => MockRepository(),
+      child: BlocProvider<CredentialsBloc>(
+        create: (context) => CredentialsBloc(repository: context.read()),
+        lazy: false,
+        child: child,
       ),
     );
   }
