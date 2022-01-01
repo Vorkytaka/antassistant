@@ -1,4 +1,7 @@
+import 'package:antassistant/data/dao/credentials_dao.dart';
 import 'package:antassistant/data/repository.dart';
+import 'package:antassistant/data/repository_impl.dart';
+import 'package:antassistant/data/service/service.dart';
 import 'package:antassistant/generated/l10n.dart';
 import 'package:antassistant/theme.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
@@ -42,9 +45,22 @@ class Dependencies extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider<Repository>(
-      create: (context) => MockRepository(),
-      child: child,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<CredentialsDao>(
+          create: (context) => InMemoryCredentialsDao(),
+        ),
+        RepositoryProvider<Api>(
+          create: (context) => DioApi(),
+        ),
+      ],
+      child: RepositoryProvider<Repository>(
+        create: (context) => RepositoryImpl(
+          api: context.read(),
+          credentialsDao: context.read(),
+        ),
+        child: child,
+      ),
     );
   }
 }
