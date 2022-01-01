@@ -1,3 +1,4 @@
+import 'package:antassistant/entity/account_data.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/ui/main/bloc/main_screen_bloc.dart';
 import 'package:antassistant/ui/main/main_screen_provider.dart';
@@ -103,12 +104,30 @@ class _AccountList extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 24),
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: horizontalPadding,
-          ),
-          child: Text(
-            'Аккаунты',
-            style: Theme.of(context).textTheme.headline5,
+          padding: const EdgeInsets.only(left: horizontalPadding),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Аккаунты',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              PopupMenuButton(
+                icon: const Icon(Icons.more_vert),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(12),
+                  ),
+                ),
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    child: Text('Добавить'),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
         const SizedBox(height: 16),
@@ -119,15 +138,54 @@ class _AccountList extends StatelessWidget {
             physics: const ScrollPhysics(),
             itemCount: state.data.length,
             separatorBuilder: (context, i) => const Divider(height: 1),
-            itemBuilder: (context, i) => ListTile(
-              title: Text(state.data[i].name),
-              onTap: () {},
-              trailing: Text(state.data[i].balance.toString()),
-              subtitle: Text('Осталось дней: ${state.data[i].daysLeft}'),
-            ),
+            itemBuilder: (context, i) => _Item(data: state.data[i]),
           ),
         ),
       ],
+    );
+  }
+}
+
+class _Item extends StatelessWidget {
+  final AccountData data;
+
+  const _Item({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(data.name),
+      onTap: () {},
+      onLongPress: () {
+        showModalBottomSheet(
+          context: context,
+          builder: (context) => SizedBox(
+            height: MediaQuery.of(context).size.height * 0.4,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ListTile(
+                  title: Text(
+                    data.name,
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                ),
+                ListTile(
+                  title: const Text('Удалить'),
+                  leading: const Icon(Icons.delete),
+                  onTap: () {},
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+      trailing: Text(data.balance.toString()),
+      subtitle: Text('Осталось дней: ${data.daysLeft}'),
     );
   }
 }
