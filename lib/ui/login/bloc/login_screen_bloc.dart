@@ -11,19 +11,19 @@ class LoginScreenBloc extends Cubit<LoginScreenState> with Logger {
     required this.repository,
   }) : super(LoginScreenState.init());
 
-  void setLogin(String? login) => emit(state.copyWith(login: login));
+  void setUsername(String? login) => emit(state.copyWith(login: login));
 
   void setPassword(String? password) =>
       emit(state.copyWith(password: password));
 
   Future<void> login() async {
-    assert(state.login != null);
+    assert(state.username != null);
     assert(state.password != null);
 
     emit(state.copyWith(status: LoginScreenStatus.loading));
 
     final credentials = Credentials(
-      login: state.login!,
+      username: state.username!,
       password: state.password!,
     );
 
@@ -41,18 +41,18 @@ class LoginScreenBloc extends Cubit<LoginScreenState> with Logger {
 
 @immutable
 class LoginScreenState {
-  final String? login;
+  final String? username;
   final String? password;
   final LoginScreenStatus status;
 
   const LoginScreenState({
-    required this.login,
+    required this.username,
     required this.password,
     required this.status,
   });
 
   factory LoginScreenState.init() => const LoginScreenState(
-        login: null,
+        username: null,
         password: null,
         status: LoginScreenStatus.idle,
       );
@@ -63,14 +63,14 @@ class LoginScreenState {
     LoginScreenStatus? status,
   }) =>
       LoginScreenState(
-        login: login ?? this.login,
+        username: login ?? this.username,
         password: password ?? this.password,
         status: status ?? this.status,
       );
 
   @override
   String toString() {
-    return 'LoginScreenState($login, $status)';
+    return 'LoginScreenState($username, $status)';
   }
 }
 

@@ -22,7 +22,7 @@ class DioApi implements Api {
     final BaseOptions options = BaseOptions(followRedirects: true);
     final params = {
       _keyAction: _actionInfo,
-      _keyUsername: credentials.login,
+      _keyUsername: credentials.username,
       _keyPassword: credentials.password
     };
     final httpParams = FormData.fromMap(params);
@@ -40,7 +40,7 @@ class DioApi implements Api {
     final BaseOptions options = BaseOptions(followRedirects: true);
     var params = {
       _keyAction: _actionInfo,
-      _keyUsername: credentials.login,
+      _keyUsername: credentials.username,
       _keyPassword: credentials.password
     };
     var httpParams = FormData.fromMap(params);

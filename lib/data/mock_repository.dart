@@ -11,7 +11,7 @@ class MockRepository implements Repository {
         .map(
           (credentials) => AccountData(
         balance: 0,
-        name: credentials.login,
+        name: credentials.username,
         status: '',
         number: '',
         downloaded: 0,
@@ -32,7 +32,7 @@ class MockRepository implements Repository {
   @override
   Future<bool> login({required Credentials credentials}) async {
     await Future.delayed(const Duration(seconds: 1));
-    return credentials.login == 'qwerty' && credentials.password == 'qwerty';
+    return credentials.username == 'qwerty' && credentials.password == 'qwerty';
   }
 
   @override
@@ -42,8 +42,8 @@ class MockRepository implements Repository {
   }
 
   @override
-  Future<void> removeCredentials({required String login}) async {
+  Future<void> removeCredentials({required String username}) async {
     _credentials = [..._credentials]
-      ..removeWhere((credentials) => credentials.login == login);
+      ..removeWhere((credentials) => credentials.username == username);
   }
 }

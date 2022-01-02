@@ -8,5 +8,5 @@ abstract class Repository {
 
   Future<void> saveCredentials({required Credentials credentials});
 
-  Future<void> removeCredentials({required String login});
+  Future<void> removeCredentials({required String username});
 }

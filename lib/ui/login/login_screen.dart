@@ -78,10 +78,10 @@ class _FormState extends State<_Form> {
                 decoration: const InputDecoration(
                   label: Text('Логин'),
                 ),
-                onSaved: (login) =>
-                    context.read<LoginScreenBloc>().setLogin(login),
-                validator: (login) {
-                  if (login == null || login.isEmpty) {
+                onSaved: (username) =>
+                    context.read<LoginScreenBloc>().setUsername(username),
+                validator: (username) {
+                  if (username == null || username.isEmpty) {
                     return 'Заполните поле';
                   }
                 },
@@ -103,8 +103,8 @@ class _FormState extends State<_Form> {
                     visible: _passwordIsVisible,
                   ),
                 ),
-                validator: (login) {
-                  if (login == null || login.isEmpty) {
+                validator: (password) {
+                  if (password == null || password.isEmpty) {
                     return 'Заполните поле';
                   }
                 },
