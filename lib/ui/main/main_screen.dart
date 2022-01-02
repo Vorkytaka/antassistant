@@ -69,13 +69,7 @@ class _NoAccounts extends StatelessWidget {
                 height: 56,
                 child: ElevatedButton(
                   onPressed: () async {
-                    final bool result = (await Navigator.of(context)
-                            .pushNamed<dynamic>(LoginScreen.path)) ??
-                        false;
-
-                    if (result) {
-                      context.read<MainScreenBloc>().refresh();
-                    }
+                    login(context: context);
                   },
                   child: const Text('ДОБАВИТЬ АККАУНТ'),
                 ),
@@ -114,7 +108,7 @@ class _AccountList extends StatelessWidget {
                 'Аккаунты',
                 style: Theme.of(context).textTheme.headline5,
               ),
-              PopupMenuButton(
+              PopupMenuButton<int>(
                 icon: const Icon(Icons.more_vert),
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(
@@ -124,8 +118,16 @@ class _AccountList extends StatelessWidget {
                 itemBuilder: (context) => [
                   const PopupMenuItem(
                     child: Text('Добавить'),
+                    value: 1,
                   ),
                 ],
+                onSelected: (id) {
+                  switch (id) {
+                    case 1:
+                      login(context: context);
+                      break;
+                  }
+                },
               ),
             ],
           ),
@@ -187,5 +189,15 @@ class _Item extends StatelessWidget {
       trailing: Text(data.balance.toString()),
       subtitle: Text('Осталось дней: ${data.daysLeft}'),
     );
+  }
+}
+
+Future<void> login({required BuildContext context}) async {
+  final bool result =
+      (await Navigator.of(context).pushNamed<dynamic>(LoginScreen.path)) ??
+          false;
+
+  if (result) {
+    context.read<MainScreenBloc>().refresh();
   }
 }
