@@ -194,7 +194,9 @@ class _Item extends StatelessWidget {
                 ListTile(
                   title: const Text('Удалить'),
                   leading: const Icon(Icons.delete),
-                  onTap: () {},
+                  onTap: () {
+                    delete(context: context, data: data);
+                  },
                 ),
               ],
             ),
@@ -214,5 +216,39 @@ Future<void> login({required BuildContext context}) async {
 
   if (result) {
     context.read<AccountsBloc>().refresh();
+  }
+}
+
+Future<void> delete({
+  required BuildContext context,
+  required AccountData data,
+}) async {
+  final bool result = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Удалить аккаунт'),
+          content: Text('Вы уверены, что хотите удалить аккаунт ${data.name}?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Нет'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              style: TextButton.styleFrom(
+                primary: Theme.of(context).errorColor,
+              ),
+              child: Text(
+                'Да',
+                style: TextStyle(color: Theme.of(context).errorColor),
+              ),
+            ),
+          ],
+        ),
+      ) ??
+      false;
+
+  if (result) {
+    context.read<AccountsBloc>().removeAccount(username: data.name);
   }
 }

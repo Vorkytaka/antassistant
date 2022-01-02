@@ -37,12 +37,15 @@ class SecureCredentialsDao implements CredentialsDao {
 
   @override
   Future<void> create({required Credentials credentials}) async {
-    await storage.write(key: credentials.username, value: credentials.password);
+    await storage.write(
+      key: credentials.username.toLowerCase(),
+      value: credentials.password,
+    );
   }
 
   @override
   Future<void> delete({required String username}) async {
-    await storage.delete(key: username);
+    await storage.delete(key: username.toLowerCase());
   }
 
   @override

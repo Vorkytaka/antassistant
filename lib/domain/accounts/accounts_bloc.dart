@@ -17,6 +17,11 @@ class AccountsBloc extends Cubit<AccountsState> {
     final data = await repository.getData();
     emit(AccountsState(data: data));
   }
+
+  dynamic removeAccount({required String username}) async {
+    await repository.removeCredentials(username: username);
+    await refresh();
+  }
 }
 
 @immutable
