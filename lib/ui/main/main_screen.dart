@@ -1,15 +1,20 @@
+import 'package:antassistant/domain/accounts/accounts_bloc.dart';
 import 'package:antassistant/entity/account_data.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
-import 'package:antassistant/ui/main/bloc/main_screen_bloc.dart';
-import 'package:antassistant/ui/main/main_screen_provider.dart';
 import 'package:antassistant/utils/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+enum MainScreenState {
+  loading,
+  noAccounts,
+  hasAccounts,
+}
+
 class MainScreen extends StatelessWidget {
   static const String path = '/';
 
-  static Widget builder(BuildContext context) => const MainScreenProvider();
+  static Widget builder(BuildContext context) => const MainScreen();
 
   const MainScreen({Key? key}) : super(key: key);
 
@@ -17,14 +22,24 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: BlocBuilder<MainScreenBloc, MainScreenState>(
-          builder: (context, state) {
-            if (state.loading) {
-              return _Loading();
-            } else if (state.data.isEmpty) {
-              return _NoAccounts();
+        child: BlocSelector<AccountsBloc, AccountsState, MainScreenState>(
+          selector: (state) {
+            if (state.data == null) {
+              return MainScreenState.loading;
+            } else if (state.data!.isEmpty) {
+              return MainScreenState.noAccounts;
             } else {
-              return _AccountList();
+              return MainScreenState.hasAccounts;
+            }
+          },
+          builder: (context, state) {
+            switch (state) {
+              case MainScreenState.loading:
+                return _Loading();
+              case MainScreenState.noAccounts:
+                return _NoAccounts();
+              case MainScreenState.hasAccounts:
+                return _AccountList();
             }
           },
         ),
@@ -133,14 +148,14 @@ class _AccountList extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        BlocBuilder<MainScreenBloc, MainScreenState>(
-          buildWhen: (prev, curr) => prev.data != curr.data,
+        BlocSelector<AccountsBloc, AccountsState, List<AccountData>>(
+          selector: (state) => state.data ?? const [],
           builder: (context, state) => ListView.separated(
             shrinkWrap: true,
             physics: const ScrollPhysics(),
-            itemCount: state.data.length,
+            itemCount: state.length,
             separatorBuilder: (context, i) => const Divider(height: 1),
-            itemBuilder: (context, i) => _Item(data: state.data[i]),
+            itemBuilder: (context, i) => _Item(data: state[i]),
           ),
         ),
       ],
@@ -198,6 +213,6 @@ Future<void> login({required BuildContext context}) async {
           false;
 
   if (result) {
-    context.read<MainScreenBloc>().refresh();
+    context.read<AccountsBloc>().refresh();
   }
 }

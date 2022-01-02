@@ -2,6 +2,7 @@ import 'package:antassistant/data/dao/credentials_dao.dart';
 import 'package:antassistant/data/repository.dart';
 import 'package:antassistant/data/repository_impl.dart';
 import 'package:antassistant/data/service/service.dart';
+import 'package:antassistant/domain/accounts/accounts_bloc.dart';
 import 'package:antassistant/generated/l10n.dart';
 import 'package:antassistant/theme.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
@@ -61,7 +62,10 @@ class Dependencies extends StatelessWidget {
           api: context.read(),
           credentialsDao: context.read(),
         ),
-        child: child,
+        child: BlocProvider(
+          create: (context) => AccountsBloc(repository: context.read()),
+          child: child,
+        ),
       ),
     );
   }

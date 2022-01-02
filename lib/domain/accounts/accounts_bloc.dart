@@ -1,24 +1,27 @@
 import 'package:antassistant/data/repository.dart';
 import 'package:antassistant/entity/account_data.dart';
-import 'package:antassistant/utils/logger.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
-part 'main_screen_state.dart';
-
-class MainScreenBloc extends Cubit<MainScreenState> with Logger {
+class AccountsBloc extends Cubit<AccountsState> {
   final Repository repository;
 
-  MainScreenBloc({
+  AccountsBloc({
     required this.repository,
-  }) : super(MainScreenState.init()) {
+  }) : super(const AccountsState(data: null)) {
     refresh();
   }
 
   dynamic refresh() async {
-    emit(state.copyWith(loading: true));
+    emit(const AccountsState(data: null));
     final data = await repository.getData();
-    emit(state.copyWith(loading: false, data: data));
+    emit(AccountsState(data: data));
   }
+}
+
+@immutable
+class AccountsState {
+  final List<AccountData>? data;
+
+  const AccountsState({required this.data});
 }
