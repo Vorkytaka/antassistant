@@ -27,10 +27,10 @@ class App extends StatelessWidget {
           S.delegate,
         ],
         routes: const {
-          MainScreen.path: MainScreen.builder,
+          HomeScreen.path: HomeScreen.builder,
           LoginScreen.path: LoginScreen.builder,
         },
-        initialRoute: MainScreen.path,
+        initialRoute: HomeScreen.path,
         theme: ThemeHolder.light,
       ),
     );

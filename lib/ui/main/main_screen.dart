@@ -5,18 +5,18 @@ import 'package:antassistant/utils/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-enum MainScreenState {
+enum HomeScreenState {
   loading,
   noAccounts,
   hasAccounts,
 }
 
-class MainScreen extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   static const String path = '/';
 
-  static Widget builder(BuildContext context) => const MainScreen();
+  static Widget builder(BuildContext context) => const HomeScreen();
 
-  const MainScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,23 +57,23 @@ class MainScreen extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: BlocSelector<AccountsBloc, AccountsState, MainScreenState>(
+        child: BlocSelector<AccountsBloc, AccountsState, HomeScreenState>(
           selector: (state) {
             if (state.data == null) {
-              return MainScreenState.loading;
+              return HomeScreenState.loading;
             } else if (state.data!.isEmpty) {
-              return MainScreenState.noAccounts;
+              return HomeScreenState.noAccounts;
             } else {
-              return MainScreenState.hasAccounts;
+              return HomeScreenState.hasAccounts;
             }
           },
           builder: (context, state) {
             switch (state) {
-              case MainScreenState.loading:
+              case HomeScreenState.loading:
                 return _Loading();
-              case MainScreenState.noAccounts:
+              case HomeScreenState.noAccounts:
                 return _NoAccounts();
-              case MainScreenState.hasAccounts:
+              case HomeScreenState.hasAccounts:
                 return _AccountList();
             }
           },
