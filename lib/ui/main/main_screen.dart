@@ -147,15 +147,21 @@ class _AccountList extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 24),
       children: [
-        BlocSelector<AccountsBloc, AccountsState, List<AccountData>>(
-          selector: (state) => state.data ?? const [],
-          builder: (context, state) => ListView.separated(
-            shrinkWrap: true,
-            physics: const ScrollPhysics(),
-            itemCount: state.length,
-            separatorBuilder: (context, i) => const Divider(height: 1),
-            itemBuilder: (context, i) => _Item(data: state[i]),
-          ),
+        BlocSelector<AccountsBloc, AccountsState, Map<String, AccountData?>>(
+          selector: (state) => state.data!,
+          builder: (context, state) {
+            final keys = state.keys.toList(growable: false);
+            return ListView.separated(
+              shrinkWrap: true,
+              physics: const ScrollPhysics(),
+              itemCount: state.length,
+              separatorBuilder: (context, i) => const Divider(height: 1),
+              itemBuilder: (context, i) => _Item(
+                name: keys[i],
+                data: state[keys[i]],
+              ),
+            );
+          },
         ),
       ],
     );
@@ -163,47 +169,34 @@ class _AccountList extends StatelessWidget {
 }
 
 class _Item extends StatelessWidget {
-  final AccountData data;
+  final String name;
+  final AccountData? data;
 
   const _Item({
     Key? key,
-    required this.data,
+    required this.name,
+    this.data,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(data.name),
+      title: Text(name),
       onTap: () {},
-      onLongPress: () {
-        showModalBottomSheet(
-          context: context,
-          builder: (context) => SizedBox(
-            height: MediaQuery.of(context).size.height * 0.4,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ListTile(
-                  title: Text(
-                    data.name,
-                    style: const TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                ),
-                ListTile(
-                  title: const Text('Удалить'),
-                  leading: const Icon(Icons.delete),
-                  onTap: () {
-                    delete(context: context, data: data);
-                  },
-                ),
-              ],
+      onLongPress:
+          data != null ? () => itemMenu(context: context, data: data!) : null,
+      trailing: data != null
+          ? Text(data!.balance.toString())
+          : Icon(
+              Icons.warning,
+              color: Theme.of(context).errorColor,
             ),
-          ),
-        );
-      },
-      trailing: Text(data.balance.toString()),
-      subtitle: Text('Осталось дней: ${data.daysLeft}'),
+      subtitle: data != null
+          ? Text('Осталось дней: ${data!.daysLeft}')
+          : Text(
+              'Не удалось получить данные',
+              style: TextStyle(color: Theme.of(context).errorColor),
+            ),
     );
   }
 }
@@ -250,4 +243,35 @@ Future<void> delete({
   if (result) {
     context.read<AccountsBloc>().removeAccount(username: data.name);
   }
+}
+
+Future<void> itemMenu({
+  required BuildContext context,
+  required AccountData data,
+}) async {
+  return showModalBottomSheet(
+    context: context,
+    builder: (context) => SizedBox(
+      height: MediaQuery.of(context).size.height * 0.4,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ListTile(
+            title: Text(
+              data.name,
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
+          ),
+          ListTile(
+            title: const Text('Удалить'),
+            leading: const Icon(Icons.delete),
+            onTap: () {
+              delete(context: context, data: data);
+            },
+          ),
+        ],
+      ),
+    ),
+  );
 }

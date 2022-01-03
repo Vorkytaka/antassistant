@@ -2,7 +2,7 @@ import 'package:antassistant/entity/account_data.dart';
 import 'package:antassistant/entity/credentials.dart';
 
 abstract class Repository {
-  Future<List<AccountData>> getData();
+  Future<Map<String, AccountData?>> getData();
 
   Future<bool> login({required Credentials credentials});
 

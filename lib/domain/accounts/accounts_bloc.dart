@@ -26,7 +26,7 @@ class AccountsBloc extends Cubit<AccountsState> {
 
 @immutable
 class AccountsState {
-  final List<AccountData>? data;
+  final Map<String, AccountData?>? data;
 
   const AccountsState({required this.data});
 }

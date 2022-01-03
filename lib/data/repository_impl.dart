@@ -14,10 +14,17 @@ class RepositoryImpl implements Repository {
   });
 
   @override
-  Future<List<AccountData>> getData() async {
+  Future<Map<String, AccountData?>> getData() async {
     final credentials = await credentialsDao.readAll();
-    return Future.wait(credentials.map((e) => api.getData(credentials: e)))
-        .then((value) => value.map((e) => parseUserData(e!)).toList());
+    final docs =
+        await Future.wait(credentials.map((c) => api.getData(credentials: c)));
+    final data = docs.map((d) => d != null ? parseUserData(d) : null);
+    return Map.fromIterable(
+      data,
+      key: (e) => e.name,
+    );
+    // return Future.wait(credentials.map((e) => api.getData(credentials: e)))
+    //     .then((value) => value.map((e) => parseUserData(e!)).toList());
   }
 
   @override
