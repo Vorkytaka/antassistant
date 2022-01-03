@@ -21,6 +21,41 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('ANTAssistant'),
+        actions: [
+          BlocSelector<AccountsBloc, AccountsState, bool>(
+            selector: (state) => state.data != null && state.data!.isNotEmpty,
+            builder: (context, state) {
+              if (!state) {
+                return const SizedBox.shrink();
+              } else {
+                return PopupMenuButton<int>(
+                  icon: const Icon(Icons.more_vert),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12),
+                    ),
+                  ),
+                  itemBuilder: (context) => [
+                    const PopupMenuItem(
+                      child: Text('Добавить'),
+                      value: 1,
+                    ),
+                  ],
+                  onSelected: (id) {
+                    switch (id) {
+                      case 1:
+                        login(context: context);
+                        break;
+                    }
+                  },
+                );
+              }
+            },
+          ),
+        ],
+      ),
       body: SafeArea(
         child: BlocSelector<AccountsBloc, AccountsState, MainScreenState>(
           selector: (state) {
@@ -112,42 +147,6 @@ class _AccountList extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 24),
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: horizontalPadding),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'Аккаунты',
-                style: Theme.of(context).textTheme.headline5,
-              ),
-              PopupMenuButton<int>(
-                icon: const Icon(Icons.more_vert),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(12),
-                  ),
-                ),
-                itemBuilder: (context) => [
-                  const PopupMenuItem(
-                    child: Text('Добавить'),
-                    value: 1,
-                  ),
-                ],
-                onSelected: (id) {
-                  switch (id) {
-                    case 1:
-                      login(context: context);
-                      break;
-                  }
-                },
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
         BlocSelector<AccountsBloc, AccountsState, List<AccountData>>(
           selector: (state) => state.data ?? const [],
           builder: (context, state) => ListView.separated(
