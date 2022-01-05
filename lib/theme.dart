@@ -6,6 +6,7 @@ abstract class ThemeHolder {
 
   // getter for hot reload
   static get light => ThemeData(
+        brightness: Brightness.light,
         inputDecorationTheme: const InputDecorationTheme(
           border: OutlineInputBorder(),
           filled: true,
@@ -24,6 +25,18 @@ abstract class ThemeHolder {
               .merge(Typography.englishLike2018)
               .bodyText2,
           iconTheme: const IconThemeData.fallback(),
+        ),
+      );
+
+  static get dark => ThemeData(
+        brightness: Brightness.dark,
+        inputDecorationTheme: const InputDecorationTheme(
+          border: OutlineInputBorder(),
+          filled: true,
+        ),
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
         ),
       );
 }

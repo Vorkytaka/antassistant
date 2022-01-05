@@ -31,7 +31,9 @@ class App extends StatelessWidget {
           LoginScreen.path: LoginScreen.builder,
         },
         initialRoute: HomeScreen.path,
+        themeMode: ThemeMode.dark,
         theme: ThemeHolder.light,
+        darkTheme: ThemeHolder.dark,
       ),
     );
   }

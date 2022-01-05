@@ -2,6 +2,7 @@ import 'package:antassistant/domain/accounts/accounts_bloc.dart';
 import 'package:antassistant/entity/account_data.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/utils/consts.dart';
+import 'package:antassistant/utils/sliver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -148,7 +149,7 @@ class _AccountList extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 24),
       children: [
         BlocSelector<AccountsBloc, AccountsState, Map<String, AccountData?>>(
-          selector: (state) => state.data!,
+          selector: (state) => state.data ?? const {},
           builder: (context, state) {
             final keys = state.keys.toList(growable: false);
             return ListView.separated(
