@@ -5,6 +5,7 @@ import 'package:antassistant/data/service/service.dart';
 import 'package:antassistant/domain/accounts/accounts_bloc.dart';
 import 'package:antassistant/generated/l10n.dart';
 import 'package:antassistant/theme.dart';
+import 'package:antassistant/ui/details/details_screen.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/ui/main/main_screen.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,13 @@ class App extends StatelessWidget {
         routes: const {
           HomeScreen.path: HomeScreen.builder,
           LoginScreen.path: LoginScreen.builder,
+        },
+        onGenerateRoute: (settings) {
+          if (settings.name == DetailsScreen.path) {
+            final String name = settings.arguments as String;
+            return MaterialPageRoute(
+                builder: (context) => DetailsScreen.builder(context, name));
+          }
         },
         initialRoute: HomeScreen.path,
         themeMode: ThemeMode.dark,

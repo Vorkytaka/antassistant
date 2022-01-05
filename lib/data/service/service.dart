@@ -132,7 +132,7 @@ AccountData parseUserData(Document document) {
         break;
 
       case 'Учетная запись':
-        accountName = tables[i + 1].text;
+        accountName = tables[i + 1].text.toLowerCase();
         break;
     }
   }

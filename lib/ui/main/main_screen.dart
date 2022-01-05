@@ -1,5 +1,6 @@
 import 'package:antassistant/domain/accounts/accounts_bloc.dart';
 import 'package:antassistant/entity/account_data.dart';
+import 'package:antassistant/ui/details/details_screen.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/utils/consts.dart';
 import 'package:flutter/material.dart';
@@ -182,7 +183,9 @@ class _Item extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(name),
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).pushNamed(DetailsScreen.path, arguments: name);
+      },
       onLongPress: data != null
           ? () => itemMenu(
                 context: context,
