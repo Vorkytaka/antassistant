@@ -2,7 +2,6 @@ import 'package:antassistant/domain/accounts/accounts_bloc.dart';
 import 'package:antassistant/entity/account_data.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/utils/consts.dart';
-import 'package:antassistant/utils/sliver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -184,8 +183,13 @@ class _Item extends StatelessWidget {
     return ListTile(
       title: Text(name),
       onTap: () {},
-      onLongPress:
-          data != null ? () => itemMenu(context: context, data: data!) : null,
+      onLongPress: data != null
+          ? () => itemMenu(
+                context: context,
+                accountName: name,
+                data: data,
+              )
+          : null,
       trailing: data != null
           ? Text(data!.balance.toString())
           : Icon(
@@ -214,13 +218,13 @@ Future<void> login({required BuildContext context}) async {
 
 Future<void> delete({
   required BuildContext context,
-  required AccountData data,
+  required String accountName,
 }) async {
   final bool result = await showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
           title: const Text('Удалить аккаунт'),
-          content: Text('Вы уверены, что хотите удалить аккаунт ${data.name}?'),
+          content: Text('Вы уверены, что хотите удалить аккаунт $accountName?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
@@ -242,13 +246,14 @@ Future<void> delete({
       false;
 
   if (result) {
-    context.read<AccountsBloc>().removeAccount(username: data.name);
+    context.read<AccountsBloc>().removeAccount(username: accountName);
   }
 }
 
 Future<void> itemMenu({
   required BuildContext context,
-  required AccountData data,
+  required String accountName,
+  required AccountData? data,
 }) async {
   return showModalBottomSheet(
     context: context,
@@ -260,7 +265,7 @@ Future<void> itemMenu({
         children: [
           ListTile(
             title: Text(
-              data.name,
+              accountName,
               style: const TextStyle(fontWeight: FontWeight.w600),
             ),
           ),
@@ -268,7 +273,7 @@ Future<void> itemMenu({
             title: const Text('Удалить'),
             leading: const Icon(Icons.delete),
             onTap: () {
-              delete(context: context, data: data);
+              delete(context: context, accountName: accountName);
             },
           ),
         ],
