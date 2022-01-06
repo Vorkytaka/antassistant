@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -26,6 +27,13 @@ abstract class ThemeHolder {
               .bodyText2,
           iconTheme: const IconThemeData.fallback(),
         ),
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: SharedAxisPageTransitionsBuilder(
+              transitionType: SharedAxisTransitionType.vertical,
+            ),
+          },
+        ),
       );
 
   static get dark => ThemeData(
@@ -37,6 +45,13 @@ abstract class ThemeHolder {
         appBarTheme: const AppBarTheme(
           elevation: 0,
           backgroundColor: Colors.transparent,
+        ),
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: SharedAxisPageTransitionsBuilder(
+              transitionType: SharedAxisTransitionType.vertical,
+            ),
+          },
         ),
       );
 }
