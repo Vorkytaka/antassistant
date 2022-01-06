@@ -258,8 +258,8 @@ Future<void> itemMenu({
 }) async {
   return showModalBottomSheet(
     context: context,
-    builder: (context) => SizedBox(
-      height: MediaQuery.of(context).size.height * 0.4,
+    builder: (context) => Padding(
+      padding: MediaQuery.of(context).padding,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -274,6 +274,7 @@ Future<void> itemMenu({
             title: const Text('Удалить'),
             leading: const Icon(Icons.delete),
             onTap: () {
+              Navigator.of(context).pop();
               delete(context: context, accountName: accountName);
             },
           ),
