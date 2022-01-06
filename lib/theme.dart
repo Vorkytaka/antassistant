@@ -28,11 +28,7 @@ abstract class ThemeHolder {
           iconTheme: const IconThemeData.fallback(),
         ),
         pageTransitionsTheme: const PageTransitionsTheme(
-          builders: {
-            TargetPlatform.android: SharedAxisPageTransitionsBuilder(
-              transitionType: SharedAxisTransitionType.vertical,
-            ),
-          },
+          builders: transitionsBuilders,
         ),
       );
 
@@ -47,11 +43,17 @@ abstract class ThemeHolder {
           backgroundColor: Colors.transparent,
         ),
         pageTransitionsTheme: const PageTransitionsTheme(
-          builders: {
-            TargetPlatform.android: SharedAxisPageTransitionsBuilder(
-              transitionType: SharedAxisTransitionType.vertical,
-            ),
-          },
+          builders: transitionsBuilders,
         ),
       );
+
+  static const transitionsBuilders = {
+    TargetPlatform.android: SharedAxisPageTransitionsBuilder(
+      transitionType: SharedAxisTransitionType.vertical,
+    ),
+    TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+    TargetPlatform.linux: FadeUpwardsPageTransitionsBuilder(),
+    TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+    TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
+  };
 }
