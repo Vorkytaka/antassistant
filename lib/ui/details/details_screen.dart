@@ -27,6 +27,7 @@ class DetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: SelectableText(
           accountName,
+          enableInteractiveSelection: false,
           onTap: () => copyMessage(context: context, string: accountName),
         ),
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -147,6 +148,7 @@ class _Content extends StatelessWidget {
                     context: context,
                     string: '${data.balance}',
                   ),
+                  enableInteractiveSelection: false,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headline3,
                 ),
@@ -170,6 +172,7 @@ class _Content extends StatelessWidget {
                               context: context,
                               string: '${data.daysLeft}',
                             ),
+                            enableInteractiveSelection: false,
                             style: Theme.of(context).textTheme.headline5,
                           ),
                         ],
@@ -189,6 +192,7 @@ class _Content extends StatelessWidget {
                               context: context,
                               string: '${data.credit}',
                             ),
+                            enableInteractiveSelection: false,
                             style: Theme.of(context).textTheme.headline5,
                           ),
                         ],
@@ -204,7 +208,7 @@ class _Content extends StatelessWidget {
           child: ListView(
             children: [
               ListTile(
-                title: SelectableText(data.number),
+                title: Text(data.number),
                 subtitle: const Text('Код плательщика'),
                 onTap: () => copyMessage(context: context, string: data.number),
               ),
