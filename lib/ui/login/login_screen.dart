@@ -18,7 +18,9 @@ class LoginScreen extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-          child: _Form(),
+          child: _Form(
+            username: ModalRoute.of(context)?.settings.arguments as String?,
+          ),
         ),
       ),
     );
@@ -26,6 +28,13 @@ class LoginScreen extends StatelessWidget {
 }
 
 class _Form extends StatefulWidget {
+  final String? username;
+
+  const _Form({
+    Key? key,
+    this.username,
+  }) : super(key: key);
+
   @override
   State<_Form> createState() => _FormState();
 }
@@ -63,7 +72,8 @@ class _FormState extends State<_Form> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               TextFormField(
-                autofocus: true,
+                initialValue: widget.username,
+                autofocus: widget.username == null,
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
@@ -79,6 +89,7 @@ class _FormState extends State<_Form> {
               ),
               const SizedBox(height: 16),
               TextFormField(
+                autofocus: widget.username != null,
                 textInputAction: TextInputAction.done,
                 keyboardType: TextInputType.visiblePassword,
                 obscureText: !_passwordIsVisible,

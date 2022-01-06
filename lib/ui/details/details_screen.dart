@@ -1,5 +1,6 @@
 import 'package:antassistant/domain/accounts/accounts_bloc.dart';
 import 'package:antassistant/entity/account_data.dart';
+import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/utils/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +36,7 @@ class DetailsScreen extends StatelessWidget {
           selector: (state) => state.data?[accountName],
           builder: (context, data) {
             if (data == null) {
-              return _NoData();
+              return _NoData(accountName: accountName);
             }
 
             return _Content(data: data);
@@ -47,6 +48,13 @@ class DetailsScreen extends StatelessWidget {
 }
 
 class _NoData extends StatelessWidget {
+  final String accountName;
+
+  const _NoData({
+    Key? key,
+    required this.accountName,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -76,7 +84,12 @@ class _NoData extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(
+                      LoginScreen.path,
+                      arguments: accountName,
+                    );
+                  },
                   child: const Text('Обновить пароль'),
                 ),
               ],
