@@ -22,6 +22,7 @@ class RepositoryImpl implements Repository {
     return Map.fromIterable(
       data,
       key: (e) => e.name,
+      value: (e) => null,
     );
     // return Future.wait(credentials.map((e) => api.getData(credentials: e)))
     //     .then((value) => value.map((e) => parseUserData(e!)).toList());

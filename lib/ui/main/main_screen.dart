@@ -186,13 +186,11 @@ class _Item extends StatelessWidget {
       onTap: () {
         Navigator.of(context).pushNamed(DetailsScreen.path, arguments: name);
       },
-      onLongPress: data != null
-          ? () => itemMenu(
-                context: context,
-                accountName: name,
-                data: data,
-              )
-          : null,
+      onLongPress: () => itemMenu(
+        context: context,
+        accountName: name,
+        data: data,
+      ),
       trailing: data != null
           ? Text(data!.balance.toString())
           : Icon(
