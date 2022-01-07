@@ -2,6 +2,7 @@ import 'package:antassistant/domain/accounts/accounts_bloc.dart';
 import 'package:antassistant/entity/account_data.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/utils/consts.dart';
+import 'package:antassistant/utils/numbers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -143,7 +144,7 @@ class _Content extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 SelectableText(
-                  '${data.balance} ₽',
+                  '${data.balance.asString} ₽',
                   onTap: () => copyMessage(
                     context: context,
                     string: '${data.balance}',
@@ -207,15 +208,85 @@ class _Content extends StatelessWidget {
         Expanded(
           child: ListView(
             children: [
-              ListTile(
-                title: Text(data.number),
-                subtitle: const Text('Код плательщика'),
-                onTap: () => copyMessage(context: context, string: data.number),
+              _ListItem(
+                value: data.number,
+                hint: 'Код плательщика',
+              ),
+              const Divider(height: 1),
+              Row(
+                children: [
+                  Expanded(
+                    child: _ListItem(
+                      value: '${data.tariff.price.asString} ₽',
+                      hint: 'Цена за месяц',
+                    ),
+                  ),
+                  const VerticalDivider(width: 1),
+                  Expanded(
+                    child: _ListItem(
+                      value: '${data.tariff.pricePerDay.asString} ₽',
+                      hint: 'Цена за день',
+                    ),
+                  )
+                ],
+              ),
+              const Divider(height: 1),
+              _ListItem(
+                value: data.tariff.name,
+                hint: 'Название тарифа',
+              ),
+              const Divider(height: 1),
+              Row(
+                children: [
+                  Expanded(
+                    child: _ListItem(
+                      value: data.tariff.downloadSpeed,
+                      hint: 'Скорость загрузки',
+                    ),
+                  ),
+                  const VerticalDivider(width: 1),
+                  Expanded(
+                    child: _ListItem(
+                      value: data.tariff.uploadSpeed,
+                      hint: 'Скорость отдачи',
+                    ),
+                  )
+                ],
+              ),
+              const Divider(height: 1),
+              _ListItem(
+                value: '${data.downloaded.asString} Мб',
+                hint: 'Скачано за текущий месяц',
+              ),
+              const Divider(height: 1),
+              _ListItem(
+                value: data.dynDns,
+                hint: 'Ваш DynDNS',
               ),
             ],
           ),
         ),
       ],
+    );
+  }
+}
+
+class _ListItem extends StatelessWidget {
+  final String value;
+  final String hint;
+
+  const _ListItem({
+    Key? key,
+    required this.value,
+    required this.hint,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(value),
+      subtitle: Text(hint),
+      onTap: () => copyMessage(context: context, string: value),
     );
   }
 }
