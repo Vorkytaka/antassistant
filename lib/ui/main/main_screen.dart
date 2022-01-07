@@ -3,6 +3,7 @@ import 'package:antassistant/entity/account_data.dart';
 import 'package:antassistant/ui/details/details_screen.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/utils/consts.dart';
+import 'package:antassistant/utils/numbers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -192,7 +193,7 @@ class _Item extends StatelessWidget {
         data: data,
       ),
       trailing: data != null
-          ? Text(data!.balance.toString())
+          ? Text('${data!.balance.asString} ₽')
           : Icon(
               Icons.warning,
               color: Theme.of(context).errorColor,
