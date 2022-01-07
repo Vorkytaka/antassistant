@@ -66,72 +66,76 @@ class _FormState extends State<_Form> {
       buildWhen: (prev, curr) => prev.status != curr.status,
       builder: (context, state) => Form(
         child: Builder(
-          builder: (context) => Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextFormField(
-                initialValue: widget.username,
-                autofocus: widget.username == null,
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  label: Text('Логин'),
+          builder: (context) => AutofillGroup(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextFormField(
+                  initialValue: widget.username,
+                  autofocus: widget.username == null,
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.emailAddress,
+                  autofillHints: const [AutofillHints.username],
+                  decoration: const InputDecoration(
+                    label: Text('Логин'),
+                  ),
+                  onSaved: (username) =>
+                      context.read<LoginScreenBloc>().setUsername(username),
+                  validator: (username) {
+                    if (username == null || username.isEmpty) {
+                      return 'Заполните поле';
+                    }
+                  },
                 ),
-                onSaved: (username) =>
-                    context.read<LoginScreenBloc>().setUsername(username),
-                validator: (username) {
-                  if (username == null || username.isEmpty) {
-                    return 'Заполните поле';
-                  }
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                autofocus: widget.username != null,
-                textInputAction: TextInputAction.done,
-                keyboardType: TextInputType.visiblePassword,
-                obscureText: !_passwordIsVisible,
-                onSaved: (password) =>
-                    context.read<LoginScreenBloc>().setPassword(password),
-                decoration: InputDecoration(
-                  label: const Text('Пароль'),
-                  suffixIcon: _Visibility(
-                    onPressed: () {
-                      _passwordIsVisible = !_passwordIsVisible;
-                      setState(() {});
-                    },
-                    visible: _passwordIsVisible,
+                const SizedBox(height: 16),
+                TextFormField(
+                  autofocus: widget.username != null,
+                  textInputAction: TextInputAction.done,
+                  keyboardType: TextInputType.visiblePassword,
+                  autofillHints: const [AutofillHints.password],
+                  obscureText: !_passwordIsVisible,
+                  onSaved: (password) =>
+                      context.read<LoginScreenBloc>().setPassword(password),
+                  decoration: InputDecoration(
+                    label: const Text('Пароль'),
+                    suffixIcon: _Visibility(
+                      onPressed: () {
+                        _passwordIsVisible = !_passwordIsVisible;
+                        setState(() {});
+                      },
+                      visible: _passwordIsVisible,
+                    ),
+                  ),
+                  validator: (password) {
+                    if (password == null || password.isEmpty) {
+                      return 'Заполните поле';
+                    }
+                  },
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  height: 56,
+                  child: ElevatedButton(
+                    onPressed: state.isLoading
+                        ? null
+                        : () {
+                            final formState = Form.of(context);
+                            assert(formState != null);
+
+                            if (formState!.validate()) {
+                              formState.save();
+                              context.read<LoginScreenBloc>().login();
+                            }
+                          },
+                    child: state.isLoading
+                        ? const CircularProgressIndicator()
+                        : const Text('АВТОРИЗОВАТЬСЯ'),
                   ),
                 ),
-                validator: (password) {
-                  if (password == null || password.isEmpty) {
-                    return 'Заполните поле';
-                  }
-                },
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: state.isLoading
-                      ? null
-                      : () {
-                          final formState = Form.of(context);
-                          assert(formState != null);
-
-                          if (formState!.validate()) {
-                            formState.save();
-                            context.read<LoginScreenBloc>().login();
-                          }
-                        },
-                  child: state.isLoading
-                      ? const CircularProgressIndicator()
-                      : const Text('АВТОРИЗОВАТЬСЯ'),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
