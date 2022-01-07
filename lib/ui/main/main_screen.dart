@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:antassistant/domain/accounts/accounts_bloc.dart';
 import 'package:antassistant/entity/account_data.dart';
 import 'package:antassistant/ui/details/details_screen.dart';
@@ -13,13 +14,84 @@ enum HomeScreenState {
   hasAccounts,
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const String path = '/';
 
   static Widget builder(BuildContext context) => const HomeScreen();
 
   const HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+// todo: move logic to the bloc
+class _HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: _Body(currentIndex: _currentIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) => setState(() {
+          _currentIndex = index;
+        }),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_outlined),
+            activeIcon: Icon(Icons.account_circle),
+            label: 'Аккаунты',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings_outlined),
+            activeIcon: Icon(Icons.settings),
+            label: 'Настройки',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  final int currentIndex;
+
+  const _Body({
+    Key? key,
+    required this.currentIndex,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return PageTransitionSwitcher(
+      transitionBuilder: (child, animation, secondaryAnimation) {
+        return FadeThroughTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
+        );
+      },
+      child: currentIndex == 0 ? _AccountBody() : _SettingsBody(),
+    );
+  }
+}
+
+class _SettingsBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Настройки'),
+      ),
+    );
+  }
+}
+
+class _AccountBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,28 +130,26 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: SafeArea(
-        child: BlocSelector<AccountsBloc, AccountsState, HomeScreenState>(
-          selector: (state) {
-            if (state.data == null) {
-              return HomeScreenState.loading;
-            } else if (state.data!.isEmpty) {
-              return HomeScreenState.noAccounts;
-            } else {
-              return HomeScreenState.hasAccounts;
-            }
-          },
-          builder: (context, state) {
-            switch (state) {
-              case HomeScreenState.loading:
-                return _Loading();
-              case HomeScreenState.noAccounts:
-                return _NoAccounts();
-              case HomeScreenState.hasAccounts:
-                return _AccountList();
-            }
-          },
-        ),
+      body: BlocSelector<AccountsBloc, AccountsState, HomeScreenState>(
+        selector: (state) {
+          if (state.data == null) {
+            return HomeScreenState.loading;
+          } else if (state.data!.isEmpty) {
+            return HomeScreenState.noAccounts;
+          } else {
+            return HomeScreenState.hasAccounts;
+          }
+        },
+        builder: (context, state) {
+          switch (state) {
+            case HomeScreenState.loading:
+              return _Loading();
+            case HomeScreenState.noAccounts:
+              return _NoAccounts();
+            case HomeScreenState.hasAccounts:
+              return _AccountList();
+          }
+        },
       ),
     );
   }
