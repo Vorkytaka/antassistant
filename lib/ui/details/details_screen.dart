@@ -1,8 +1,10 @@
 import 'package:antassistant/domain/accounts/accounts_bloc.dart';
 import 'package:antassistant/entity/account_data.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
+import 'package:antassistant/ui/main/main_screen.dart';
 import 'package:antassistant/utils/consts.dart';
 import 'package:antassistant/utils/numbers.dart';
+import 'package:antassistant/utils/popup_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,6 +34,34 @@ class DetailsScreen extends StatelessWidget {
           onTap: () => copyMessage(context: context, string: accountName),
         ),
         backgroundColor: Theme.of(context).colorScheme.background,
+        actions: [
+          PopupMenuButton<int>(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(12),
+              ),
+            ),
+            itemBuilder: (context) => [
+              const PopupMenuVerticalPadding(),
+              const PopupMenuItem(
+                child: ListTile(
+                  title: Text('Удалить'),
+                  leading: Icon(Icons.delete_outlined),
+                  contentPadding: EdgeInsets.zero,
+                ),
+                value: 1,
+              ),
+              const PopupMenuVerticalPadding(),
+            ],
+            onSelected: (id) {
+              switch (id) {
+                case 1:
+                  delete(context: context, accountName: accountName);
+                  break;
+              }
+            },
+          ),
+        ],
       ),
       body: SafeArea(
         child: BlocSelector<AccountsBloc, AccountsState, AccountData?>(
@@ -85,23 +115,28 @@ class _NoData extends StatelessWidget {
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
                 const SizedBox(height: 12),
-                TextButton(
+                TextButton.icon(
                   onPressed: () {
                     Navigator.of(context).pushNamed(
                       LoginScreen.path,
                       arguments: accountName,
                     );
                   },
-                  child: const Text('Обновить пароль'),
+                  label: const Text('Обновить пароль'),
+                  icon: const Icon(Icons.lock_outlined),
                 ),
               ],
             ),
           ),
           const Expanded(child: SizedBox()),
-          ElevatedButton.icon(
-            onPressed: () {},
-            label: const Text('Звонок в службу поддержки'),
-            icon: Icon(Icons.phone),
+          SizedBox(
+            width: double.infinity,
+            height: 56,
+            child: ElevatedButton.icon(
+              onPressed: () {},
+              label: const Text('ЗВОНОК В СЛУЖБУ ПОДДЕРЖКИ'),
+              icon: const Icon(Icons.phone),
+            ),
           ),
         ],
       ),
@@ -234,6 +269,12 @@ class _Content extends StatelessWidget {
               _ListItem(
                 value: data.tariff.name,
                 hint: 'Название тарифа',
+                trailing: IconButton(
+                  onPressed: () {
+                    // todo:
+                  },
+                  icon: const Icon(Icons.edit),
+                ),
               ),
               const Divider(height: 1),
               Row(
@@ -274,11 +315,13 @@ class _Content extends StatelessWidget {
 class _ListItem extends StatelessWidget {
   final String value;
   final String hint;
+  final Widget? trailing;
 
   const _ListItem({
     Key? key,
     required this.value,
     required this.hint,
+    this.trailing,
   }) : super(key: key);
 
   @override
@@ -287,6 +330,7 @@ class _ListItem extends StatelessWidget {
       title: Text(value),
       subtitle: Text(hint),
       onTap: () => copyMessage(context: context, string: value),
+      trailing: trailing,
     );
   }
 }

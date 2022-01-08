@@ -5,6 +5,7 @@ import 'package:antassistant/ui/details/details_screen.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/utils/consts.dart';
 import 'package:antassistant/utils/numbers.dart';
+import 'package:antassistant/utils/popup_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -111,10 +112,16 @@ class _AccountBody extends StatelessWidget {
                     ),
                   ),
                   itemBuilder: (context) => [
+                    const PopupMenuVerticalPadding(),
                     const PopupMenuItem(
-                      child: Text('Добавить'),
+                      child: ListTile(
+                        title: Text('Добавить'),
+                        leading: Icon(Icons.add),
+                        contentPadding: EdgeInsets.zero,
+                      ),
                       value: 1,
                     ),
+                    const PopupMenuVerticalPadding(),
                   ],
                   onSelected: (id) {
                     switch (id) {
