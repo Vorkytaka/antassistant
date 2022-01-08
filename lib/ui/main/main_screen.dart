@@ -105,7 +105,6 @@ class _AccountBody extends StatelessWidget {
                 return const SizedBox.shrink();
               } else {
                 return PopupMenuButton<int>(
-                  icon: const Icon(Icons.more_vert),
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(12),
