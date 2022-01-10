@@ -36,23 +36,32 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: _Body(currentIndex: _currentIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) => setState(() {
-          _currentIndex = index;
-        }),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_outlined),
-            activeIcon: Icon(Icons.account_circle),
-            label: 'Аккаунты',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings_outlined),
-            activeIcon: Icon(Icons.settings),
-            label: 'Настройки',
-          ),
-        ],
+      bottomNavigationBar: BlocSelector<AccountsBloc, AccountsState, bool>(
+        selector: (state) => state.data != null && state.data!.isNotEmpty,
+        builder: (context, state) {
+          if(state) {
+            return BottomNavigationBar(
+              currentIndex: _currentIndex,
+              onTap: (index) => setState(() {
+                _currentIndex = index;
+              }),
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.account_circle_outlined),
+                  activeIcon: Icon(Icons.account_circle),
+                  label: 'Аккаунты',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.settings_outlined),
+                  activeIcon: Icon(Icons.settings),
+                  label: 'Настройки',
+                ),
+              ],
+            );
+          }
+
+          return const SizedBox();
+        },
       ),
     );
   }
