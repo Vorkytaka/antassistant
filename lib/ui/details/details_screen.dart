@@ -56,8 +56,9 @@ class DetailsScreen extends StatelessWidget {
             onSelected: (id) async {
               switch (id) {
                 case 1:
-                  final res = await delete(context: context, accountName: accountName);
-                  if(res) {
+                  final res =
+                      await delete(context: context, accountName: accountName);
+                  if (res) {
                     Navigator.of(context).pop();
                   }
                   break;
@@ -67,17 +68,31 @@ class DetailsScreen extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: BlocSelector<AccountsBloc, AccountsState, AccountData?>(
-          selector: (state) => state.data?[accountName],
-          builder: (context, data) {
-            if (data == null) {
-              return _NoData(accountName: accountName);
-            }
-
-            return _Content(data: data);
-          },
-        ),
+        child: AccountBody(accountName: accountName),
       ),
+    );
+  }
+}
+
+class AccountBody extends StatelessWidget {
+  final String accountName;
+
+  const AccountBody({
+    Key? key,
+    required this.accountName,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<AccountsBloc, AccountsState, AccountData?>(
+      selector: (state) => state.data?[accountName],
+      builder: (context, data) {
+        if (data == null) {
+          return _NoData(accountName: accountName);
+        }
+
+        return _Content(data: data);
+      },
     );
   }
 }

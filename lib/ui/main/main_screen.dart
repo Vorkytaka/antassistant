@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 enum HomeScreenState {
   loading,
   noAccounts,
+  oneAccount,
   hasAccounts,
 }
 
@@ -39,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BlocSelector<AccountsBloc, AccountsState, bool>(
         selector: (state) => state.data != null && state.data!.isNotEmpty,
         builder: (context, state) {
-          if(state) {
+          if (state) {
             return BottomNavigationBar(
               currentIndex: _currentIndex,
               onTap: (index) => setState(() {
@@ -151,6 +152,8 @@ class _AccountBody extends StatelessWidget {
             return HomeScreenState.loading;
           } else if (state.data!.isEmpty) {
             return HomeScreenState.noAccounts;
+          } else if (state.data!.length == 1) {
+            return HomeScreenState.oneAccount;
           } else {
             return HomeScreenState.hasAccounts;
           }
@@ -161,6 +164,11 @@ class _AccountBody extends StatelessWidget {
               return _Loading();
             case HomeScreenState.noAccounts:
               return _NoAccounts();
+            case HomeScreenState.oneAccount:
+              return BlocSelector<AccountsBloc, AccountsState, String>(
+                selector: (state) => state.data?.keys.first ?? '',
+                builder: (context, state) => AccountBody(accountName: state),
+              );
             case HomeScreenState.hasAccounts:
               return _AccountList();
           }
