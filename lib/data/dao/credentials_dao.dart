@@ -8,7 +8,7 @@ abstract class CredentialsDao {
 
   Future<Set<Credentials>> readAll();
 
-  Future<void> delete({required String username});
+  Future<bool> delete({required String username});
 }
 
 class InMemoryCredentialsDao implements CredentialsDao {
@@ -25,8 +25,10 @@ class InMemoryCredentialsDao implements CredentialsDao {
   }
 
   @override
-  Future<void> delete({required String username}) async {
+  Future<bool> delete({required String username}) async {
+    final l = _credentials.length;
     _credentials.removeWhere((credentials) => credentials.username == username);
+    return l != _credentials.length;
   }
 }
 
@@ -44,8 +46,9 @@ class SecureCredentialsDao implements CredentialsDao {
   }
 
   @override
-  Future<void> delete({required String username}) async {
+  Future<bool> delete({required String username}) async {
     await storage.delete(key: username.toLowerCase());
+    return true; // ???
   }
 
   @override

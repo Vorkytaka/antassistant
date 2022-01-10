@@ -32,8 +32,8 @@ class RepositoryImpl implements Repository {
       api.login(credentials: credentials);
 
   @override
-  Future<void> removeCredentials({required String username}) async {
-    await credentialsDao.delete(username: username);
+  Future<bool> removeCredentials({required String username}) async {
+    return credentialsDao.delete(username: username);
   }
 
   @override

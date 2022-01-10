@@ -294,7 +294,7 @@ Future<void> login({required BuildContext context}) async {
   }
 }
 
-Future<void> delete({
+Future<bool> delete({
   required BuildContext context,
   required String accountName,
 }) async {
@@ -324,8 +324,10 @@ Future<void> delete({
       false;
 
   if (result) {
-    context.read<AccountsBloc>().removeAccount(username: accountName);
+    return context.read<AccountsBloc>().removeAccount(username: accountName);
   }
+
+  return false;
 }
 
 Future<void> itemMenu({

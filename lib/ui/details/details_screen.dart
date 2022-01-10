@@ -53,10 +53,13 @@ class DetailsScreen extends StatelessWidget {
               ),
               const PopupMenuVerticalPadding(),
             ],
-            onSelected: (id) {
+            onSelected: (id) async {
               switch (id) {
                 case 1:
-                  delete(context: context, accountName: accountName);
+                  final res = await delete(context: context, accountName: accountName);
+                  if(res) {
+                    Navigator.of(context).pop();
+                  }
                   break;
               }
             },
