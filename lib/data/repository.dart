@@ -9,4 +9,6 @@ abstract class Repository {
   Future<void> saveCredentials({required Credentials credentials});
 
   Future<bool> removeCredentials({required String username});
+
+  Future<List<Tariff>> availableTariffs({required String username});
 }

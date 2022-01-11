@@ -40,4 +40,13 @@ class RepositoryImpl implements Repository {
   Future<void> saveCredentials({required Credentials credentials}) async {
     await credentialsDao.create(credentials: credentials);
   }
+
+  @override
+  Future<List<Tariff>> availableTariffs({required String username}) async {
+    return credentialsDao
+        .getCredentials(username: username)
+        .then((credentials) => credentials!)
+        .then((credentials) => api.changeTariffPage(credentials: credentials))
+        .then((document) => parseTariffList(document) ?? []);
+  }
 }

@@ -8,6 +8,8 @@ abstract class CredentialsDao {
 
   Future<Set<Credentials>> readAll();
 
+  Future<Credentials?> getCredentials({required String username});
+
   Future<bool> delete({required String username});
 }
 
@@ -22,6 +24,16 @@ class InMemoryCredentialsDao implements CredentialsDao {
   @override
   Future<Set<Credentials>> readAll() async {
     return _credentials.toSet();
+  }
+
+  @override
+  Future<Credentials?> getCredentials({required String username}) async {
+    try {
+      return _credentials
+          .firstWhere((credentials) => credentials.username == username);
+    } catch (_) {
+      return null;
+    }
   }
 
   @override
@@ -57,5 +69,14 @@ class SecureCredentialsDao implements CredentialsDao {
           for (final login in value.keys)
             Credentials(username: login, password: value[login]!),
         });
+  }
+
+  @override
+  Future<Credentials?> getCredentials({required String username}) async {
+    final password = await storage.read(key: username);
+    if (password != null) {
+      return Credentials(username: username, password: password);
+    }
+    return null;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:antassistant/data/repository.dart';
 import 'package:antassistant/domain/accounts/accounts_bloc.dart';
 import 'package:antassistant/entity/account_data.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
@@ -289,7 +290,13 @@ class _Content extends StatelessWidget {
                 hint: 'Название тарифа',
                 trailing: IconButton(
                   onPressed: () {
-                    // todo:
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) => _TariffListDialog(
+                        current: data.tariff,
+                        username: data.name,
+                      ),
+                    );
                   },
                   icon: const Icon(Icons.edit),
                 ),
@@ -378,4 +385,81 @@ dynamic copyMessage({
       ),
     ),
   );
+}
+
+class _TariffListDialog extends StatelessWidget {
+  final String username;
+  final Tariff current;
+
+  const _TariffListDialog({
+    Key? key,
+    required this.username,
+    required this.current,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Tariff>>(
+      future: context.read<Repository>().availableTariffs(username: username),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return const Text('Не удалось получить список тарифов');
+        }
+
+        if (snapshot.hasData) {
+          final data = snapshot.data!;
+          return ListView(
+            children: [
+              _TariffItem(
+                tariff: current,
+                itemColor: Theme.of(context).backgroundColor,
+              ),
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const ScrollPhysics(),
+                itemCount: data.length,
+                separatorBuilder: (context, i) => const Divider(height: 1),
+                itemBuilder: (context, i) => _TariffItem(
+                  tariff: data[i],
+                  onTap: () {},
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 24),
+                ),
+              ),
+            ],
+          );
+        }
+
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+}
+
+class _TariffItem extends StatelessWidget {
+  final Tariff tariff;
+  final VoidCallback? onTap;
+  final EdgeInsets? contentPadding;
+  final Color? itemColor;
+
+  const _TariffItem({
+    Key? key,
+    required this.tariff,
+    this.onTap,
+    this.contentPadding,
+    this.itemColor,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(tariff.name),
+      subtitle: Text('${tariff.downloadSpeed}/${tariff.uploadSpeed}'),
+      trailing: Text('${tariff.price.asString} ₽'),
+      onTap: onTap,
+      contentPadding: contentPadding,
+      tileColor: itemColor,
+    );
+  }
 }
