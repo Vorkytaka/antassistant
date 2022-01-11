@@ -109,10 +109,10 @@ class _AccountBody extends StatelessWidget {
       appBar: AppBar(
         title: const Text('ANTAssistant'),
         actions: [
-          BlocSelector<AccountsBloc, AccountsState, bool>(
-            selector: (state) => state.data != null && state.data!.isNotEmpty,
+          _HomeScreenStateWidget(
             builder: (context, state) {
-              if (!state) {
+              if (state == HomeScreenState.loading ||
+                  state == HomeScreenState.noAccounts) {
                 return const SizedBox.shrink();
               } else {
                 return PopupMenuButton<int>(
@@ -131,12 +131,24 @@ class _AccountBody extends StatelessWidget {
                       ),
                       value: 1,
                     ),
+                    if (state == HomeScreenState.oneAccount)
+                      const PopupMenuItem(
+                        child: ListTile(
+                          title: Text('Удалить'),
+                          leading: Icon(Icons.delete_outlined),
+                          contentPadding: EdgeInsets.zero,
+                        ),
+                        value: 2,
+                      ),
                     const PopupMenuVerticalPadding(),
                   ],
                   onSelected: (id) {
                     switch (id) {
                       case 1:
                         login(context: context);
+                        break;
+                      case 2:
+                        // delete(context: context, accountName: accountName);
                         break;
                     }
                   },
@@ -146,18 +158,7 @@ class _AccountBody extends StatelessWidget {
           ),
         ],
       ),
-      body: BlocSelector<AccountsBloc, AccountsState, HomeScreenState>(
-        selector: (state) {
-          if (state.data == null) {
-            return HomeScreenState.loading;
-          } else if (state.data!.isEmpty) {
-            return HomeScreenState.noAccounts;
-          } else if (state.data!.length == 1) {
-            return HomeScreenState.oneAccount;
-          } else {
-            return HomeScreenState.hasAccounts;
-          }
-        },
+      body: _HomeScreenStateWidget(
         builder: (context, state) {
           switch (state) {
             case HomeScreenState.loading:
@@ -174,6 +175,38 @@ class _AccountBody extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+}
+
+typedef _HomeScreenStateBuilder = Widget Function(
+  BuildContext context,
+  HomeScreenState state,
+);
+
+class _HomeScreenStateWidget extends StatelessWidget {
+  final _HomeScreenStateBuilder builder;
+
+  const _HomeScreenStateWidget({
+    Key? key,
+    required this.builder,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<AccountsBloc, AccountsState, HomeScreenState>(
+      selector: (state) {
+        if (state.data == null) {
+          return HomeScreenState.loading;
+        } else if (state.data!.isEmpty) {
+          return HomeScreenState.noAccounts;
+        } else if (state.data!.length == 1) {
+          return HomeScreenState.oneAccount;
+        } else {
+          return HomeScreenState.hasAccounts;
+        }
+      },
+      builder: builder,
     );
   }
 }
