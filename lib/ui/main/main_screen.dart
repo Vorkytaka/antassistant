@@ -402,9 +402,9 @@ Future<void> itemMenu({
           ListTile(
             title: const Text('Удалить'),
             leading: const Icon(Icons.delete),
-            onTap: () {
+            onTap: () async {
+              await delete(context: context, accountName: accountName);
               Navigator.of(context).pop();
-              delete(context: context, accountName: accountName);
             },
           ),
         ],
