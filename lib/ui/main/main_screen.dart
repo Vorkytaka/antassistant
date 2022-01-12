@@ -34,14 +34,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: _Body(currentIndex: _currentIndex),
-      ),
+      body: _Body(currentIndex: _currentIndex),
       bottomNavigationBar: BlocSelector<AccountsBloc, AccountsState, bool>(
         selector: (state) => state.data != null && state.data!.isNotEmpty,
         builder: (context, state) {
           if (state) {
             return BottomNavigationBar(
+              backgroundColor: Theme.of(context).colorScheme.surface,
               currentIndex: _currentIndex,
               onTap: (index) => setState(() {
                 _currentIndex = index;
@@ -97,6 +96,7 @@ class _SettingsBody extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Настройки'),
+        backgroundColor: Theme.of(context).colorScheme.surface,
       ),
     );
   }
@@ -107,7 +107,16 @@ class _AccountBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ANTAssistant'),
+        title: BlocBuilder<AccountsBloc, AccountsState>(
+          builder: (context, state) {
+            if (state.data != null && state.data!.length == 1) {
+              return Text(state.data!.keys.first);
+            }
+
+            return const Text('ANTAssistant');
+          },
+        ),
+        backgroundColor: Theme.of(context).colorScheme.surface,
         actions: [
           _HomeScreenStateWidget(
             builder: (context, state) {
@@ -125,7 +134,7 @@ class _AccountBody extends StatelessWidget {
                     const PopupMenuVerticalPadding(),
                     const PopupMenuItem(
                       child: ListTile(
-                        title: Text('Добавить'),
+                        title: Text('Добавить аккаунт'),
                         leading: Icon(Icons.add),
                         contentPadding: EdgeInsets.zero,
                       ),
@@ -272,26 +281,19 @@ class _NoAccounts extends StatelessWidget {
 class _AccountList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.symmetric(vertical: 24),
-      children: [
-        BlocSelector<AccountsBloc, AccountsState, Map<String, AccountData?>>(
-          selector: (state) => state.data ?? const {},
-          builder: (context, state) {
-            final keys = state.keys.toList(growable: false);
-            return ListView.separated(
-              shrinkWrap: true,
-              physics: const ScrollPhysics(),
-              itemCount: state.length,
-              separatorBuilder: (context, i) => const Divider(height: 1),
-              itemBuilder: (context, i) => _Item(
-                name: keys[i],
-                data: state[keys[i]],
-              ),
-            );
-          },
-        ),
-      ],
+    return BlocSelector<AccountsBloc, AccountsState, Map<String, AccountData?>>(
+      selector: (state) => state.data ?? const {},
+      builder: (context, state) {
+        final keys = state.keys.toList(growable: false);
+        return ListView.separated(
+          itemCount: state.length,
+          separatorBuilder: (context, i) => const Divider(height: 1),
+          itemBuilder: (context, i) => _Item(
+            name: keys[i],
+            data: state[keys[i]],
+          ),
+        );
+      },
     );
   }
 }

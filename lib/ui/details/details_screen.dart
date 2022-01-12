@@ -34,7 +34,7 @@ class DetailsScreen extends StatelessWidget {
           enableInteractiveSelection: false,
           onTap: () => copyMessage(context: context, string: accountName),
         ),
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         actions: [
           PopupMenuButton<int>(
             shape: const RoundedRectangleBorder(
@@ -68,9 +68,7 @@ class DetailsScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: SafeArea(
-        child: AccountBody(accountName: accountName),
-      ),
+      body: AccountBody(accountName: accountName),
     );
   }
 }
@@ -179,7 +177,7 @@ class _Content extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Material(
-          color: Theme.of(context).colorScheme.background,
+          color: Theme.of(context).colorScheme.surface,
           elevation: 3,
           child: Padding(
             padding: const EdgeInsets.symmetric(
