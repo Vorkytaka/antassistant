@@ -327,7 +327,15 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
                           login(context: context);
                           break;
                         case 2:
-                          // delete(context: context, accountName: accountName);
+                          delete(
+                            context: context,
+                            accountName: context
+                                .read<AccountsBloc>()
+                                .state
+                                .data!
+                                .keys
+                                .first,
+                          );
                           break;
                       }
                     },
