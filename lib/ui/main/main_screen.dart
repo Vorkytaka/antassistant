@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: _AppBar(currentIndex: _currentIndex),
       body: _Body(currentIndex: _currentIndex),
       bottomNavigationBar: BlocSelector<AccountsBloc, AccountsState, bool>(
         selector: (state) => state.data != null && state.data!.isNotEmpty,
@@ -93,12 +94,7 @@ class _Body extends StatelessWidget {
 class _SettingsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Настройки'),
-        backgroundColor: Theme.of(context).colorScheme.surface,
-      ),
-    );
+    return Container();
   }
 }
 
@@ -106,67 +102,6 @@ class _AccountBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: BlocBuilder<AccountsBloc, AccountsState>(
-          builder: (context, state) {
-            if (state.data != null && state.data!.length == 1) {
-              return Text(state.data!.keys.first);
-            }
-
-            return const Text('ANTAssistant');
-          },
-        ),
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        actions: [
-          _HomeScreenStateWidget(
-            builder: (context, state) {
-              if (state == HomeScreenState.loading ||
-                  state == HomeScreenState.noAccounts) {
-                return const SizedBox.shrink();
-              } else {
-                return PopupMenuButton<int>(
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
-                    ),
-                  ),
-                  itemBuilder: (context) => [
-                    const PopupMenuVerticalPadding(),
-                    const PopupMenuItem(
-                      child: ListTile(
-                        title: Text('Добавить аккаунт'),
-                        leading: Icon(Icons.add),
-                        contentPadding: EdgeInsets.zero,
-                      ),
-                      value: 1,
-                    ),
-                    if (state == HomeScreenState.oneAccount)
-                      const PopupMenuItem(
-                        child: ListTile(
-                          title: Text('Удалить'),
-                          leading: Icon(Icons.delete_outlined),
-                          contentPadding: EdgeInsets.zero,
-                        ),
-                        value: 2,
-                      ),
-                    const PopupMenuVerticalPadding(),
-                  ],
-                  onSelected: (id) {
-                    switch (id) {
-                      case 1:
-                        login(context: context);
-                        break;
-                      case 2:
-                        // delete(context: context, accountName: accountName);
-                        break;
-                    }
-                  },
-                );
-              }
-            },
-          ),
-        ],
-      ),
       body: _HomeScreenStateWidget(
         builder: (context, state) {
           switch (state) {
@@ -334,6 +269,96 @@ class _Item extends StatelessWidget {
             ),
     );
   }
+}
+
+class _AppBar extends StatelessWidget implements PreferredSizeWidget {
+  final int currentIndex;
+
+  final List<WidgetBuilder> appBars = [
+    (context) => AppBar(
+          key: const ValueKey(0),
+          title: BlocBuilder<AccountsBloc, AccountsState>(
+            builder: (context, state) {
+              if (state.data != null && state.data!.length == 1) {
+                return Text(state.data!.keys.first);
+              }
+
+              return const Text('ANTAssistant');
+            },
+          ),
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          actions: [
+            _HomeScreenStateWidget(
+              builder: (context, state) {
+                if (state == HomeScreenState.loading ||
+                    state == HomeScreenState.noAccounts) {
+                  return const SizedBox.shrink();
+                } else {
+                  return PopupMenuButton<int>(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
+                    ),
+                    itemBuilder: (context) => [
+                      const PopupMenuVerticalPadding(),
+                      const PopupMenuItem(
+                        child: ListTile(
+                          title: Text('Добавить аккаунт'),
+                          leading: Icon(Icons.add),
+                          contentPadding: EdgeInsets.zero,
+                        ),
+                        value: 1,
+                      ),
+                      if (state == HomeScreenState.oneAccount)
+                        const PopupMenuItem(
+                          child: ListTile(
+                            title: Text('Удалить'),
+                            leading: Icon(Icons.delete_outlined),
+                            contentPadding: EdgeInsets.zero,
+                          ),
+                          value: 2,
+                        ),
+                      const PopupMenuVerticalPadding(),
+                    ],
+                    onSelected: (id) {
+                      switch (id) {
+                        case 1:
+                          login(context: context);
+                          break;
+                        case 2:
+                          // delete(context: context, accountName: accountName);
+                          break;
+                      }
+                    },
+                  );
+                }
+              },
+            ),
+          ],
+        ),
+    (context) => AppBar(
+          key: const ValueKey(1),
+          title: const Text('Настройки'),
+          backgroundColor: Theme.of(context).colorScheme.surface,
+        ),
+  ];
+
+  _AppBar({
+    Key? key,
+    required this.currentIndex,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: appBars[currentIndex](context),
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 Future<void> login({required BuildContext context}) async {
