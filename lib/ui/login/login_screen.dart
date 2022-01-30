@@ -1,6 +1,7 @@
 import 'package:antassistant/ui/login/bloc/login_screen_bloc.dart';
 import 'package:antassistant/ui/login/login_screen_provider.dart';
 import 'package:antassistant/utils/consts.dart';
+import 'package:antassistant/utils/size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,13 +18,24 @@ class LoginScreen extends StatelessWidget {
       appBar: AppBar(),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+          padding: responsivePadding(MediaQuery.of(context)),
           child: _Form(
             username: ModalRoute.of(context)?.settings.arguments as String?,
           ),
         ),
       ),
     );
+  }
+
+  EdgeInsets responsivePadding(MediaQueryData data) {
+    switch (data.windowSize) {
+      case WindowSize.compact:
+        return const EdgeInsets.symmetric(horizontal: horizontalPadding);
+      case WindowSize.medium:
+        return EdgeInsets.symmetric(horizontal: data.size.width / 4);
+      case WindowSize.expanded:
+        return EdgeInsets.symmetric(horizontal: data.size.width / 3);
+    }
   }
 }
 
