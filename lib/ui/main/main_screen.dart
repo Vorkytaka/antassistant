@@ -141,6 +141,61 @@ class _HomeBody extends StatelessWidget {
   }
 }
 
+class _AccountListDetailsBody extends StatefulWidget {
+  @override
+  State<_AccountListDetailsBody> createState() =>
+      _AccountListDetailsBodyState();
+}
+
+class _AccountListDetailsBodyState extends State<_AccountListDetailsBody> {
+  String? _selectedName;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: Material(
+            elevation: 3,
+            child: _AccountList(
+              selectedName: _selectedName,
+              onTap: (BuildContext context, String accountName) {
+                setState(() {
+                  if (_selectedName == accountName) {
+                    _selectedName = null;
+                  } else {
+                    _selectedName = accountName;
+                  }
+                });
+              },
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 2,
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 250),
+            switchInCurve: Curves.easeOut,
+            switchOutCurve: Curves.easeIn,
+            child: _selectedName != null
+                ? AccountBody(
+                    key: ValueKey(_selectedName),
+                    accountName: _selectedName!,
+                  )
+                : Center(
+                    child: Text(
+                      'Выберите аккаунт',
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                  ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _SettingsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -270,10 +325,12 @@ typedef _OnAccountTap = void Function(BuildContext context, String accountName);
 
 class _AccountList extends StatelessWidget {
   final _OnAccountTap onTap;
+  final String? selectedName;
 
   const _AccountList({
     Key? key,
     required this.onTap,
+    this.selectedName,
   }) : super(key: key);
 
   @override
@@ -289,6 +346,7 @@ class _AccountList extends StatelessWidget {
             name: keys[i],
             data: state[keys[i]],
             onTap: onTap,
+            isSelected: keys[i] == selectedName,
           ),
         );
       },
@@ -300,12 +358,14 @@ class _Item extends StatelessWidget {
   final String name;
   final AccountData? data;
   final _OnAccountTap onTap;
+  final bool isSelected;
 
   const _Item({
     Key? key,
     required this.name,
     this.data,
     required this.onTap,
+    this.isSelected = false,
   }) : super(key: key);
 
   @override
@@ -318,6 +378,8 @@ class _Item extends StatelessWidget {
         accountName: name,
         data: data,
       ),
+      selected: isSelected,
+      selectedTileColor: Theme.of(context).colorScheme.surface,
       trailing: data != null
           ? Text('${data!.balance.asString} ₽')
           : Icon(
