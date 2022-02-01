@@ -165,7 +165,10 @@ class _AccountBody extends StatelessWidget {
                 builder: (context, state) => AccountBody(accountName: state),
               );
             case HomeScreenState.hasAccounts:
-              return _AccountList();
+              return _AccountList(
+                onTap: (context, name) => Navigator.of(context)
+                    .pushNamed(DetailsScreen.path, arguments: name),
+              );
           }
         },
       ),
@@ -263,7 +266,16 @@ class _NoAccounts extends StatelessWidget {
   }
 }
 
+typedef _OnAccountTap = void Function(BuildContext context, String accountName);
+
 class _AccountList extends StatelessWidget {
+  final _OnAccountTap onTap;
+
+  const _AccountList({
+    Key? key,
+    required this.onTap,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocSelector<AccountsBloc, AccountsState, Map<String, AccountData?>>(
@@ -276,6 +288,7 @@ class _AccountList extends StatelessWidget {
           itemBuilder: (context, i) => _Item(
             name: keys[i],
             data: state[keys[i]],
+            onTap: onTap,
           ),
         );
       },
@@ -286,20 +299,20 @@ class _AccountList extends StatelessWidget {
 class _Item extends StatelessWidget {
   final String name;
   final AccountData? data;
+  final _OnAccountTap onTap;
 
   const _Item({
     Key? key,
     required this.name,
     this.data,
+    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(name),
-      onTap: () {
-        Navigator.of(context).pushNamed(DetailsScreen.path, arguments: name);
-      },
+      onTap: () => onTap(context, name),
       onLongPress: () => itemMenu(
         context: context,
         accountName: name,
