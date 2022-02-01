@@ -6,6 +6,7 @@ import 'package:antassistant/ui/main/main_screen.dart';
 import 'package:antassistant/utils/consts.dart';
 import 'package:antassistant/utils/numbers.dart';
 import 'package:antassistant/utils/popup_menu.dart';
+import 'package:antassistant/utils/size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -373,6 +374,19 @@ dynamic copyMessage({
   required String string,
 }) {
   ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  final data = MediaQuery.of(context);
+  double? width;
+  switch (data.windowSize) {
+    case WindowSize.compact:
+      width = null;
+      break;
+    case WindowSize.medium:
+      width = data.size.width / 2;
+      break;
+    case WindowSize.expanded:
+      width = data.size.width / 3;
+      break;
+  }
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(string),
@@ -381,6 +395,7 @@ dynamic copyMessage({
         label: 'Скопировать',
         onPressed: () {},
       ),
+      width: width,
     ),
   );
 }
