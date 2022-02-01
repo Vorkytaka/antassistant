@@ -16,6 +16,11 @@ enum HomeScreenState {
   hasAccounts,
 }
 
+enum HomeScreenDestination {
+  accounts,
+  settings,
+}
+
 class HomeScreen extends StatefulWidget {
   static const String path = '/';
 
@@ -27,24 +32,23 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-// todo: move logic to the bloc
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
+  HomeScreenDestination _destination = HomeScreenDestination.accounts;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _AppBar(currentIndex: _currentIndex),
-      body: _Body(currentIndex: _currentIndex),
+      appBar: _AppBar(destination: _destination),
+      body: _Body(destination: _destination),
       bottomNavigationBar: BlocSelector<AccountsBloc, AccountsState, bool>(
         selector: (state) => state.data != null && state.data!.isNotEmpty,
         builder: (context, state) {
           if (state) {
             return BottomNavigationBar(
               backgroundColor: Theme.of(context).colorScheme.surface,
-              currentIndex: _currentIndex,
-              onTap: (index) => setState(() {
-                _currentIndex = index;
+              currentIndex: _destination.index,
+              onTap: (i) => setState(() {
+                _destination = HomeScreenDestination.values[i];
               }),
               items: const [
                 BottomNavigationBarItem(
@@ -69,11 +73,11 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class _Body extends StatelessWidget {
-  final int currentIndex;
+  final HomeScreenDestination destination;
 
   const _Body({
     Key? key,
-    required this.currentIndex,
+    required this.destination,
   }) : super(key: key);
 
   @override
@@ -86,7 +90,9 @@ class _Body extends StatelessWidget {
           child: child,
         );
       },
-      child: currentIndex == 0 ? _AccountBody() : _SettingsBody(),
+      child: destination == HomeScreenDestination.accounts
+          ? _AccountBody()
+          : _SettingsBody(),
     );
   }
 }
@@ -272,7 +278,7 @@ class _Item extends StatelessWidget {
 }
 
 class _AppBar extends StatelessWidget implements PreferredSizeWidget {
-  final int currentIndex;
+  final HomeScreenDestination destination;
 
   final List<WidgetBuilder> appBars = [
     (context) => AppBar(
@@ -354,14 +360,14 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
 
   _AppBar({
     Key? key,
-    required this.currentIndex,
+    required this.destination,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      child: appBars[currentIndex](context),
+      child: appBars[destination.index](context),
     );
   }
 
