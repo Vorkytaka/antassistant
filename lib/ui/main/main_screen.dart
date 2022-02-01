@@ -141,6 +141,16 @@ class _HomeBody extends StatelessWidget {
   }
 }
 
+class _AccountBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final data = MediaQuery.of(context);
+    return data.windowSize == WindowSize.compact
+        ? _CompactAccountBody()
+        : _AccountListDetailsBody();
+  }
+}
+
 class _AccountListDetailsBody extends StatefulWidget {
   @override
   State<_AccountListDetailsBody> createState() =>
@@ -174,21 +184,23 @@ class _AccountListDetailsBodyState extends State<_AccountListDetailsBody> {
         ),
         Expanded(
           flex: 2,
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 250),
-            switchInCurve: Curves.easeOut,
-            switchOutCurve: Curves.easeIn,
-            child: _selectedName != null
-                ? AccountBody(
-                    key: ValueKey(_selectedName),
-                    accountName: _selectedName!,
-                  )
-                : Center(
-                    child: Text(
-                      'Выберите аккаунт',
-                      style: Theme.of(context).textTheme.headline4,
+          child: Material(
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              switchInCurve: Curves.easeOut,
+              switchOutCurve: Curves.easeIn,
+              child: _selectedName != null
+                  ? AccountBody(
+                      key: ValueKey(_selectedName),
+                      accountName: _selectedName!,
+                    )
+                  : Center(
+                      child: Text(
+                        'Выберите аккаунт',
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
                     ),
-                  ),
+            ),
           ),
         ),
       ],
@@ -203,7 +215,7 @@ class _SettingsBody extends StatelessWidget {
   }
 }
 
-class _AccountBody extends StatelessWidget {
+class _CompactAccountBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
