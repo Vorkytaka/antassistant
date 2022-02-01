@@ -6,6 +6,7 @@ import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/utils/consts.dart';
 import 'package:antassistant/utils/numbers.dart';
 import 'package:antassistant/utils/popup_menu.dart';
+import 'package:antassistant/utils/size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,45 +38,88 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final data = MediaQuery.of(context);
+    final isCompact = data.windowSize == WindowSize.compact;
     return Scaffold(
-      appBar: _AppBar(destination: _destination),
-      body: _Body(destination: _destination),
-      bottomNavigationBar: BlocSelector<AccountsBloc, AccountsState, bool>(
-        selector: (state) => state.data != null && state.data!.isNotEmpty,
-        builder: (context, state) {
-          if (state) {
-            return BottomNavigationBar(
-              backgroundColor: Theme.of(context).colorScheme.surface,
-              currentIndex: _destination.index,
-              onTap: (i) => setState(() {
-                _destination = HomeScreenDestination.values[i];
-              }),
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.account_circle_outlined),
-                  activeIcon: Icon(Icons.account_circle),
-                  label: 'Аккаунты',
+      appBar: isCompact ? _AppBar(destination: _destination) : null,
+      body: Row(
+        children: [
+          if (!isCompact)
+            NavigationRail(
+              leading: SafeArea(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 24),
+                    FloatingActionButton(
+                      onPressed: () {
+                        login(context: context);
+                      },
+                      child: const Icon(Icons.add),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                  ],
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.settings_outlined),
-                  activeIcon: Icon(Icons.settings),
-                  label: 'Настройки',
+              ),
+              labelType: NavigationRailLabelType.all,
+              destinations: const [
+                NavigationRailDestination(
+                  icon: Icon(Icons.account_circle),
+                  label: Text('Аккаунты'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.settings),
+                  label: Text('Настройки'),
                 ),
               ],
-            );
-          }
-
-          return const SizedBox();
-        },
+              selectedIndex: _destination.index,
+              onDestinationSelected: (i) => setState(() {
+                _destination = HomeScreenDestination.values[i];
+              }),
+            ),
+          Expanded(child: _HomeBody(destination: _destination)),
+        ],
       ),
+      bottomNavigationBar: isCompact
+          ? BlocSelector<AccountsBloc, AccountsState, bool>(
+              selector: (state) => state.data != null && state.data!.isNotEmpty,
+              builder: (context, state) {
+                if (state) {
+                  return BottomNavigationBar(
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    currentIndex: _destination.index,
+                    onTap: (i) => setState(() {
+                      _destination = HomeScreenDestination.values[i];
+                    }),
+                    items: const [
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.account_circle_outlined),
+                        activeIcon: Icon(Icons.account_circle),
+                        label: 'Аккаунты',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.settings_outlined),
+                        activeIcon: Icon(Icons.settings),
+                        label: 'Настройки',
+                      ),
+                    ],
+                  );
+                }
+
+                return const SizedBox();
+              },
+            )
+          : null,
     );
   }
 }
 
-class _Body extends StatelessWidget {
+class _HomeBody extends StatelessWidget {
   final HomeScreenDestination destination;
 
-  const _Body({
+  const _HomeBody({
     Key? key,
     required this.destination,
   }) : super(key: key);
