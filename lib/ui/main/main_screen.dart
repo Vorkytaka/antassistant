@@ -69,11 +69,13 @@ class _HomeScreenState extends State<HomeScreen> {
               extended: data.windowSize == WindowSize.expanded,
               destinations: const [
                 NavigationRailDestination(
-                  icon: Icon(Icons.account_circle),
+                  icon: Icon(Icons.account_circle_outlined),
+                  selectedIcon: Icon(Icons.account_circle),
                   label: Text('Аккаунты'),
                 ),
                 NavigationRailDestination(
-                  icon: Icon(Icons.settings),
+                  icon: Icon(Icons.settings_outlined),
+                  selectedIcon: Icon(Icons.settings),
                   label: Text('Настройки'),
                 ),
               ],
