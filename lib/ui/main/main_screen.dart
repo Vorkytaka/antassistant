@@ -50,14 +50,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: [
                     const SizedBox(height: 24),
-                    FloatingActionButton(
+                    FloatingActionButton.extended(
                       onPressed: () {
                         login(context: context);
                       },
-                      child: const Icon(Icons.add),
+                      icon: const Icon(Icons.add),
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
+                      tooltip: data.windowSize == WindowSize.expanded
+                          ? null
+                          : 'Добавить аккаунт',
+                      label: const Text('Добавить аккаунт'),
+                      isExtended: data.windowSize == WindowSize.expanded,
                     ),
                     const SizedBox(height: 24),
                   ],
