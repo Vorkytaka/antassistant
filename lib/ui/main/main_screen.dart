@@ -63,7 +63,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              labelType: NavigationRailLabelType.all,
+              labelType: data.windowSize == WindowSize.expanded
+                  ? null
+                  : NavigationRailLabelType.all,
+              extended: data.windowSize == WindowSize.expanded,
               destinations: const [
                 NavigationRailDestination(
                   icon: Icon(Icons.account_circle),
