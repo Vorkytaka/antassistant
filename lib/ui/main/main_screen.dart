@@ -4,6 +4,7 @@ import 'package:antassistant/entity/account_data.dart';
 import 'package:antassistant/ui/details/details_screen.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/utils/consts.dart';
+import 'package:antassistant/utils/navigation.dart';
 import 'package:antassistant/utils/numbers.dart';
 import 'package:antassistant/utils/popup_menu.dart';
 import 'package:antassistant/utils/size.dart';
@@ -172,10 +173,11 @@ class _AccountListDetailsBodyState extends State<_AccountListDetailsBody> {
 
   @override
   Widget build(BuildContext context) {
+    final data = MediaQuery.of(context);
     return Row(
       children: [
         Expanded(
-          flex: 1,
+          flex: data.windowSize == WindowSize.medium ? 2 : 1,
           child: Material(
             elevation: 3,
             child: _AccountList(
@@ -193,8 +195,9 @@ class _AccountListDetailsBodyState extends State<_AccountListDetailsBody> {
           ),
         ),
         Expanded(
-          flex: 2,
+          flex: data.windowSize == WindowSize.medium ? 3 : 2,
           child: Material(
+            elevation: 1,
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 250),
               switchInCurve: Curves.easeOut,
@@ -243,8 +246,16 @@ class _CompactAccountBody extends StatelessWidget {
               );
             case HomeScreenState.hasAccounts:
               return _AccountList(
-                onTap: (context, name) => Navigator.of(context)
-                    .pushNamed(DetailsScreen.path, arguments: name),
+                onTap: (context, name) {
+                  // Navigator.of(context)
+                  //   .pushNamed(DetailsScreen.path, arguments: name);
+
+                  Navigator.of(context).push(AutoPopRoute(
+                    builder: (context) => DetailsScreen(accountName: name),
+                    validator: (context) =>
+                        MediaQuery.of(context).windowSize != WindowSize.compact,
+                  ));
+                },
               );
           }
         },
@@ -567,7 +578,7 @@ Future<void> itemMenu({
   required String accountName,
   required AccountData? data,
 }) async {
-  return showModalBottomSheet(
+  return showResponsiveMenu(
     context: context,
     builder: (context) => Padding(
       padding: MediaQuery.of(context).padding,
@@ -593,4 +604,28 @@ Future<void> itemMenu({
       ),
     ),
   );
+}
+
+/// Show responsive menu
+/// If device is compact, then we show modal bottom sheet
+/// otherwise we show alertdialog
+Future<void> showResponsiveMenu({
+  required BuildContext context,
+  required WidgetBuilder builder,
+}) async {
+  final data = MediaQuery.of(context);
+  if (data.windowSize == WindowSize.compact) {
+    return showModalBottomSheet(
+      context: context,
+      builder: builder,
+    );
+  } else {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        contentPadding: EdgeInsets.zero,
+        content: builder(context),
+      ),
+    );
+  }
 }
