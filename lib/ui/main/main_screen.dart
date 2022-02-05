@@ -191,6 +191,14 @@ class _AccountListDetailsBodyState extends State<_AccountListDetailsBody> {
   String? _selectedName;
 
   @override
+  void deactivate() {
+    if (MediaQuery.of(context).windowSize == WindowSize.compact) {
+      // todo?
+    }
+    super.deactivate();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final data = MediaQuery.of(context);
     return Row(
