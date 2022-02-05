@@ -178,9 +178,10 @@ class _AccountListDetailsBodyState extends State<_AccountListDetailsBody> {
       children: [
         Expanded(
           flex: data.windowSize == WindowSize.medium ? 2 : 1,
-          child: Material(
+          child: Card(
             elevation: 3,
-            color: Theme.of(context).colorScheme.surface,
+            margin: const EdgeInsets.symmetric(horizontal: 8),
+            shape: const Border(),
             child: _AccountList(
               selectedName: _selectedName,
               onTap: (BuildContext context, String accountName) {
@@ -201,12 +202,23 @@ class _AccountListDetailsBodyState extends State<_AccountListDetailsBody> {
             elevation: 1,
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 250),
-              switchInCurve: Curves.easeOut,
-              switchOutCurve: Curves.easeIn,
+              switchInCurve: Curves.easeInOut,
+              switchOutCurve: Curves.easeInOut,
               child: _selectedName != null
-                  ? AccountBody(
+                  ? Column(
                       key: ValueKey(_selectedName),
-                      accountName: _selectedName!,
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).padding.top,
+                          width: double.infinity,
+                          color: Theme.of(context).colorScheme.surface,
+                        ),
+                        Expanded(
+                          child: AccountBody(
+                            accountName: _selectedName!,
+                          ),
+                        ),
+                      ],
                     )
                   : Center(
                       child: Text(
@@ -253,7 +265,7 @@ class _CompactAccountBody extends StatelessWidget {
                 Navigator.of(context).push(AutoPopRoute(
                   builder: (context) => DetailsScreen(accountName: name),
                   validator: (context) =>
-                  MediaQuery.of(context).windowSize != WindowSize.compact,
+                      MediaQuery.of(context).windowSize != WindowSize.compact,
                 ));
               },
             );
