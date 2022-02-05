@@ -274,7 +274,11 @@ class _Content extends StatelessWidget {
                       hint: 'Цена за месяц',
                     ),
                   ),
-                  const VerticalDivider(width: 1),
+                  Container(
+                    width: 1,
+                    height: 56,
+                    color: Theme.of(context).dividerColor,
+                  ),
                   Expanded(
                     child: _ListItem(
                       value: '${data.tariff.pricePerDay.asString} ₽',
@@ -309,7 +313,11 @@ class _Content extends StatelessWidget {
                       hint: 'Скорость загрузки',
                     ),
                   ),
-                  const VerticalDivider(width: 1),
+                  Container(
+                    width: 1,
+                    height: 56,
+                    color: Theme.of(context).dividerColor,
+                  ),
                   Expanded(
                     child: _ListItem(
                       value: data.tariff.uploadSpeed,
