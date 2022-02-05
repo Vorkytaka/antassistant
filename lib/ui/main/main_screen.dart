@@ -152,6 +152,7 @@ class _HomeBody extends StatelessWidget {
   }
 }
 
+// todo: handle last selected name on previous type
 class _AccountBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
