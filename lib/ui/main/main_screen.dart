@@ -244,33 +244,35 @@ class _SettingsBody extends StatelessWidget {
 class _CompactAccountBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _HomeScreenStateWidget(
-      builder: (context, state) {
-        switch (state) {
-          case HomeScreenState.loading:
-            return _Loading();
-          case HomeScreenState.noAccounts:
-            return _NoAccounts();
-          case HomeScreenState.oneAccount:
-            return BlocSelector<AccountsBloc, AccountsState, String>(
-              selector: (state) => state.data?.keys.first ?? '',
-              builder: (context, state) => AccountBody(accountName: state),
-            );
-          case HomeScreenState.hasAccounts:
-            return _AccountList(
-              onTap: (context, name) {
-                // Navigator.of(context)
-                //   .pushNamed(DetailsScreen.path, arguments: name);
+    return Material(
+      child: _HomeScreenStateWidget(
+        builder: (context, state) {
+          switch (state) {
+            case HomeScreenState.loading:
+              return _Loading();
+            case HomeScreenState.noAccounts:
+              return _NoAccounts();
+            case HomeScreenState.oneAccount:
+              return BlocSelector<AccountsBloc, AccountsState, String>(
+                selector: (state) => state.data?.keys.first ?? '',
+                builder: (context, state) => AccountBody(accountName: state),
+              );
+            case HomeScreenState.hasAccounts:
+              return _AccountList(
+                onTap: (context, name) {
+                  // Navigator.of(context)
+                  //   .pushNamed(DetailsScreen.path, arguments: name);
 
-                Navigator.of(context).push(AutoPopRoute(
-                  builder: (context) => DetailsScreen(accountName: name),
-                  validator: (context) =>
-                      MediaQuery.of(context).windowSize != WindowSize.compact,
-                ));
-              },
-            );
-        }
-      },
+                  Navigator.of(context).push(AutoPopRoute(
+                    builder: (context) => DetailsScreen(accountName: name),
+                    validator: (context) =>
+                        MediaQuery.of(context).windowSize != WindowSize.compact,
+                  ));
+                },
+              );
+          }
+        },
+      ),
     );
   }
 }
