@@ -18,3 +18,16 @@ extension MediaQuerySize on MediaQueryData {
     }
   }
 }
+
+extension BoxConstraintsSize on BoxConstraints {
+  WindowSize get windowSize {
+    final width = maxWidth;
+    if (width < 600) {
+      return WindowSize.compact;
+    } else if (width < 840) {
+      return WindowSize.medium;
+    } else {
+      return WindowSize.expanded;
+    }
+  }
+}

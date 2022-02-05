@@ -340,48 +340,70 @@ class _Loading extends StatelessWidget {
 class _NoAccounts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: Center(
-              child: Text(
-                'Добавьте свой аккаунт,\nчтобы отслеживать его состояние',
-                style: Theme.of(context).textTheme.headline5,
-              ),
-            ),
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
+    return LayoutBuilder(
+      builder: (context, constraint) {
+        final EdgeInsets padding;
+        switch(constraint.windowSize) {
+          case WindowSize.compact:
+            padding = const EdgeInsets.symmetric(horizontal: horizontalPadding);
+            break;
+          case WindowSize.medium:
+            padding = EdgeInsets.symmetric(
+              horizontal: constraint.maxWidth / 5,
+              vertical: constraint.maxHeight / 3,
+            );
+            break;
+          case WindowSize.expanded:
+            padding = EdgeInsets.symmetric(
+              horizontal: constraint.maxWidth / 4,
+              vertical: constraint.maxHeight / 5,
+            );
+            break;
+        }
+        return Padding(
+          padding: padding,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    login(context: context);
-                  },
-                  child: const Text('ДОБАВИТЬ АККАУНТ'),
+              Expanded(
+                child: Center(
+                  child: Text(
+                    'Добавьте свой аккаунт,\nчтобы отслеживать его состояние',
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
                 ),
               ),
-              const SizedBox(height: 16),
-              SizedBox(
-                height: 56,
-                child: OutlinedButton(
-                  onPressed: () {},
-                  child: const Text('СЛУЖБА ПОДДЕРЖКИ'),
-                ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(
+                    height: 56,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        login(context: context);
+                      },
+                      child: const Text('ДОБАВИТЬ АККАУНТ'),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: 56,
+                    child: OutlinedButton(
+                      onPressed: () {},
+                      child: const Text('СЛУЖБА ПОДДЕРЖКИ'),
+                    ),
+                  ),
+                  const SizedBox(height: 56 + 16),
+                ],
               ),
-              const SizedBox(height: 56 + 16),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
