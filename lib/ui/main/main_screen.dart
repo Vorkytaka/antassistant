@@ -158,7 +158,26 @@ class _AccountBody extends StatelessWidget {
     final data = MediaQuery.of(context);
     return data.windowSize == WindowSize.compact
         ? _CompactAccountBody()
-        : _AccountListDetailsBody();
+        : _LargeAccountBody();
+  }
+}
+
+class _LargeAccountBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return _HomeScreenStateWidget(
+      builder: (context, state) {
+        switch (state) {
+          case HomeScreenState.loading:
+            return _Loading();
+          case HomeScreenState.noAccounts:
+            return _NoAccounts();
+          case HomeScreenState.oneAccount:
+          case HomeScreenState.hasAccounts:
+            return _AccountListDetailsBody();
+        }
+      },
+    );
   }
 }
 
