@@ -8,6 +8,7 @@ import 'package:antassistant/utils/numbers.dart';
 import 'package:antassistant/utils/popup_menu.dart';
 import 'package:antassistant/utils/size.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetailsScreen extends StatelessWidget {
@@ -401,7 +402,7 @@ dynamic copyMessage({
       behavior: SnackBarBehavior.floating,
       action: SnackBarAction(
         label: 'Скопировать',
-        onPressed: () {},
+        onPressed: () => Clipboard.setData(ClipboardData(text: string)),
       ),
       width: width,
     ),
