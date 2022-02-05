@@ -279,14 +279,17 @@ class _CompactAccountBody extends StatelessWidget {
             case HomeScreenState.hasAccounts:
               return _AccountList(
                 onTap: (context, name) {
-                  // Navigator.of(context)
-                  //   .pushNamed(DetailsScreen.path, arguments: name);
-
-                  Navigator.of(context).push(AutoPopRoute(
-                    builder: (context) => DetailsScreen(accountName: name),
-                    validator: (context) =>
-                        MediaQuery.of(context).windowSize != WindowSize.compact,
-                  ));
+                  Navigator.of(context).push(
+                    AutoPopRoute(
+                      builder: (context) => DetailsScreen(accountName: name),
+                      validator: (context) =>
+                          MediaQuery.of(context).windowSize !=
+                          WindowSize.compact,
+                      onAutoPop: () {
+                        // todo?
+                      },
+                    ),
+                  );
                 },
               );
           }
@@ -343,7 +346,7 @@ class _NoAccounts extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraint) {
         final EdgeInsets padding;
-        switch(constraint.windowSize) {
+        switch (constraint.windowSize) {
           case WindowSize.compact:
             padding = const EdgeInsets.symmetric(horizontal: horizontalPadding);
             break;
