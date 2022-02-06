@@ -9,6 +9,8 @@ enum WindowSize {
 extension MediaQuerySize on MediaQueryData {
   WindowSize get windowSize {
     final width = size.width;
+    // final isPhone = size.shortestSide / size.longestSide < 0.5;
+    // ???
     if (width < 600) {
       return WindowSize.compact;
     } else if (width < 840) {
