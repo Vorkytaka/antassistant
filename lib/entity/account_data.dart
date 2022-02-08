@@ -23,7 +23,7 @@ class AccountData {
     required this.credit,
     required this.dynDns,
     required this.smsInfo,
-  }) : daysLeft = balance ~/ tariff.pricePerDay;
+  }) : daysLeft = (balance + credit) ~/ tariff.pricePerDay;
 }
 
 @immutable
