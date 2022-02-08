@@ -1,7 +1,9 @@
 import 'package:antassistant/ui/login/bloc/login_screen_bloc.dart';
 import 'package:antassistant/ui/login/login_screen_provider.dart';
 import 'package:antassistant/utils/padding.dart';
+import 'package:antassistant/utils/size.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -41,6 +43,29 @@ class _Form extends StatefulWidget {
 
 class _FormState extends State<_Form> {
   bool _passwordIsVisible = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // todo: need to think about phone landscape layout
+    if(MediaQuery.of(context).isPhone) {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+    }
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
