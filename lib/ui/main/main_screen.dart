@@ -210,10 +210,11 @@ class _AccountListDetailsBodyState extends State<_AccountListDetailsBody> {
             elevation: 3,
             margin: const EdgeInsets.symmetric(horizontal: 8),
             shape: const Border(),
-            child: MediaQuery.removePadding(
-              context: context,
-              removeLeft: true,
-              removeRight: true,
+            child: MediaQuery(
+              data: data.removePadding(
+                removeLeft: true,
+                removeRight: true,
+              ),
               child: _AccountList(
                 selectedName: _selectedName,
                 onTap: (BuildContext context, String accountName) {
