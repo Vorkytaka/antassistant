@@ -4,6 +4,7 @@ import 'package:antassistant/entity/account_data.dart';
 import 'package:antassistant/ui/details/details_screen.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/utils/consts.dart';
+import 'package:antassistant/utils/dialogs.dart';
 import 'package:antassistant/utils/navigation.dart';
 import 'package:antassistant/utils/numbers.dart';
 import 'package:antassistant/utils/popup_menu.dart';
@@ -650,30 +651,49 @@ Future<void> itemMenu({
   required String accountName,
   required AccountData? data,
 }) async {
-  return showResponsiveMenu(
-    context: context,
-    builder: (context) => Padding(
-      padding: MediaQuery.of(context).padding,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          ListTile(
-            title: Text(
-              accountName,
-              style: const TextStyle(fontWeight: FontWeight.w600),
+  final data = MediaQuery.of(context);
+  if (data.windowSize == WindowSize.compact) {
+    return showModalBottomSheet(
+      context: context,
+      builder: (context) => Padding(
+        padding: MediaQuery.of(context).padding,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ListTile(
+              title: Text(
+                accountName,
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
             ),
-          ),
-          ListTile(
-            title: const Text('Удалить'),
-            leading: const Icon(Icons.delete),
-            onTap: () async {
-              await delete(context: context, accountName: accountName);
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
+            ListTile(
+              title: const Text('Удалить'),
+              leading: const Icon(Icons.delete),
+              onTap: () async {
+                await delete(context: context, accountName: accountName);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
       ),
+    );
+  }
+
+  return showPlatformDialog(
+    context: context,
+    builder: (context) => PlatformActionsDialog(
+      title: Text(accountName),
+      actions: [
+        PlatformDialogAction(
+          child: const Text('Удалить'),
+          onPressed: () async {
+            await delete(context: context, accountName: accountName);
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
     ),
   );
 }
