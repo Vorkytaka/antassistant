@@ -42,7 +42,7 @@ class PlatformActionsDialog extends StatelessWidget {
     if (Theme.of(context).platform.isCupertino) {
       return CupertinoAlertDialog(
         title: title,
-        actions: actions ?? const [],
+        actions: actions,
       );
     }
 
@@ -59,9 +59,7 @@ class PlatformActionsDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          ...actions,
-        ],
+        children: actions,
       ),
     );
   }
