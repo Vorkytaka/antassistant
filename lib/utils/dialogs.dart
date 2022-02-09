@@ -27,14 +27,15 @@ Future<T?> showPlatformDialog<T>({
 }
 
 class PlatformActionsDialog extends StatelessWidget {
-  final Widget? title;
-  final List<PlatformDialogAction>? actions;
+  final Widget title;
+  final List<PlatformDialogAction> actions;
 
   const PlatformActionsDialog({
     Key? key,
-    this.title,
-    this.actions,
-  }) : super(key: key);
+    required this.title,
+    required this.actions,
+  })  : assert(actions.length >= 1),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +47,22 @@ class PlatformActionsDialog extends StatelessWidget {
     }
 
     return AlertDialog(
+      contentPadding: EdgeInsets.zero,
+      titlePadding: const EdgeInsets.only(
+        left: 24,
+        right: 24,
+        top: 18,
+        bottom: 18,
+      ),
       title: title,
-      actions: actions,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ...actions,
+        ],
+      ),
     );
   }
 }
@@ -55,11 +70,13 @@ class PlatformActionsDialog extends StatelessWidget {
 class PlatformDialogAction extends StatelessWidget {
   final Widget child;
   final VoidCallback? onPressed;
+  final Widget? leading;
 
   const PlatformDialogAction({
     Key? key,
     required this.child,
     this.onPressed,
+    this.leading,
   }) : super(key: key);
 
   @override
@@ -74,6 +91,7 @@ class PlatformDialogAction extends StatelessWidget {
     return ListTile(
       title: child,
       onTap: onPressed,
+      leading: leading,
     );
   }
 }

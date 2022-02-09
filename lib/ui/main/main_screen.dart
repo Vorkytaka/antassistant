@@ -688,6 +688,7 @@ Future<void> itemMenu({
       actions: [
         PlatformDialogAction(
           child: const Text('Удалить'),
+          leading: const Icon(Icons.delete),
           onPressed: () async {
             await delete(context: context, accountName: accountName);
             Navigator.of(context).pop();
