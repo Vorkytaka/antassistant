@@ -617,21 +617,22 @@ Future<bool> delete({
   required BuildContext context,
   required String accountName,
 }) async {
-  final bool result = await showDialog<bool>(
+  final bool result = await showPlatformDialog<bool>(
         context: context,
-        builder: (context) => AlertDialog(
+        builder: (context) => PlatformAlertDialog(
           title: const Text('Удалить аккаунт'),
           content: Text('Вы уверены, что хотите удалить аккаунт $accountName?'),
           actions: [
-            TextButton(
+            PlatformAlertDialogAction(
               onPressed: () => Navigator.of(context).pop(false),
               child: const Text('Нет'),
             ),
-            TextButton(
+            PlatformAlertDialogAction(
               onPressed: () => Navigator.of(context).pop(true),
               style: TextButton.styleFrom(
                 primary: Theme.of(context).errorColor,
               ),
+              isDestructiveAction: true,
               child: Text(
                 'Да',
                 style: TextStyle(color: Theme.of(context).errorColor),
@@ -665,6 +666,7 @@ Future<void> itemMenu({
           PlatformModalAction(
             child: const Text('Удалить'),
             leading: const Icon(Icons.delete),
+            isDestructiveAction: true,
             onPressed: () async {
               await delete(context: context, accountName: accountName);
               Navigator.of(context).pop();
@@ -683,6 +685,7 @@ Future<void> itemMenu({
         PlatformDialogAction(
           child: const Text('Удалить'),
           leading: const Icon(Icons.delete),
+          isDestructiveAction: true,
           onPressed: () async {
             await delete(context: context, accountName: accountName);
             Navigator.of(context).pop();
