@@ -5,6 +5,7 @@ import 'package:antassistant/ui/details/details_screen.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/utils/consts.dart';
 import 'package:antassistant/utils/dialogs.dart';
+import 'package:antassistant/utils/dialogs/platform_modal_dialog.dart';
 import 'package:antassistant/utils/navigation.dart';
 import 'package:antassistant/utils/numbers.dart';
 import 'package:antassistant/utils/popup_menu.dart';
