@@ -26,6 +26,89 @@ Future<T?> showPlatformDialog<T>({
   );
 }
 
+Future<T?> showPlatformModalSheet<T>({
+  required BuildContext context,
+  required WidgetBuilder builder,
+  bool barrierDismissible = true,
+}) async {
+  if (Theme.of(context).platform.isCupertino) {
+    return showCupertinoModalPopup<T>(
+      context: context,
+      builder: builder,
+      barrierDismissible: barrierDismissible,
+    );
+  }
+
+  return showModalBottomSheet(
+    context: context,
+    builder: builder,
+    isDismissible: barrierDismissible,
+  );
+}
+
+class PlatformModalDialog extends StatelessWidget {
+  final Widget? title;
+  final List<Widget>? actions;
+
+  const PlatformModalDialog({
+    Key? key,
+    this.title,
+    this.actions,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (Theme.of(context).platform.isCupertino) {
+      return CupertinoActionSheet(
+        title: title,
+        actions: actions,
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (title != null)
+          ListTile(
+            title: title,
+          ),
+        if (actions != null) ...actions!,
+      ],
+    );
+  }
+}
+
+class PlatformModalAction extends StatelessWidget {
+  final Widget child;
+  final VoidCallback onPressed;
+  final Widget? leading;
+
+  const PlatformModalAction({
+    Key? key,
+    required this.child,
+    required this.onPressed,
+    this.leading,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (Theme.of(context).platform.isCupertino) {
+      return CupertinoActionSheetAction(
+        child: child,
+        onPressed: onPressed,
+      );
+    }
+
+    return ListTile(
+      title: child,
+      onTap: onPressed,
+      leading: leading,
+    );
+  }
+}
+
+
 class PlatformActionsDialog extends StatelessWidget {
   final Widget title;
   final List<PlatformDialogAction> actions;

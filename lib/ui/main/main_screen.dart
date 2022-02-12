@@ -9,6 +9,7 @@ import 'package:antassistant/utils/navigation.dart';
 import 'package:antassistant/utils/numbers.dart';
 import 'package:antassistant/utils/popup_menu.dart';
 import 'package:antassistant/utils/size.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -652,31 +653,22 @@ Future<void> itemMenu({
   required AccountData? data,
 }) async {
   final data = MediaQuery.of(context);
+
   if (data.windowSize == WindowSize.compact) {
-    return showModalBottomSheet(
+    return showPlatformModalSheet(
       context: context,
-      builder: (context) => Padding(
-        padding: MediaQuery.of(context).padding,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ListTile(
-              title: Text(
-                accountName,
-                style: const TextStyle(fontWeight: FontWeight.w600),
-              ),
-            ),
-            ListTile(
-              title: const Text('Удалить'),
-              leading: const Icon(Icons.delete),
-              onTap: () async {
-                await delete(context: context, accountName: accountName);
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        ),
+      builder: (context) => PlatformModalDialog(
+        title: Text(accountName),
+        actions: [
+          PlatformModalAction(
+            child: const Text('Удалить'),
+            leading: const Icon(Icons.delete),
+            onPressed: () async {
+              await delete(context: context, accountName: accountName);
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
       ),
     );
   }
