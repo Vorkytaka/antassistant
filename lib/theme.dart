@@ -1,4 +1,6 @@
 import 'package:animations/animations.dart';
+import 'package:antassistant/utils/dialogs.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -30,6 +32,8 @@ abstract class ThemeHolder {
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: transitionsBuilders,
         ),
+        splashFactory:
+            defaultTargetPlatform.isCupertino ? NoSplash.splashFactory : null,
       );
 
   static get dark => ThemeData(
@@ -45,6 +49,8 @@ abstract class ThemeHolder {
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: transitionsBuilders,
         ),
+        splashFactory:
+            defaultTargetPlatform.isCupertino ? NoSplash.splashFactory : null,
       );
 
   static const transitionsBuilders = {
