@@ -83,12 +83,14 @@ class PlatformModalAction extends StatelessWidget {
   final Widget child;
   final VoidCallback onPressed;
   final Widget? leading;
+  final bool isDestructiveAction;
 
   const PlatformModalAction({
     Key? key,
     required this.child,
     required this.onPressed,
     this.leading,
+    this.isDestructiveAction = false,
   }) : super(key: key);
 
   @override
@@ -97,6 +99,7 @@ class PlatformModalAction extends StatelessWidget {
       return CupertinoActionSheetAction(
         child: child,
         onPressed: onPressed,
+        isDestructiveAction: isDestructiveAction,
       );
     }
 
@@ -107,7 +110,6 @@ class PlatformModalAction extends StatelessWidget {
     );
   }
 }
-
 
 class PlatformActionsDialog extends StatelessWidget {
   final Widget title;
@@ -152,12 +154,14 @@ class PlatformDialogAction extends StatelessWidget {
   final Widget child;
   final VoidCallback? onPressed;
   final Widget? leading;
+  final bool isDestructiveAction;
 
   const PlatformDialogAction({
     Key? key,
     required this.child,
     this.onPressed,
     this.leading,
+    this.isDestructiveAction = false,
   }) : super(key: key);
 
   @override
@@ -166,6 +170,7 @@ class PlatformDialogAction extends StatelessWidget {
       return CupertinoDialogAction(
         child: child,
         onPressed: onPressed,
+        isDestructiveAction: isDestructiveAction,
       );
     }
 
