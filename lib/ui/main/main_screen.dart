@@ -488,7 +488,7 @@ class _Item extends StatelessWidget {
         data: data,
       ),
       selected: isSelected,
-      selectedTileColor: Theme.of(context).colorScheme.background,
+      selectedTileColor: Theme.of(context).selectedRowColor,
       trailing: data != null
           ? Text('${data!.balance.asString} ₽')
           : Icon(

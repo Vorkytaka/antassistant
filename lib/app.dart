@@ -39,7 +39,7 @@ class App extends StatelessWidget {
           }
         },
         initialRoute: HomeScreen.path,
-        themeMode: ThemeMode.dark,
+        themeMode: ThemeMode.system,
         theme: ThemeHolder.light,
         darkTheme: ThemeHolder.dark,
       ),
