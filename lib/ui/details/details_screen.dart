@@ -261,6 +261,11 @@ class _Content extends StatelessWidget {
         ),
         Expanded(
           child: ListView(
+            padding: MediaQuery.of(context).padding.copyWith(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                ),
             children: [
               _ListItem(
                 value: data.number,
