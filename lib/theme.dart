@@ -51,6 +51,7 @@ abstract class ThemeHolder {
         ),
         splashFactory:
             defaultTargetPlatform.isCupertino ? NoSplash.splashFactory : null,
+    selectedRowColor: Colors.grey[700],
       );
 
   static const transitionsBuilders = {
