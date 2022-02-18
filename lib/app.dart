@@ -18,31 +18,33 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dependencies(
-      child: MaterialApp(
-        title: 'ANTAssistant',
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          S.delegate,
-        ],
-        routes: const {
-          HomeScreen.path: HomeScreen.builder,
-          LoginScreen.path: LoginScreen.builder,
-        },
-        onGenerateRoute: (settings) {
-          if (settings.name == DetailsScreen.path) {
-            final String name = settings.arguments as String;
-            return MaterialPageRoute(
-                builder: (context) => DetailsScreen.builder(context, name));
-          }
-        },
-        initialRoute: HomeScreen.path,
-        themeMode: ThemeMode.system,
-        theme: ThemeHolder.light,
-        darkTheme: ThemeHolder.dark,
-      ),
+    return MaterialApp(
+      title: 'ANTAssistant',
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        S.delegate,
+      ],
+      routes: const {
+        HomeScreen.path: HomeScreen.builder,
+        LoginScreen.path: LoginScreen.builder,
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == DetailsScreen.path) {
+          final String name = settings.arguments as String;
+          return MaterialPageRoute(
+              builder: (context) => DetailsScreen.builder(context, name));
+        }
+      },
+      initialRoute: HomeScreen.path,
+      themeMode: ThemeMode.system,
+      theme: ThemeHolder.light,
+      darkTheme: ThemeHolder.dark,
+      builder: (context, child) {
+        assert(child != null);
+        return Dependencies(child: child!);
+      },
     );
   }
 }
