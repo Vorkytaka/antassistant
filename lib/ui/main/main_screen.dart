@@ -668,8 +668,13 @@ Future<void> itemMenu({
             leading: const Icon(Icons.delete),
             isDestructiveAction: true,
             onPressed: () async {
-              await delete(context: context, accountName: accountName);
               Navigator.of(context).pop();
+              // We use `Navigator.of(context).context`,
+              // because context of dialog will be unmount after `pop`
+              await delete(
+                context: Navigator.of(context).context,
+                accountName: accountName,
+              );
             },
           ),
         ],
