@@ -1,4 +1,4 @@
-import 'package:antassistant/utils/platform/platform.dart';
+import 'package:antassistant/utils/platform/platform_widget_builder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -18,20 +18,19 @@ class PlatformBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Theme.of(context).platform.isCupertino) {
-      return CupertinoTabBar(
+    return PlatformWidgetBuilder(
+      material: (context) => BottomNavigationBar(
         items: items,
         backgroundColor: backgroundColor,
         currentIndex: currentIndex,
         onTap: onTap,
-      );
-    }
-
-    return BottomNavigationBar(
-      items: items,
-      backgroundColor: backgroundColor,
-      currentIndex: currentIndex,
-      onTap: onTap,
+      ),
+      cupertino: (context) => CupertinoTabBar(
+        items: items,
+        backgroundColor: backgroundColor,
+        currentIndex: currentIndex,
+        onTap: onTap,
+      ),
     );
   }
 }
