@@ -1,7 +1,6 @@
+import 'package:antassistant/utils/platform/platform.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'platform.dart';
 
 class PlatformAlertDialog extends StatelessWidget {
   final Widget? title;
@@ -17,18 +16,17 @@ class PlatformAlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Theme.of(context).platform.isCupertino) {
-      return CupertinoAlertDialog(
+    return PlatformWidgetBuilder(
+      material: (context) => AlertDialog(
+        title: title,
+        actions: actions,
+        content: content,
+      ),
+      cupertino: (context) => CupertinoAlertDialog(
         title: title,
         actions: actions ?? const [],
         content: content,
-      );
-    }
-
-    return AlertDialog(
-      title: title,
-      actions: actions,
-      content: content,
+      ),
     );
   }
 }
@@ -49,18 +47,17 @@ class PlatformAlertDialogAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Theme.of(context).platform.isCupertino) {
-      return CupertinoDialogAction(
+    return PlatformWidgetBuilder(
+      material: (context) => TextButton(
+        onPressed: onPressed,
+        child: child,
+        style: style,
+      ),
+      cupertino: (context) => CupertinoDialogAction(
         child: child,
         onPressed: onPressed,
         isDestructiveAction: isDestructiveAction,
-      );
-    }
-
-    return TextButton(
-      onPressed: onPressed,
-      child: child,
-      style: style,
+      ),
     );
   }
 }
