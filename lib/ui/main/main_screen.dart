@@ -657,6 +657,18 @@ Future<void> itemMenu({
 }) async {
   final data = MediaQuery.of(context);
 
+  void onPressed() async {
+    Navigator.of(context).pop();
+    // We use `Navigator.of(context).context`,
+    // because context of dialog will be unmount after `pop`
+    await delete(
+      context: Navigator.of(context).context,
+      accountName: accountName,
+    );
+  }
+
+  ;
+
   if (data.windowSize == WindowSize.compact) {
     return showPlatformModalSheet(
       context: context,
@@ -667,15 +679,7 @@ Future<void> itemMenu({
             child: const Text('Удалить'),
             leading: const Icon(Icons.delete),
             isDestructiveAction: true,
-            onPressed: () async {
-              Navigator.of(context).pop();
-              // We use `Navigator.of(context).context`,
-              // because context of dialog will be unmount after `pop`
-              await delete(
-                context: Navigator.of(context).context,
-                accountName: accountName,
-              );
-            },
+            onPressed: onPressed,
           ),
         ],
       ),
@@ -691,15 +695,7 @@ Future<void> itemMenu({
           child: const Text('Удалить'),
           leading: const Icon(Icons.delete),
           isDestructiveAction: true,
-          onPressed: () async {
-            Navigator.of(context).pop();
-            // We use `Navigator.of(context).context`,
-            // because context of dialog will be unmount after `pop`
-            await delete(
-              context: Navigator.of(context).context,
-              accountName: accountName,
-            );
-          },
+          onPressed: onPressed,
         ),
       ],
     ),
