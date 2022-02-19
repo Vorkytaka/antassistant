@@ -1,6 +1,10 @@
-import 'package:flutter/widgets.dart';
+library platform;
 
-extension PlatformUtils on TargetPlatform {
-  bool get isCupertino =>
-      this == TargetPlatform.iOS || this == TargetPlatform.macOS;
-}
+export 'src/bottom_navigation_bar.dart';
+export 'src/dialogs.dart';
+export 'src/icons.dart';
+export 'src/platform.dart';
+export 'src/platform_actions_dialog.dart';
+export 'src/platform_alert_dialog.dart';
+export 'src/platform_widget_builder.dart';
+export 'src/platform_modal_dialog.dart';
