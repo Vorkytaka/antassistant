@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'platform.dart';
+import 'platform_widget_builder.dart';
 
 class PlatformModalDialog extends StatelessWidget {
   final Widget? title;
@@ -15,23 +15,22 @@ class PlatformModalDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Theme.of(context).platform.isCupertino) {
-      return CupertinoActionSheet(
+    return PlatformWidgetBuilder(
+      material: (context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (title != null)
+            ListTile(
+              title: title,
+            ),
+          if (actions != null) ...actions!,
+        ],
+      ),
+      cupertino: (context) => CupertinoActionSheet(
         title: title,
         actions: actions,
-      );
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (title != null)
-          ListTile(
-            title: title,
-          ),
-        if (actions != null) ...actions!,
-      ],
+      ),
     );
   }
 }
@@ -52,18 +51,17 @@ class PlatformModalAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Theme.of(context).platform.isCupertino) {
-      return CupertinoActionSheetAction(
+    return PlatformWidgetBuilder(
+      material: (context) => ListTile(
+        title: child,
+        onTap: onPressed,
+        leading: leading,
+      ),
+      cupertino: (context) => CupertinoActionSheetAction(
         child: child,
         onPressed: onPressed,
         isDestructiveAction: isDestructiveAction,
-      );
-    }
-
-    return ListTile(
-      title: child,
-      onTap: onPressed,
-      leading: leading,
+      ),
     );
   }
 }
