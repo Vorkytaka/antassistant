@@ -1,7 +1,6 @@
+import 'package:antassistant/utils/platform/platform.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'platform.dart';
 
 class PlatformActionsDialog extends StatelessWidget {
   final Widget title;
@@ -16,27 +15,26 @@ class PlatformActionsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Theme.of(context).platform.isCupertino) {
-      return CupertinoAlertDialog(
+    return PlatformWidgetBuilder(
+      material: (context) => AlertDialog(
+        contentPadding: EdgeInsets.zero,
+        titlePadding: const EdgeInsets.only(
+          left: 24,
+          right: 24,
+          top: 18,
+          bottom: 18,
+        ),
+        title: title,
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: actions,
+        ),
+      ),
+      cupertino: (context) => CupertinoAlertDialog(
         title: title,
         actions: actions,
-      );
-    }
-
-    return AlertDialog(
-      contentPadding: EdgeInsets.zero,
-      titlePadding: const EdgeInsets.only(
-        left: 24,
-        right: 24,
-        top: 18,
-        bottom: 18,
-      ),
-      title: title,
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: actions,
       ),
     );
   }
@@ -58,18 +56,17 @@ class PlatformDialogAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Theme.of(context).platform.isCupertino) {
-      return CupertinoDialogAction(
+    return PlatformWidgetBuilder(
+      material: (context) => ListTile(
+        title: child,
+        onTap: onPressed,
+        leading: leading,
+      ),
+      cupertino: (context) => CupertinoDialogAction(
         child: child,
         onPressed: onPressed,
         isDestructiveAction: isDestructiveAction,
-      );
-    }
-
-    return ListTile(
-      title: child,
-      onTap: onPressed,
-      leading: leading,
+      ),
     );
   }
 }
