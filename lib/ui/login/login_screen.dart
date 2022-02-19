@@ -1,7 +1,9 @@
 import 'package:antassistant/ui/login/bloc/login_screen_bloc.dart';
 import 'package:antassistant/ui/login/login_screen_provider.dart';
 import 'package:antassistant/utils/padding.dart';
+import 'package:antassistant/utils/platform/platform.dart';
 import 'package:antassistant/utils/size.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -142,7 +144,7 @@ class _FormState extends State<_Form> {
                 const SizedBox(height: 16),
                 SizedBox(
                   height: 56,
-                  child: ElevatedButton(
+                  child: PlatformFilledButton(
                     onPressed: state.isLoading
                         ? null
                         : () {
@@ -156,7 +158,7 @@ class _FormState extends State<_Form> {
                           },
                     child: state.isLoading
                         ? const CircularProgressIndicator()
-                        : const Text('АВТОРИЗОВАТЬСЯ'),
+                        : const Text('Войти'),
                   ),
                 ),
               ],
