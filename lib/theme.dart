@@ -1,5 +1,5 @@
 import 'package:animations/animations.dart';
-import 'package:antassistant/utils/dialogs.dart';
+import 'package:antassistant/utils/platform/platform.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -51,7 +51,7 @@ abstract class ThemeHolder {
         ),
         splashFactory:
             defaultTargetPlatform.isCupertino ? NoSplash.splashFactory : null,
-    selectedRowColor: Colors.grey[700],
+        selectedRowColor: Colors.grey[700],
       );
 
   static const transitionsBuilders = {

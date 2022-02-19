@@ -9,6 +9,8 @@ import 'package:antassistant/utils/dialogs/platform_actions_dialog.dart';
 import 'package:antassistant/utils/dialogs/platform_modal_dialog.dart';
 import 'package:antassistant/utils/navigation.dart';
 import 'package:antassistant/utils/numbers.dart';
+import 'package:antassistant/utils/platform/bottom_navigation_bar.dart';
+import 'package:antassistant/utils/platform/icons.dart';
 import 'package:antassistant/utils/popup_menu.dart';
 import 'package:antassistant/utils/size.dart';
 import 'package:flutter/cupertino.dart';
@@ -102,21 +104,21 @@ class _HomeScreenState extends State<HomeScreen> {
               selector: (state) => state.data != null && state.data!.isNotEmpty,
               builder: (context, state) {
                 if (state) {
-                  return BottomNavigationBar(
+                  return PlatformBottomNavigationBar(
                     backgroundColor: Theme.of(context).colorScheme.surface,
                     currentIndex: _destination.index,
                     onTap: (i) => setState(() {
                       _destination = HomeScreenDestination.values[i];
                     }),
-                    items: const [
+                    items: [
                       BottomNavigationBarItem(
-                        icon: Icon(Icons.account_circle_outlined),
-                        activeIcon: Icon(Icons.account_circle),
+                        icon: Icon(PlatformIcons.account),
+                        activeIcon: Icon(PlatformIcons.accountActive),
                         label: 'Аккаунты',
                       ),
                       BottomNavigationBarItem(
-                        icon: Icon(Icons.settings_outlined),
-                        activeIcon: Icon(Icons.settings),
+                        icon: Icon(PlatformIcons.settings),
+                        activeIcon: Icon(PlatformIcons.settingsActive),
                         label: 'Настройки',
                       ),
                     ],

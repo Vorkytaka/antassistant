@@ -1,10 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-extension PlatformUtils on TargetPlatform {
-  bool get isCupertino =>
-      this == TargetPlatform.iOS || this == TargetPlatform.macOS;
-}
+import 'package:antassistant/utils/platform/platform.dart';
 
 Future<T?> showPlatformDialog<T>({
   required BuildContext context,

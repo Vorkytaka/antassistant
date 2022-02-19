@@ -1,6 +1,6 @@
+import 'package:antassistant/utils/platform/platform.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:antassistant/utils/dialogs.dart';
 
 class PlatformModalDialog extends StatelessWidget {
   final Widget? title;
