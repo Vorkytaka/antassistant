@@ -26,3 +26,28 @@ class PlatformFilledButton extends StatelessWidget {
     );
   }
 }
+
+class PlatformSecondaryButton extends StatelessWidget {
+  final VoidCallback? onPressed;
+  final Widget child;
+
+  const PlatformSecondaryButton({
+    Key? key,
+    required this.onPressed,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return PlatformWidgetBuilder(
+      material: (context) => OutlinedButton(
+        onPressed: onPressed,
+        child: child,
+      ),
+      cupertino: (context) => CupertinoButton(
+        onPressed: onPressed,
+        child: child,
+      ),
+    );
+  }
+}

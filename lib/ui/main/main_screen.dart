@@ -415,10 +415,9 @@ class _NoAccounts extends StatelessWidget {
                   const SizedBox(height: 16),
                   SizedBox(
                     height: 56,
-                    // todo: platform button
-                    child: OutlinedButton(
+                    child: PlatformSecondaryButton(
                       onPressed: () {},
-                      child: const Text('СЛУЖБА ПОДДЕРЖКИ'),
+                      child: const Text('Служба поддержки'),
                     ),
                   ),
                   const SizedBox(height: 56 + 16),
