@@ -49,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final data = MediaQuery.of(context);
     final isCompact = data.windowSize == WindowSize.compact;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: isCompact ? _AppBar(destination: _destination) : null,
       body: Row(
         children: [
