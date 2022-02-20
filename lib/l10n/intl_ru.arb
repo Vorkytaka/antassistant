@@ -1,1 +1,6 @@
-{}
+{
+  "common__add_account": "Добавить аккаунт",
+  "home__accounts_item": "Аккаунты",
+  "home__settings_item": "Настройки",
+  "accounts__days_left": "Дней осталось:"
+}

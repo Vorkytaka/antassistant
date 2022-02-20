@@ -50,40 +50,40 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Add account`
+  /// `Добавить аккаунт`
   String get common__add_account {
     return Intl.message(
-      'Add account',
+      'Добавить аккаунт',
       name: 'common__add_account',
       desc: '',
       args: [],
     );
   }
 
-  /// `Accounts`
+  /// `Аккаунты`
   String get home__accounts_item {
     return Intl.message(
-      'Accounts',
+      'Аккаунты',
       name: 'home__accounts_item',
       desc: '',
       args: [],
     );
   }
 
-  /// `Settings`
+  /// `Настройки`
   String get home__settings_item {
     return Intl.message(
-      'Settings',
+      'Настройки',
       name: 'home__settings_item',
       desc: '',
       args: [],
     );
   }
 
-  /// `Days left:`
+  /// `Дней осталось:`
   String get accounts__days_left {
     return Intl.message(
-      'Days left:',
+      'Дней осталось:',
       name: 'accounts__days_left',
       desc: '',
       args: [],
@@ -96,8 +96,8 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   List<Locale> get supportedLocales {
     return const <Locale>[
-      Locale.fromSubtags(languageCode: 'en'),
       Locale.fromSubtags(languageCode: 'ru'),
+      Locale.fromSubtags(languageCode: 'en'),
     ];
   }
 
