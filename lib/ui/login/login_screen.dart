@@ -50,7 +50,7 @@ class _FormState extends State<_Form> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     // todo: need to think about phone landscape layout
-    if(MediaQuery.of(context).isPhone) {
+    if (MediaQuery.of(context).isPhone) {
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
@@ -144,7 +144,7 @@ class _FormState extends State<_Form> {
                 const SizedBox(height: 16),
                 SizedBox(
                   height: 56,
-                  child: PlatformFilledButton(
+                  child: PlatformButton.primary(
                     onPressed: state.isLoading
                         ? null
                         : () {
