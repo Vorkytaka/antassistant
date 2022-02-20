@@ -1,1 +1,6 @@
-{}
+{
+  "common__add_account": "Add account",
+  "home__accounts_item": "Accounts",
+  "home__settings_item": "Settings",
+  "accounts__days_left": "Days left:"
+}

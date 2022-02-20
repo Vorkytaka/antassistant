@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:antassistant/domain/accounts/accounts_bloc.dart';
 import 'package:antassistant/entity/account_data.dart';
+import 'package:antassistant/generated/l10n.dart';
 import 'package:antassistant/ui/details/details_screen.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/utils/consts.dart';
@@ -65,8 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       tooltip: data.windowSize == WindowSize.expanded
                           ? null
-                          : 'Добавить аккаунт',
-                      label: const Text('Добавить аккаунт'),
+                          : S.of(context).common__add_account,
+                      label: Text(S.of(context).common__add_account),
                       isExtended: data.windowSize == WindowSize.expanded,
                     ),
                     const SizedBox(height: 24),
@@ -77,16 +78,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? null
                   : NavigationRailLabelType.all,
               extended: data.windowSize == WindowSize.expanded,
-              destinations: const [
+              destinations: [
                 NavigationRailDestination(
-                  icon: Icon(Icons.account_circle_outlined),
-                  selectedIcon: Icon(Icons.account_circle),
-                  label: Text('Аккаунты'),
+                  icon: Icon(PlatformIcons.account),
+                  selectedIcon: Icon(PlatformIcons.accountActive),
+                  label: Text(S.of(context).home__accounts_item),
                 ),
                 NavigationRailDestination(
-                  icon: Icon(Icons.settings_outlined),
-                  selectedIcon: Icon(Icons.settings),
-                  label: Text('Настройки'),
+                  icon: Icon(PlatformIcons.settings),
+                  selectedIcon: Icon(PlatformIcons.settingsActive),
+                  label: Text(S.of(context).home__settings_item),
                 ),
               ],
               selectedIndex: _destination.index,
@@ -112,12 +113,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       BottomNavigationBarItem(
                         icon: Icon(PlatformIcons.account),
                         activeIcon: Icon(PlatformIcons.accountActive),
-                        label: 'Аккаунты',
+                        label: S.of(context).home__accounts_item,
                       ),
                       BottomNavigationBarItem(
                         icon: Icon(PlatformIcons.settings),
                         activeIcon: Icon(PlatformIcons.settingsActive),
-                        label: 'Настройки',
+                        label: S.of(context).home__settings_item,
                       ),
                     ],
                   );
@@ -408,7 +409,7 @@ class _NoAccounts extends StatelessWidget {
                       onPressed: () async {
                         login(context: context);
                       },
-                      child: const Text('ДОБАВИТЬ АККАУНТ'),
+                      child: Text(S.of(context).common__add_account),
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -496,7 +497,7 @@ class _Item extends StatelessWidget {
               color: Theme.of(context).errorColor,
             ),
       subtitle: data != null
-          ? Text('Осталось дней: ${data!.daysLeft}')
+          ? Text('${S.of(context).accounts__days_left} ${data!.daysLeft}')
           : Text(
               'Не удалось получить данные',
               style: TextStyle(color: Theme.of(context).errorColor),
@@ -536,10 +537,10 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                     itemBuilder: (context) => [
                       const PopupMenuVerticalPadding(),
-                      const PopupMenuItem(
+                      PopupMenuItem(
                         child: ListTile(
-                          title: Text('Добавить аккаунт'),
-                          leading: Icon(Icons.add),
+                          title: Text(S.of(context).common__add_account),
+                          leading: const Icon(Icons.add),
                           contentPadding: EdgeInsets.zero,
                         ),
                         value: 1,

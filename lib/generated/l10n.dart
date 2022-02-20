@@ -49,6 +49,46 @@ class S {
   static S? maybeOf(BuildContext context) {
     return Localizations.of<S>(context, S);
   }
+
+  /// `Add account`
+  String get common__add_account {
+    return Intl.message(
+      'Add account',
+      name: 'common__add_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accounts`
+  String get home__accounts_item {
+    return Intl.message(
+      'Accounts',
+      name: 'home__accounts_item',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Settings`
+  String get home__settings_item {
+    return Intl.message(
+      'Settings',
+      name: 'home__settings_item',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Days left:`
+  String get accounts__days_left {
+    return Intl.message(
+      'Days left:',
+      name: 'accounts__days_left',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
