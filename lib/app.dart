@@ -26,6 +26,7 @@ class App extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
         S.delegate,
       ],
+      supportedLocales: S.delegate.supportedLocales,
       routes: const {
         HomeScreen.path: HomeScreen.builder,
         LoginScreen.path: LoginScreen.builder,
