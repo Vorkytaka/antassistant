@@ -553,10 +553,10 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
                         value: 1,
                       ),
                       if (state == HomeScreenState.oneAccount)
-                        const PopupMenuItem(
+                        PopupMenuItem(
                           child: ListTile(
-                            title: Text('Удалить'),
-                            leading: Icon(Icons.delete_outlined),
+                            title: Text(S.of(context).common__delete),
+                            leading: const Icon(Icons.delete),
                             contentPadding: EdgeInsets.zero,
                           ),
                           value: 2,
@@ -628,12 +628,12 @@ Future<bool> delete({
   final bool result = await showPlatformDialog<bool>(
         context: context,
         builder: (context) => PlatformAlertDialog(
-          title: const Text('Удалить аккаунт'),
-          content: Text('Вы уверены, что хотите удалить аккаунт $accountName?'),
+          title: Text(S.of(context).delete_account__title),
+          content: Text(S.of(context).delete_account__content(accountName)),
           actions: [
             PlatformAlertDialogAction(
               onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('Нет'),
+              child: Text(S.of(context).common__no),
             ),
             PlatformAlertDialogAction(
               onPressed: () => Navigator.of(context).pop(true),
@@ -642,7 +642,7 @@ Future<bool> delete({
               ),
               isDestructiveAction: true,
               child: Text(
-                'Да',
+                S.of(context).common__yes,
                 style: TextStyle(color: Theme.of(context).errorColor),
               ),
             ),
@@ -684,7 +684,7 @@ Future<void> itemMenu({
         title: Text(accountName),
         actions: [
           PlatformModalAction(
-            child: const Text('Удалить'),
+            child: Text(S.of(context).common__delete),
             leading: const Icon(Icons.delete),
             isDestructiveAction: true,
             onPressed: onPressed,
@@ -700,7 +700,7 @@ Future<void> itemMenu({
       title: Text(accountName),
       actions: [
         PlatformDialogAction(
-          child: const Text('Удалить'),
+          child: Text(S.of(context).common__delete),
           leading: const Icon(Icons.delete),
           isDestructiveAction: true,
           onPressed: onPressed,

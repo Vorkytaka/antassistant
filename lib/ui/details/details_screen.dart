@@ -47,10 +47,10 @@ class DetailsScreen extends StatelessWidget {
             ),
             itemBuilder: (context) => [
               const PopupMenuVerticalPadding(),
-              const PopupMenuItem(
+              PopupMenuItem(
                 child: ListTile(
-                  title: Text('Удалить'),
-                  leading: Icon(Icons.delete_outlined),
+                  title: Text(S.of(context).common__delete),
+                  leading: const Icon(Icons.delete_outlined),
                   contentPadding: EdgeInsets.zero,
                 ),
                 value: 1,

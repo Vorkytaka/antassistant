@@ -20,6 +20,9 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ru';
 
+  static String m0(accountName) =>
+      "Вы уверены, что хотите удалить аккаунт ${accountName}?";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "account_details__account_number":
@@ -49,8 +52,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "common__add_account":
             MessageLookupByLibrary.simpleMessage("Добавить аккаунт"),
         "common__copy": MessageLookupByLibrary.simpleMessage("Скопировать"),
+        "common__delete": MessageLookupByLibrary.simpleMessage("Удалить"),
+        "common__no": MessageLookupByLibrary.simpleMessage("Нет"),
         "common__required_field":
             MessageLookupByLibrary.simpleMessage("Заполните поле"),
+        "common__yes": MessageLookupByLibrary.simpleMessage("Да"),
+        "delete_account__content": m0,
+        "delete_account__title":
+            MessageLookupByLibrary.simpleMessage("Удалить аккаунт?"),
         "home__accounts_item": MessageLookupByLibrary.simpleMessage("Аккаунты"),
         "home__settings_item":
             MessageLookupByLibrary.simpleMessage("Настройки"),

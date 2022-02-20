@@ -80,6 +80,56 @@ class S {
     );
   }
 
+  /// `Удалить`
+  String get common__delete {
+    return Intl.message(
+      'Удалить',
+      name: 'common__delete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Да`
+  String get common__yes {
+    return Intl.message(
+      'Да',
+      name: 'common__yes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Нет`
+  String get common__no {
+    return Intl.message(
+      'Нет',
+      name: 'common__no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Удалить аккаунт?`
+  String get delete_account__title {
+    return Intl.message(
+      'Удалить аккаунт?',
+      name: 'delete_account__title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Вы уверены, что хотите удалить аккаунт {accountName}?`
+  String delete_account__content(Object accountName) {
+    return Intl.message(
+      'Вы уверены, что хотите удалить аккаунт $accountName?',
+      name: 'delete_account__content',
+      desc: '',
+      args: [accountName],
+    );
+  }
+
   /// `Аккаунты`
   String get home__accounts_item {
     return Intl.message(
