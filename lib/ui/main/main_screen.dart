@@ -405,7 +405,7 @@ class _NoAccounts extends StatelessWidget {
                 children: [
                   SizedBox(
                     height: 56,
-                    child: ElevatedButton(
+                    child: PlatformFilledButton(
                       onPressed: () async {
                         login(context: context);
                       },
@@ -415,6 +415,7 @@ class _NoAccounts extends StatelessWidget {
                   const SizedBox(height: 16),
                   SizedBox(
                     height: 56,
+                    // todo: platform button
                     child: OutlinedButton(
                       onPressed: () {},
                       child: const Text('СЛУЖБА ПОДДЕРЖКИ'),
