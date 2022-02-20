@@ -77,6 +77,7 @@ class _FormState extends State<_Form> {
       listener: (context, state) {
         switch (state.status) {
           case LoginScreenStatus.failure:
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(S.of(context).login_screen__error),
@@ -157,7 +158,8 @@ class _FormState extends State<_Form> {
                               context.read<LoginScreenBloc>().login();
                             }
                           },
-                    child: state.isLoading
+                    child: state.isLoading &&
+                            !Theme.of(context).platform.isCupertino
                         ? const CircularProgressIndicator()
                         : Text(S.of(context).login_form__login_button),
                   ),
