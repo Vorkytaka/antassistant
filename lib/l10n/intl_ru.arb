@@ -1,6 +1,7 @@
 {
   "common__required_field": "Заполните поле",
   "common__add_account": "Добавить аккаунт",
+  "common__copy": "Скопировать",
   "home__accounts_item": "Аккаунты",
   "home__settings_item": "Настройки",
   "accounts__days_left": "Дней осталось:",
@@ -9,5 +10,16 @@
   "login_form__login_button": "Войти",
   "login_form__show_password": "Показать пароль",
   "login_form__hide_password": "Скрыть пароль",
-  "login_screen__error": "Не удалось авторизоваться"
+  "login_screen__error": "Не удалось авторизоваться",
+  "account_details__balance": "Баланс",
+  "account_details__days_left": "Дней осталось",
+  "account_details__credit": "Кредит доверия",
+  "account_details__account_number": "Код плательщика",
+  "account_details__price_per_month": "Цена за месяц",
+  "account_details__price_per_day": "Цена за день",
+  "account_details__tariff_name": "Название тарифа",
+  "account_details__download_speed": "Скорость загрузки",
+  "account_details__upload_speed": "Скорость отдачи",
+  "account_details__downloaded": "Скачано за текущий месяц",
+  "account_details__dyndns": "Ваш DynDNS"
 }

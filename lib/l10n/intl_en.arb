@@ -1,6 +1,7 @@
 {
   "common__required_field": "Required field",
   "common__add_account": "Add account",
+  "common__copy": "Copy",
   "home__accounts_item": "Accounts",
   "home__settings_item": "Settings",
   "accounts__days_left": "Days left:",
@@ -9,5 +10,16 @@
   "login_form__login_button": "Login",
   "login_form__show_password": "Show password",
   "login_form__hide_password": "Hide password",
-  "login_screen__error": "Authorization failed"
+  "login_screen__error": "Authorization failed",
+  "account_details__balance": "Balance",
+  "account_details__days_left": "Days left",
+  "account_details__credit": "Credit of trust",
+  "account_details__account_number": "Account number",
+  "account_details__price_per_month": "Price per month",
+  "account_details__price_per_day": "Price per day",
+  "account_details__tariff_name": "Tariff name",
+  "account_details__download_speed": "Download speed",
+  "account_details__upload_speed": "Upload speed",
+  "account_details__downloaded": "Downloads for the current month",
+  "account_details__dyndns": "Your DynDNS"
 }

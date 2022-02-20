@@ -1,6 +1,7 @@
 import 'package:antassistant/data/repository.dart';
 import 'package:antassistant/domain/accounts/accounts_bloc.dart';
 import 'package:antassistant/entity/account_data.dart';
+import 'package:antassistant/generated/l10n.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/ui/main/main_screen.dart';
 import 'package:antassistant/utils/consts.dart';
@@ -192,7 +193,7 @@ class _Content extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  'Баланс',
+                  S.of(context).account_details__balance,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headline6,
                 ),
@@ -217,7 +218,7 @@ class _Content extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            'Дней осталось',
+                            S.of(context).account_details__days_left,
                             style: Theme.of(context).textTheme.subtitle1,
                           ),
                           const SizedBox(height: 8),
@@ -237,7 +238,7 @@ class _Content extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            'Кредит доверия',
+                            S.of(context).account_details__credit,
                             style: Theme.of(context).textTheme.subtitle1,
                           ),
                           const SizedBox(height: 8),
@@ -269,7 +270,7 @@ class _Content extends StatelessWidget {
             children: [
               _ListItem(
                 value: data.number,
-                hint: 'Код плательщика',
+                hint: S.of(context).account_details__account_number,
               ),
               const Divider(height: 1),
               Row(
@@ -277,7 +278,7 @@ class _Content extends StatelessWidget {
                   Expanded(
                     child: _ListItem(
                       value: '${data.tariff.price.asString} ₽',
-                      hint: 'Цена за месяц',
+                      hint: S.of(context).account_details__price_per_month,
                     ),
                   ),
                   Container(
@@ -288,7 +289,7 @@ class _Content extends StatelessWidget {
                   Expanded(
                     child: _ListItem(
                       value: '${data.tariff.pricePerDay.asString} ₽',
-                      hint: 'Цена за день',
+                      hint: S.of(context).account_details__price_per_day,
                     ),
                   )
                 ],
@@ -296,7 +297,7 @@ class _Content extends StatelessWidget {
               const Divider(height: 1),
               _ListItem(
                 value: data.tariff.name,
-                hint: 'Название тарифа',
+                hint: S.of(context).account_details__tariff_name,
                 trailing: IconButton(
                   onPressed: () {
                     showModalBottomSheet(
@@ -316,7 +317,7 @@ class _Content extends StatelessWidget {
                   Expanded(
                     child: _ListItem(
                       value: data.tariff.downloadSpeed,
-                      hint: 'Скорость загрузки',
+                      hint: S.of(context).account_details__download_speed,
                     ),
                   ),
                   Container(
@@ -327,7 +328,7 @@ class _Content extends StatelessWidget {
                   Expanded(
                     child: _ListItem(
                       value: data.tariff.uploadSpeed,
-                      hint: 'Скорость отдачи',
+                      hint: S.of(context).account_details__upload_speed,
                     ),
                   )
                 ],
@@ -335,12 +336,12 @@ class _Content extends StatelessWidget {
               const Divider(height: 1),
               _ListItem(
                 value: '${data.downloaded.asString} Мб',
-                hint: 'Скачано за текущий месяц',
+                hint: S.of(context).account_details__downloaded,
               ),
               const Divider(height: 1),
               _ListItem(
                 value: data.dynDns,
-                hint: 'Ваш DynDNS',
+                hint: S.of(context).account_details__dyndns,
               ),
             ],
           ),
@@ -406,7 +407,7 @@ dynamic copyMessage({
       content: Text(string),
       behavior: SnackBarBehavior.floating,
       action: SnackBarAction(
-        label: 'Скопировать',
+        label: S.of(context).common__copy,
         onPressed: () => Clipboard.setData(ClipboardData(text: string)),
       ),
       width: width,

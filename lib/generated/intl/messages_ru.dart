@@ -22,10 +22,33 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "account_details__account_number":
+            MessageLookupByLibrary.simpleMessage("Код плательщика"),
+        "account_details__balance":
+            MessageLookupByLibrary.simpleMessage("Баланс"),
+        "account_details__credit":
+            MessageLookupByLibrary.simpleMessage("Кредит доверия"),
+        "account_details__days_left":
+            MessageLookupByLibrary.simpleMessage("Дней осталось"),
+        "account_details__download_speed":
+            MessageLookupByLibrary.simpleMessage("Скорость загрузки"),
+        "account_details__downloaded":
+            MessageLookupByLibrary.simpleMessage("Скачано за текущий месяц"),
+        "account_details__dyndns":
+            MessageLookupByLibrary.simpleMessage("Ваш DynDNS"),
+        "account_details__price_per_day":
+            MessageLookupByLibrary.simpleMessage("Цена за день"),
+        "account_details__price_per_month":
+            MessageLookupByLibrary.simpleMessage("Цена за месяц"),
+        "account_details__tariff_name":
+            MessageLookupByLibrary.simpleMessage("Название тарифа"),
+        "account_details__upload_speed":
+            MessageLookupByLibrary.simpleMessage("Скорость отдачи"),
         "accounts__days_left":
             MessageLookupByLibrary.simpleMessage("Дней осталось:"),
         "common__add_account":
             MessageLookupByLibrary.simpleMessage("Добавить аккаунт"),
+        "common__copy": MessageLookupByLibrary.simpleMessage("Скопировать"),
         "common__required_field":
             MessageLookupByLibrary.simpleMessage("Заполните поле"),
         "home__accounts_item": MessageLookupByLibrary.simpleMessage("Аккаунты"),

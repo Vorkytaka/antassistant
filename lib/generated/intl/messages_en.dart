@@ -22,10 +22,33 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "account_details__account_number":
+            MessageLookupByLibrary.simpleMessage("Account number"),
+        "account_details__balance":
+            MessageLookupByLibrary.simpleMessage("Balance"),
+        "account_details__credit":
+            MessageLookupByLibrary.simpleMessage("Credit of trust"),
+        "account_details__days_left":
+            MessageLookupByLibrary.simpleMessage("Days left"),
+        "account_details__download_speed":
+            MessageLookupByLibrary.simpleMessage("Download speed"),
+        "account_details__downloaded": MessageLookupByLibrary.simpleMessage(
+            "Downloads for the current month"),
+        "account_details__dyndns":
+            MessageLookupByLibrary.simpleMessage("Your DynDNS"),
+        "account_details__price_per_day":
+            MessageLookupByLibrary.simpleMessage("Price per day"),
+        "account_details__price_per_month":
+            MessageLookupByLibrary.simpleMessage("Price per month"),
+        "account_details__tariff_name":
+            MessageLookupByLibrary.simpleMessage("Tariff name"),
+        "account_details__upload_speed":
+            MessageLookupByLibrary.simpleMessage("Upload speed"),
         "accounts__days_left":
             MessageLookupByLibrary.simpleMessage("Days left:"),
         "common__add_account":
             MessageLookupByLibrary.simpleMessage("Add account"),
+        "common__copy": MessageLookupByLibrary.simpleMessage("Copy"),
         "common__required_field":
             MessageLookupByLibrary.simpleMessage("Required field"),
         "home__accounts_item": MessageLookupByLibrary.simpleMessage("Accounts"),

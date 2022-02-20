@@ -70,6 +70,16 @@ class S {
     );
   }
 
+  /// `Скопировать`
+  String get common__copy {
+    return Intl.message(
+      'Скопировать',
+      name: 'common__copy',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Аккаунты`
   String get home__accounts_item {
     return Intl.message(
@@ -155,6 +165,116 @@ class S {
     return Intl.message(
       'Не удалось авторизоваться',
       name: 'login_screen__error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Баланс`
+  String get account_details__balance {
+    return Intl.message(
+      'Баланс',
+      name: 'account_details__balance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Дней осталось`
+  String get account_details__days_left {
+    return Intl.message(
+      'Дней осталось',
+      name: 'account_details__days_left',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Кредит доверия`
+  String get account_details__credit {
+    return Intl.message(
+      'Кредит доверия',
+      name: 'account_details__credit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Код плательщика`
+  String get account_details__account_number {
+    return Intl.message(
+      'Код плательщика',
+      name: 'account_details__account_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Цена за месяц`
+  String get account_details__price_per_month {
+    return Intl.message(
+      'Цена за месяц',
+      name: 'account_details__price_per_month',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Цена за день`
+  String get account_details__price_per_day {
+    return Intl.message(
+      'Цена за день',
+      name: 'account_details__price_per_day',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Название тарифа`
+  String get account_details__tariff_name {
+    return Intl.message(
+      'Название тарифа',
+      name: 'account_details__tariff_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Скорость загрузки`
+  String get account_details__download_speed {
+    return Intl.message(
+      'Скорость загрузки',
+      name: 'account_details__download_speed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Скорость отдачи`
+  String get account_details__upload_speed {
+    return Intl.message(
+      'Скорость отдачи',
+      name: 'account_details__upload_speed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Скачано за текущий месяц`
+  String get account_details__downloaded {
+    return Intl.message(
+      'Скачано за текущий месяц',
+      name: 'account_details__downloaded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ваш DynDNS`
+  String get account_details__dyndns {
+    return Intl.message(
+      'Ваш DynDNS',
+      name: 'account_details__dyndns',
       desc: '',
       args: [],
     );
