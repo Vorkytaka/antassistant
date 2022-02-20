@@ -50,6 +50,16 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Заполните поле`
+  String get common__required_field {
+    return Intl.message(
+      'Заполните поле',
+      name: 'common__required_field',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Добавить аккаунт`
   String get common__add_account {
     return Intl.message(
@@ -85,6 +95,66 @@ class S {
     return Intl.message(
       'Дней осталось:',
       name: 'accounts__days_left',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Имя пользователя`
+  String get login_form__login_hint {
+    return Intl.message(
+      'Имя пользователя',
+      name: 'login_form__login_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Пароль`
+  String get login_form__password_hint {
+    return Intl.message(
+      'Пароль',
+      name: 'login_form__password_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Войти`
+  String get login_form__login_button {
+    return Intl.message(
+      'Войти',
+      name: 'login_form__login_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Показать пароль`
+  String get login_form__show_password {
+    return Intl.message(
+      'Показать пароль',
+      name: 'login_form__show_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Скрыть пароль`
+  String get login_form__hide_password {
+    return Intl.message(
+      'Скрыть пароль',
+      name: 'login_form__hide_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Не удалось авторизоваться`
+  String get login_screen__error {
+    return Intl.message(
+      'Не удалось авторизоваться',
+      name: 'login_screen__error',
       desc: '',
       args: [],
     );

@@ -26,7 +26,22 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Дней осталось:"),
         "common__add_account":
             MessageLookupByLibrary.simpleMessage("Добавить аккаунт"),
+        "common__required_field":
+            MessageLookupByLibrary.simpleMessage("Заполните поле"),
         "home__accounts_item": MessageLookupByLibrary.simpleMessage("Аккаунты"),
-        "home__settings_item": MessageLookupByLibrary.simpleMessage("Настройки")
+        "home__settings_item":
+            MessageLookupByLibrary.simpleMessage("Настройки"),
+        "login_form__hide_password":
+            MessageLookupByLibrary.simpleMessage("Скрыть пароль"),
+        "login_form__login_button":
+            MessageLookupByLibrary.simpleMessage("Войти"),
+        "login_form__login_hint":
+            MessageLookupByLibrary.simpleMessage("Имя пользователя"),
+        "login_form__password_hint":
+            MessageLookupByLibrary.simpleMessage("Пароль"),
+        "login_form__show_password":
+            MessageLookupByLibrary.simpleMessage("Показать пароль"),
+        "login_screen__error":
+            MessageLookupByLibrary.simpleMessage("Не удалось авторизоваться")
       };
 }

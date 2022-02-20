@@ -26,7 +26,21 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Days left:"),
         "common__add_account":
             MessageLookupByLibrary.simpleMessage("Add account"),
+        "common__required_field":
+            MessageLookupByLibrary.simpleMessage("Required field"),
         "home__accounts_item": MessageLookupByLibrary.simpleMessage("Accounts"),
-        "home__settings_item": MessageLookupByLibrary.simpleMessage("Settings")
+        "home__settings_item": MessageLookupByLibrary.simpleMessage("Settings"),
+        "login_form__hide_password":
+            MessageLookupByLibrary.simpleMessage("Hide password"),
+        "login_form__login_button":
+            MessageLookupByLibrary.simpleMessage("Login"),
+        "login_form__login_hint":
+            MessageLookupByLibrary.simpleMessage("Username"),
+        "login_form__password_hint":
+            MessageLookupByLibrary.simpleMessage("Password"),
+        "login_form__show_password":
+            MessageLookupByLibrary.simpleMessage("Show password"),
+        "login_screen__error":
+            MessageLookupByLibrary.simpleMessage("Authorization failed")
       };
 }

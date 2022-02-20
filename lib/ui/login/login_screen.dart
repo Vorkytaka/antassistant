@@ -1,3 +1,4 @@
+import 'package:antassistant/generated/l10n.dart';
 import 'package:antassistant/ui/login/bloc/login_screen_bloc.dart';
 import 'package:antassistant/ui/login/login_screen_provider.dart';
 import 'package:antassistant/utils/padding.dart';
@@ -77,8 +78,8 @@ class _FormState extends State<_Form> {
         switch (state.status) {
           case LoginScreenStatus.failure:
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Не удалось авторизоваться'),
+              SnackBar(
+                content: Text(S.of(context).login_screen__error),
                 behavior: SnackBarBehavior.floating,
               ),
             );
@@ -105,14 +106,14 @@ class _FormState extends State<_Form> {
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.emailAddress,
                   autofillHints: const [AutofillHints.username],
-                  decoration: const InputDecoration(
-                    label: Text('Логин'),
+                  decoration: InputDecoration(
+                    label: Text(S.of(context).login_form__login_hint),
                   ),
                   onSaved: (username) =>
                       context.read<LoginScreenBloc>().setUsername(username),
                   validator: (username) {
                     if (username == null || username.isEmpty) {
-                      return 'Заполните поле';
+                      return S.of(context).common__required_field;
                     }
                   },
                 ),
@@ -126,7 +127,7 @@ class _FormState extends State<_Form> {
                   onSaved: (password) =>
                       context.read<LoginScreenBloc>().setPassword(password),
                   decoration: InputDecoration(
-                    label: const Text('Пароль'),
+                    label: Text(S.of(context).login_form__password_hint),
                     suffixIcon: _Visibility(
                       onPressed: () {
                         _passwordIsVisible = !_passwordIsVisible;
@@ -137,7 +138,7 @@ class _FormState extends State<_Form> {
                   ),
                   validator: (password) {
                     if (password == null || password.isEmpty) {
-                      return 'Заполните поле';
+                      return S.of(context).common__required_field;
                     }
                   },
                 ),
@@ -158,7 +159,7 @@ class _FormState extends State<_Form> {
                           },
                     child: state.isLoading
                         ? const CircularProgressIndicator()
-                        : const Text('Войти'),
+                        : Text(S.of(context).login_form__login_button),
                   ),
                 ),
               ],
@@ -188,10 +189,12 @@ class _Visibility extends StatelessWidget {
       firstChild: IconButton(
         onPressed: onPressed,
         icon: const Icon(Icons.visibility),
+        tooltip: S.of(context).login_form__hide_password,
       ),
       secondChild: IconButton(
         onPressed: onPressed,
         icon: const Icon(Icons.visibility_off),
+        tooltip: S.of(context).login_form__show_password,
       ),
       duration: duration,
       crossFadeState:

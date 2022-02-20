@@ -1,6 +1,13 @@
 {
+  "common__required_field": "Required field",
   "common__add_account": "Add account",
   "home__accounts_item": "Accounts",
   "home__settings_item": "Settings",
-  "accounts__days_left": "Days left:"
+  "accounts__days_left": "Days left:",
+  "login_form__login_hint": "Username",
+  "login_form__password_hint": "Password",
+  "login_form__login_button": "Login",
+  "login_form__show_password": "Show password",
+  "login_form__hide_password": "Hide password",
+  "login_screen__error": "Authorization failed"
 }
