@@ -56,6 +56,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "common__no": MessageLookupByLibrary.simpleMessage("Нет"),
         "common__required_field":
             MessageLookupByLibrary.simpleMessage("Заполните поле"),
+        "common__theme_dark": MessageLookupByLibrary.simpleMessage("Тёмная"),
+        "common__theme_light": MessageLookupByLibrary.simpleMessage("Светлая"),
+        "common__theme_system":
+            MessageLookupByLibrary.simpleMessage("Системная"),
         "common__yes": MessageLookupByLibrary.simpleMessage("Да"),
         "delete_account__content": m0,
         "delete_account__title":

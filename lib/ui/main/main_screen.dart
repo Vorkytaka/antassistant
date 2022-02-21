@@ -6,6 +6,7 @@ import 'package:antassistant/main.dart';
 import 'package:antassistant/ui/details/details_screen.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/utils/consts.dart';
+import 'package:antassistant/utils/intl.dart';
 import 'package:antassistant/utils/navigation.dart';
 import 'package:antassistant/utils/numbers.dart';
 import 'package:antassistant/utils/platform/platform.dart';
@@ -274,9 +275,61 @@ class _AccountListDetailsBodyState extends State<_AccountListDetailsBody> {
 }
 
 class _SettingsBody extends StatelessWidget {
+  static const x = Object();
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Material(
+      child: ListView(
+        children: [
+          ListTile(
+            title: Text('Тема приложения'),
+            subtitle: Text(
+                SharedAppData.getValue(context, x, () => ThemeMode.system)
+                    .intl(context)),
+            trailing: Icon(Icons.adaptive.arrow_forward),
+            onTap: () => setTheme(context: context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Future<void> setTheme({
+    required BuildContext context,
+  }) async {
+    final currentMode =
+        SharedAppData.getValue(context, x, () => ThemeMode.system);
+    final selectedMode = await showPlatformModalSheet(
+      context: context,
+      builder: (context) => PlatformModalDialog(
+        actions: [
+          for (final mode in ThemeMode.values)
+            PlatformModalAction(
+              child: Text(mode.intl(context)),
+              onPressed: () => Navigator.of(context).pop(mode),
+              trailing: currentMode == mode ? const Icon(Icons.check_circle) : null,
+              isDefaultAction: currentMode == mode,
+            ),
+          // PlatformModalAction(
+          //   child: Text('Системная'),
+          //   onPressed: () => Navigator.of(context).pop(ThemeMode.system),
+          // ),
+          // PlatformModalAction(
+          //   child: Text('Светлая'),
+          //   onPressed: () => Navigator.of(context).pop(ThemeMode.light),
+          // ),
+          // PlatformModalAction(
+          //   child: Text('Темная'),
+          //   onPressed: () => Navigator.of(context).pop(ThemeMode.dark),
+          // ),
+        ],
+      ),
+    );
+
+    if (selectedMode != null && selectedMode != currentMode) {
+      SharedAppData.setValue(context, x, selectedMode);
+    }
   }
 }
 

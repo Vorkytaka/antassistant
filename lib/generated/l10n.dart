@@ -110,6 +110,36 @@ class S {
     );
   }
 
+  /// `Системная`
+  String get common__theme_system {
+    return Intl.message(
+      'Системная',
+      name: 'common__theme_system',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Светлая`
+  String get common__theme_light {
+    return Intl.message(
+      'Светлая',
+      name: 'common__theme_light',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Тёмная`
+  String get common__theme_dark {
+    return Intl.message(
+      'Тёмная',
+      name: 'common__theme_dark',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Удалить аккаунт?`
   String get delete_account__title {
     return Intl.message(

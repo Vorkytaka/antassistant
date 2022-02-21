@@ -41,14 +41,18 @@ class PlatformModalAction extends StatelessWidget {
   final Widget child;
   final VoidCallback onPressed;
   final Widget? leading;
+  final Widget? trailing;
   final bool isDestructiveAction;
+  final bool isDefaultAction;
 
   const PlatformModalAction({
     Key? key,
     required this.child,
     required this.onPressed,
     this.leading,
+    this.trailing,
     this.isDestructiveAction = false,
+    this.isDefaultAction = false,
   }) : super(key: key);
 
   @override
@@ -58,11 +62,13 @@ class PlatformModalAction extends StatelessWidget {
         title: child,
         onTap: onPressed,
         leading: leading,
+        trailing: trailing,
       ),
       cupertino: (context) => CupertinoActionSheetAction(
         child: child,
         onPressed: onPressed,
         isDestructiveAction: isDestructiveAction,
+        isDefaultAction: isDefaultAction,
       ),
     );
   }
