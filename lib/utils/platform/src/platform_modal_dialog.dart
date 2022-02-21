@@ -16,16 +16,18 @@ class PlatformModalDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlatformWidgetBuilder(
-      material: (context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (title != null)
-            ListTile(
-              title: title,
-            ),
-          if (actions != null) ...actions!,
-        ],
+      material: (context) => SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (title != null)
+              ListTile(
+                title: title,
+              ),
+            if (actions != null) ...actions!,
+          ],
+        ),
       ),
       cupertino: (context) => CupertinoActionSheet(
         title: title,
