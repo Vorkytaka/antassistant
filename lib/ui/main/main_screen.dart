@@ -290,6 +290,26 @@ class _SettingsBody extends StatelessWidget {
             trailing: Icon(Icons.adaptive.arrow_forward),
             onTap: () => setTheme(context: context),
           ),
+          const Divider(thickness: 12, height: 12,),
+          const ListTile(
+            title: Text('Помощь'),
+          ),
+          if(canPhone) ...[
+            ListTile(
+              leading: Icon(Icons.call),
+              title: Text('Звонок в службу поддержки'),
+              onTap: () {},
+            ),
+            const Divider(
+              indent: 70,
+              height: 1,
+            ),
+          ],
+          ListTile(
+            leading: Icon(Icons.language),
+            title: Text('Сайт'),
+            onTap: () {},
+          ),
         ],
       ),
     );
@@ -308,7 +328,8 @@ class _SettingsBody extends StatelessWidget {
             PlatformModalAction(
               child: Text(mode.intl(context)),
               onPressed: () => Navigator.of(context).pop(mode),
-              trailing: currentMode == mode ? const Icon(Icons.check_circle) : null,
+              trailing:
+                  currentMode == mode ? const Icon(Icons.check_circle) : null,
               isDefaultAction: currentMode == mode,
             ),
           // PlatformModalAction(
