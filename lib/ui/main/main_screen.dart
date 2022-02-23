@@ -2,7 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:antassistant/domain/accounts/accounts_bloc.dart';
 import 'package:antassistant/entity/account_data.dart';
 import 'package:antassistant/generated/l10n.dart';
-import 'package:antassistant/main.dart';
+import 'package:antassistant/launcher.dart';
 import 'package:antassistant/ui/details/details_screen.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/utils/consts.dart';
@@ -14,7 +14,6 @@ import 'package:antassistant/utils/popup_menu.dart';
 import 'package:antassistant/utils/size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 enum HomeScreenState {
   loading,
@@ -290,11 +289,14 @@ class _SettingsBody extends StatelessWidget {
             trailing: Icon(Icons.adaptive.arrow_forward),
             onTap: () => setTheme(context: context),
           ),
-          const Divider(thickness: 12, height: 12,),
+          const Divider(
+            thickness: 12,
+            height: 12,
+          ),
           const ListTile(
             title: Text('Помощь'),
           ),
-          if(canPhone) ...[
+          if (Launcher.of(context).phone) ...[
             ListTile(
               leading: Icon(Icons.call),
               title: Text('Звонок в службу поддержки'),
@@ -305,11 +307,12 @@ class _SettingsBody extends StatelessWidget {
               height: 1,
             ),
           ],
-          ListTile(
-            leading: Icon(Icons.language),
-            title: Text('Сайт'),
-            onTap: () {},
-          ),
+          if (Launcher.of(context).web)
+            ListTile(
+              leading: Icon(Icons.language),
+              title: Text('Сайт'),
+              onTap: () => Launcher.site(context),
+            ),
         ],
       ),
     );
@@ -486,14 +489,12 @@ class _NoAccounts extends StatelessWidget {
                       child: Text(S.of(context).common__add_account),
                     ),
                   ),
-                  if (canPhone) ...[
+                  if (Launcher.of(context).phone) ...[
                     const SizedBox(height: 16),
                     SizedBox(
                       height: 56,
                       child: PlatformButton.secondary(
-                        onPressed: () {
-                          launch('tel:+7-495-940-92-11');
-                        },
+                        onPressed: () => Launcher.phone(context),
                         child: const Text('Служба поддержки'),
                       ),
                     ),

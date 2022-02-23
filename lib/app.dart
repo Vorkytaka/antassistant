@@ -4,6 +4,7 @@ import 'package:antassistant/data/repository_impl.dart';
 import 'package:antassistant/data/service/service.dart';
 import 'package:antassistant/domain/accounts/accounts_bloc.dart';
 import 'package:antassistant/generated/l10n.dart';
+import 'package:antassistant/launcher.dart';
 import 'package:antassistant/theme.dart';
 import 'package:antassistant/ui/details/details_screen.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
@@ -14,7 +15,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  final LauncherData launcherData;
+
+  const App({
+    Key? key,
+    required this.launcherData,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +50,10 @@ class App extends StatelessWidget {
       darkTheme: ThemeHolder.dark,
       builder: (context, child) {
         assert(child != null);
-        return Dependencies(child: child!);
+        return Dependencies(
+          child: child!,
+          launcherData: launcherData,
+        );
       },
     );
   }
@@ -52,10 +61,12 @@ class App extends StatelessWidget {
 
 class Dependencies extends StatelessWidget {
   final Widget child;
+  final LauncherData launcherData;
 
   const Dependencies({
     Key? key,
     required this.child,
+    required this.launcherData,
   }) : super(key: key);
 
   @override
@@ -77,7 +88,10 @@ class Dependencies extends StatelessWidget {
         ),
         child: BlocProvider(
           create: (context) => AccountsBloc(repository: context.read()),
-          child: child,
+          child: Launcher(
+            data: launcherData,
+            child: child,
+          ),
         ),
       ),
     );
