@@ -5,6 +5,7 @@ import 'package:antassistant/data/service/service.dart';
 import 'package:antassistant/domain/accounts/accounts_bloc.dart';
 import 'package:antassistant/generated/l10n.dart';
 import 'package:antassistant/launcher.dart';
+import 'package:antassistant/preferences.dart';
 import 'package:antassistant/theme.dart';
 import 'package:antassistant/ui/details/details_screen.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
@@ -24,37 +25,42 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ANTAssistant',
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        S.delegate,
-      ],
-      supportedLocales: S.delegate.supportedLocales,
-      routes: const {
-        HomeScreen.path: HomeScreen.builder,
-        LoginScreen.path: LoginScreen.builder,
-      },
-      onGenerateRoute: (settings) {
-        if (settings.name == DetailsScreen.path) {
-          final String name = settings.arguments as String;
-          return MaterialPageRoute(
-              builder: (context) => DetailsScreen.builder(context, name));
-        }
-      },
-      initialRoute: HomeScreen.path,
-      themeMode: ThemeMode.system,
-      theme: ThemeHolder.light,
-      darkTheme: ThemeHolder.dark,
-      builder: (context, child) {
-        assert(child != null);
-        return Dependencies(
-          child: child!,
-          launcherData: launcherData,
-        );
-      },
+    return Preferences(
+      child: Builder(
+        builder: (context) => MaterialApp(
+          title: 'ANTAssistant',
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            S.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
+          routes: const {
+            HomeScreen.path: HomeScreen.builder,
+            LoginScreen.path: LoginScreen.builder,
+          },
+          onGenerateRoute: (settings) {
+            if (settings.name == DetailsScreen.path) {
+              final String name = settings.arguments as String;
+              return MaterialPageRoute(
+                  builder: (context) => DetailsScreen.builder(context, name));
+            }
+          },
+          initialRoute: HomeScreen.path,
+          themeMode:
+          ThemeMode.values[Preferences.getInt(context, 'themeMode') ?? 0],
+          theme: ThemeHolder.light,
+          darkTheme: ThemeHolder.dark,
+          builder: (context, child) {
+            assert(child != null);
+            return Dependencies(
+              child: child!,
+              launcherData: launcherData,
+            );
+          },
+        ),
+      ),
     );
   }
 }

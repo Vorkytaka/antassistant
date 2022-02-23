@@ -3,6 +3,7 @@ import 'package:antassistant/domain/accounts/accounts_bloc.dart';
 import 'package:antassistant/entity/account_data.dart';
 import 'package:antassistant/generated/l10n.dart';
 import 'package:antassistant/launcher.dart';
+import 'package:antassistant/preferences.dart';
 import 'package:antassistant/ui/details/details_screen.dart';
 import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/utils/consts.dart';
@@ -283,9 +284,9 @@ class _SettingsBody extends StatelessWidget {
         children: [
           ListTile(
             title: Text('Тема приложения'),
-            subtitle: Text(
-                SharedAppData.getValue(context, x, () => ThemeMode.system)
-                    .intl(context)),
+            subtitle: Text((ThemeMode
+                    .values[Preferences.getInt(context, 'themeMode') ?? 0])
+                .intl(context)),
             trailing: Icon(Icons.adaptive.arrow_forward),
             onTap: () => setTheme(context: context),
           ),
@@ -322,8 +323,8 @@ class _SettingsBody extends StatelessWidget {
     required BuildContext context,
   }) async {
     final currentMode =
-        SharedAppData.getValue(context, x, () => ThemeMode.system);
-    final selectedMode = await showPlatformModalSheet(
+        ThemeMode.values[Preferences.getInt(context, 'themeMode') ?? 0];
+    final ThemeMode? selectedMode = await showPlatformModalSheet(
       context: context,
       builder: (context) => PlatformModalDialog(
         actions: [
@@ -352,7 +353,7 @@ class _SettingsBody extends StatelessWidget {
     );
 
     if (selectedMode != null && selectedMode != currentMode) {
-      SharedAppData.setValue(context, x, selectedMode);
+      Preferences.setInt(context, 'themeMode', selectedMode.index);
     }
   }
 }
