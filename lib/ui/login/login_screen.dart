@@ -158,9 +158,8 @@ class _FormState extends State<_Form> {
                               context.read<LoginScreenBloc>().login();
                             }
                           },
-                    child: state.isLoading &&
-                            !Theme.of(context).platform.isCupertino
-                        ? const CircularProgressIndicator()
+                    child: state.isLoading
+                        ? const PlatformProgressIndicator()
                         : Text(S.of(context).login_form__login_button),
                   ),
                 ),

@@ -8,4 +8,5 @@ export 'src/platform_actions_dialog.dart';
 export 'src/platform_alert_dialog.dart';
 export 'src/platform_button.dart';
 export 'src/platform_modal_dialog.dart';
+export 'src/platform_progress_indicator.dart';
 export 'src/platform_widget_builder.dart';
