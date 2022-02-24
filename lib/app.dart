@@ -30,40 +30,38 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return Preferences(
       sharedPreferences: sharedPreferences,
-      child: Builder(
-        builder: (context) => MaterialApp(
-          title: 'ANTAssistant',
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            S.delegate,
-          ],
-          supportedLocales: S.delegate.supportedLocales,
-          routes: const {
-            HomeScreen.path: HomeScreen.builder,
-            LoginScreen.path: LoginScreen.builder,
-          },
-          onGenerateRoute: (settings) {
-            if (settings.name == DetailsScreen.path) {
-              final String name = settings.arguments as String;
-              return MaterialPageRoute(
-                  builder: (context) => DetailsScreen.builder(context, name));
-            }
-          },
-          initialRoute: HomeScreen.path,
-          themeMode:
-              ThemeMode.values[Preferences.getInt(context, 'themeMode') ?? 0],
-          theme: ThemeHolder.light,
-          darkTheme: ThemeHolder.dark,
-          builder: (context, child) {
-            assert(child != null);
-            return Dependencies(
-              child: child!,
-              launcherData: launcherData,
-            );
-          },
-        ),
+      builder: (context) => MaterialApp(
+        title: 'ANTAssistant',
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          S.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        routes: const {
+          HomeScreen.path: HomeScreen.builder,
+          LoginScreen.path: LoginScreen.builder,
+        },
+        onGenerateRoute: (settings) {
+          if (settings.name == DetailsScreen.path) {
+            final String name = settings.arguments as String;
+            return MaterialPageRoute(
+                builder: (context) => DetailsScreen.builder(context, name));
+          }
+        },
+        initialRoute: HomeScreen.path,
+        themeMode:
+            ThemeMode.values[Preferences.getInt(context, 'themeMode') ?? 0],
+        theme: ThemeHolder.light,
+        darkTheme: ThemeHolder.dark,
+        builder: (context, child) {
+          assert(child != null);
+          return Dependencies(
+            child: child!,
+            launcherData: launcherData,
+          );
+        },
       ),
     );
   }

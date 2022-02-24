@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Preferences extends StatefulWidget {
-  final Widget child;
+  final Widget? child;
+  final WidgetBuilder? builder;
   final SharedPreferences sharedPreferences;
 
   const Preferences({
     Key? key,
-    required this.child,
+    this.child,
+    this.builder,
     required this.sharedPreferences,
-  }) : super(key: key);
+  })  : assert(child != null || builder != null),
+        super(key: key);
 
   @override
   State<Preferences> createState() => _PreferencesState();
@@ -76,7 +79,9 @@ class _PreferencesState extends State<Preferences> {
   @override
   Widget build(BuildContext context) {
     return _PreferencesModel(
-      child: widget.child,
+      child: widget.child != null
+          ? widget.child!
+          : Builder(builder: widget.builder!),
       state: this,
     );
   }
