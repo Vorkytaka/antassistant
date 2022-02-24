@@ -284,9 +284,9 @@ class _SettingsBody extends StatelessWidget {
         children: [
           ListTile(
             title: Text('Тема приложения'),
-            subtitle: Text((ThemeMode
-                    .values[Preferences.getInt(context, 'themeMode') ?? 0])
-                .intl(context)),
+            subtitle: Text(
+                (ThemeMode.values[Preferences.getInt(context, 'themeMode', 0)!])
+                    .intl(context)),
             trailing: Icon(Icons.adaptive.arrow_forward),
             onTap: () => setTheme(context: context),
           ),
@@ -323,7 +323,7 @@ class _SettingsBody extends StatelessWidget {
     required BuildContext context,
   }) async {
     final currentMode =
-        ThemeMode.values[Preferences.getInt(context, 'themeMode') ?? 0];
+        ThemeMode.values[Preferences.getInt(context, 'themeMode', 0)!];
     final ThemeMode? selectedMode = await showPlatformModalSheet(
       context: context,
       builder: (context) => PlatformModalDialog(

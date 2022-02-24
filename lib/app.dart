@@ -52,7 +52,7 @@ class App extends StatelessWidget {
         },
         initialRoute: HomeScreen.path,
         themeMode:
-            ThemeMode.values[Preferences.getInt(context, 'themeMode') ?? 0],
+            ThemeMode.values[Preferences.getInt(context, 'themeMode', 0)!],
         theme: ThemeHolder.light,
         darkTheme: ThemeHolder.dark,
         builder: (context, child) {
