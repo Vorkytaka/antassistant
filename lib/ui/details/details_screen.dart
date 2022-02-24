@@ -6,6 +6,7 @@ import 'package:antassistant/ui/login/login_screen.dart';
 import 'package:antassistant/ui/main/main_screen.dart';
 import 'package:antassistant/utils/consts.dart';
 import 'package:antassistant/utils/numbers.dart';
+import 'package:antassistant/utils/platform/platform.dart';
 import 'package:antassistant/utils/popup_menu.dart';
 import 'package:antassistant/utils/size.dart';
 import 'package:flutter/material.dart';
@@ -458,7 +459,7 @@ class _TariffListDialog extends StatelessWidget {
         }
 
         return const Center(
-          child: CircularProgressIndicator(),
+          child: PlatformProgressIndicator(),
         );
       },
     );
