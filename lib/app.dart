@@ -14,18 +14,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class App extends StatelessWidget {
   final LauncherData launcherData;
+  final SharedPreferences sharedPreferences;
 
   const App({
     Key? key,
     required this.launcherData,
+    required this.sharedPreferences,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Preferences(
+      sharedPreferences: sharedPreferences,
       child: Builder(
         builder: (context) => MaterialApp(
           title: 'ANTAssistant',
@@ -49,7 +53,7 @@ class App extends StatelessWidget {
           },
           initialRoute: HomeScreen.path,
           themeMode:
-          ThemeMode.values[Preferences.getInt(context, 'themeMode') ?? 0],
+              ThemeMode.values[Preferences.getInt(context, 'themeMode') ?? 0],
           theme: ThemeHolder.light,
           darkTheme: ThemeHolder.dark,
           builder: (context, child) {

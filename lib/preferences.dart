@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Preferences extends StatefulWidget {
   final Widget child;
+  final SharedPreferences sharedPreferences;
 
   const Preferences({
     Key? key,
     required this.child,
+    required this.sharedPreferences,
   }) : super(key: key);
 
   @override
   State<Preferences> createState() => _PreferencesState();
 
-  static void setInt(BuildContext context, String key, int? value) {
+  static void setInt(BuildContext context, String key, int value) {
     // final _SharedAppModel? model = context.getElementForInheritedWidgetOfExactType<_SharedAppModel>()?.widget as _SharedAppModel?;
     // assert(_debugHasSharedAppData(model, context, 'setValue'));
     // model!.sharedAppDataState.setValue<K, V>(key, value);
@@ -34,13 +37,34 @@ class Preferences extends StatefulWidget {
 }
 
 class _PreferencesState extends State<Preferences> {
+  static const String _prefix = 'prefs.';
   Map<String, dynamic> prefs = {};
 
-  void setInt(BuildContext context, String key, int? value) {
+  @override
+  void initState() {
+    super.initState();
+
+    final keys = widget.sharedPreferences
+        .getKeys()
+        .where((key) => key.startsWith(_prefix));
+    setState(() {
+      prefs = Map.of(prefs);
+      for (final key in keys) {
+        prefs[key.substring(_prefix.length)] =
+            widget.sharedPreferences.get(key);
+      }
+    });
+  }
+
+  void setInt(BuildContext context, String key, int value) {
     if (prefs[key] != value) {
-      setState(() {
-        prefs = Map.of(prefs);
-        prefs[key] = value;
+      widget.sharedPreferences.setInt('$_prefix$key', value).then((success) {
+        if (success) {
+          setState(() {
+            prefs = Map.of(prefs);
+            prefs[key] = value;
+          });
+        }
       });
     }
   }
