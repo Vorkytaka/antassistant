@@ -60,8 +60,21 @@ class _PreferencesState extends State<Preferences> {
   }
 
   void setInt(BuildContext context, String key, int value) {
+    _setValue(context, key, value, widget.sharedPreferences.setInt);
+  }
+
+  int? getInt(BuildContext context, String key) {
+    return prefs[key];
+  }
+
+  void _setValue<T>(
+    BuildContext context,
+    String key,
+    T value,
+    _ValueSetter<T> setter,
+  ) {
     if (prefs[key] != value) {
-      widget.sharedPreferences.setInt('$_prefix$key', value).then((success) {
+      setter('$_prefix$key', value).then((success) {
         if (success) {
           setState(() {
             prefs = Map.of(prefs);
@@ -70,10 +83,6 @@ class _PreferencesState extends State<Preferences> {
         }
       });
     }
-  }
-
-  int? getInt(BuildContext context, String key) {
-    return prefs[key];
   }
 
   @override
@@ -86,6 +95,10 @@ class _PreferencesState extends State<Preferences> {
     );
   }
 }
+
+// We need it, because shared preferences doesn't have abstract `set` method
+// (well, it does, but it's private)
+typedef _ValueSetter<T> = Future<bool> Function(String key, T value);
 
 class _PreferencesModel extends InheritedModel<String> {
   final _PreferencesState state;
