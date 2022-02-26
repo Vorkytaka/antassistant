@@ -89,7 +89,26 @@ class _PreferencesState extends State<Preferences> {
 
   int getInt(String key, int defaultValue) => _getValue(key, defaultValue);
 
+  bool getBool(String key, bool defaultValue) => _getValue(key, defaultValue);
+
+  double getDouble(String key, double defaultValue) =>
+      _getValue(key, defaultValue);
+
+  String getString(String key, String defaultValue) =>
+      _getValue(key, defaultValue);
+
+  List<String> getStringList(String key, List<String> defaultValue) =>
+      _getValue(key, defaultValue);
+
   int? maybeInt(String key) => _maybeValue(key);
+
+  bool? maybeBool(String key) => _maybeValue(key);
+
+  double? maybeDouble(String key) => _maybeValue(key);
+
+  String? maybeString(String key) => _maybeValue(key);
+
+  List<String>? maybeStringList(String key) => _maybeValue(key);
 
   void _setValue<T>(String key, T value, _ValueSetter<T> setter) {
     if (prefs[key] != value) {
