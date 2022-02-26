@@ -44,14 +44,17 @@ class Preferences extends StatefulWidget {
   }
 
   static int? getInt(BuildContext context, String key, int defaultValue) {
-    final _PreferencesModel? model =
-        InheritedModel.inheritFrom<_PreferencesModel>(context, aspect: key);
+    final _PreferencesModel? model = _getModelWithKey(context, key);
     return model!.state.getInt(key, defaultValue);
   }
 
   static _PreferencesModel? _getModel(BuildContext context) => context
       .getElementForInheritedWidgetOfExactType<_PreferencesModel>()
       ?.widget as _PreferencesModel;
+
+  static _PreferencesModel? _getModelWithKey(
+          BuildContext context, String key) =>
+      InheritedModel.inheritFrom<_PreferencesModel>(context, aspect: key);
 }
 
 class _PreferencesState extends State<Preferences> {
