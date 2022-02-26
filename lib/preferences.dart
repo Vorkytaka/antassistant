@@ -18,10 +18,6 @@ class Preferences extends StatefulWidget {
   State<Preferences> createState() => _PreferencesState();
 
   static void setInt(BuildContext context, String key, int value) {
-    // final _SharedAppModel? model = context.getElementForInheritedWidgetOfExactType<_SharedAppModel>()?.widget as _SharedAppModel?;
-    // assert(_debugHasSharedAppData(model, context, 'setValue'));
-    // model!.sharedAppDataState.setValue<K, V>(key, value);
-
     final _PreferencesModel? model = context
         .getElementForInheritedWidgetOfExactType<_PreferencesModel>()
         ?.widget as _PreferencesModel;
@@ -29,10 +25,6 @@ class Preferences extends StatefulWidget {
   }
 
   static int? getInt(BuildContext context, String key, [int? defaultValue]) {
-    // final _SharedAppModel? model = InheritedModel.inheritFrom<_SharedAppModel>(context, aspect: key);
-    // assert(_debugHasSharedAppData(model, context, 'getValue'));
-    // return model!.sharedAppDataState.getValue<K, V>(key, init);
-
     final _PreferencesModel? model =
         InheritedModel.inheritFrom<_PreferencesModel>(context, aspect: key);
     return model!.state.getInt(context, key, defaultValue);
@@ -47,16 +39,11 @@ class _PreferencesState extends State<Preferences> {
   void initState() {
     super.initState();
 
-    final keys = widget.sharedPreferences
-        .getKeys()
-        .where((key) => key.startsWith(_prefix));
-    setState(() {
-      prefs = Map.of(prefs);
-      for (final key in keys) {
-        prefs[key.substring(_prefix.length)] =
-            widget.sharedPreferences.get(key);
-      }
-    });
+    prefs = Map.of(prefs);
+    for (final key in widget.sharedPreferences.getKeys()) {
+      if (!key.startsWith(_prefix)) continue;
+      prefs[key.substring(_prefix.length)] = widget.sharedPreferences.get(key);
+    }
   }
 
   void setInt(BuildContext context, String key, int value) {
