@@ -24,7 +24,7 @@ class Preferences extends StatefulWidget {
     model!.state.setInt(context, key, value);
   }
 
-  static int? getInt(BuildContext context, String key, [int? defaultValue]) {
+  static int? getInt(BuildContext context, String key, int defaultValue) {
     final _PreferencesModel? model =
         InheritedModel.inheritFrom<_PreferencesModel>(context, aspect: key);
     return model!.state.getInt(context, key, defaultValue);
@@ -50,8 +50,12 @@ class _PreferencesState extends State<Preferences> {
     _setValue(context, key, value, widget.sharedPreferences.setInt);
   }
 
-  int? getInt(BuildContext context, String key, int? defaultValue) {
+  int getInt(BuildContext context, String key, int defaultValue) {
     return prefs[key] ?? defaultValue;
+  }
+
+  int? maybeInt(BuildContext context, String key) {
+    return prefs[key];
   }
 
   void _setValue<T>(
