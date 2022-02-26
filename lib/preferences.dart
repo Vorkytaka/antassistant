@@ -21,13 +21,13 @@ class Preferences extends StatefulWidget {
     final _PreferencesModel? model = context
         .getElementForInheritedWidgetOfExactType<_PreferencesModel>()
         ?.widget as _PreferencesModel;
-    model!.state.setInt(context, key, value);
+    model!.state.setInt(key, value);
   }
 
   static int? getInt(BuildContext context, String key, int defaultValue) {
     final _PreferencesModel? model =
         InheritedModel.inheritFrom<_PreferencesModel>(context, aspect: key);
-    return model!.state.getInt(context, key, defaultValue);
+    return model!.state.getInt(key, defaultValue);
   }
 }
 
@@ -46,24 +46,26 @@ class _PreferencesState extends State<Preferences> {
     }
   }
 
-  void setInt(BuildContext context, String key, int value) {
-    _setValue(context, key, value, widget.sharedPreferences.setInt);
-  }
+  void setInt(String key, int value) =>
+      _setValue(key, value, widget.sharedPreferences.setInt);
 
-  int getInt(BuildContext context, String key, int defaultValue) {
-    return prefs[key] ?? defaultValue;
-  }
+  void setBool(String key, bool value) =>
+      _setValue(key, value, widget.sharedPreferences.setBool);
 
-  int? maybeInt(BuildContext context, String key) {
-    return prefs[key];
-  }
+  void setDouble(String key, double value) =>
+      _setValue(key, value, widget.sharedPreferences.setDouble);
 
-  void _setValue<T>(
-    BuildContext context,
-    String key,
-    T value,
-    _ValueSetter<T> setter,
-  ) {
+  void setString(String key, String value) =>
+      _setValue(key, value, widget.sharedPreferences.setString);
+
+  void setStringList(String key, List<String> value) =>
+      _setValue(key, value, widget.sharedPreferences.setStringList);
+
+  int getInt(String key, int defaultValue) => _getValue(key, defaultValue);
+
+  int? maybeInt(String key) => _maybeValue(key);
+
+  void _setValue<T>(String key, T value, _ValueSetter<T> setter) {
     if (prefs[key] != value) {
       setter('$_prefix$key', value).then((success) {
         if (success) {
@@ -75,6 +77,10 @@ class _PreferencesState extends State<Preferences> {
       });
     }
   }
+
+  T _getValue<T>(String key, T defaultValue) => prefs[key] ?? defaultValue;
+
+  T? _maybeValue<T>(String key) => prefs[key];
 
   @override
   Widget build(BuildContext context) {
