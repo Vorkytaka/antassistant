@@ -18,10 +18,29 @@ class Preferences extends StatefulWidget {
   State<Preferences> createState() => _PreferencesState();
 
   static void setInt(BuildContext context, String key, int value) {
-    final _PreferencesModel? model = context
-        .getElementForInheritedWidgetOfExactType<_PreferencesModel>()
-        ?.widget as _PreferencesModel;
+    final _PreferencesModel? model = _getModel(context);
     model!.state.setInt(key, value);
+  }
+
+  static void setBool(BuildContext context, String key, bool value) {
+    final _PreferencesModel? model = _getModel(context);
+    model!.state.setBool(key, value);
+  }
+
+  static void setDouble(BuildContext context, String key, double value) {
+    final _PreferencesModel? model = _getModel(context);
+    model!.state.setDouble(key, value);
+  }
+
+  static void setString(BuildContext context, String key, String value) {
+    final _PreferencesModel? model = _getModel(context);
+    model!.state.setString(key, value);
+  }
+
+  static void setStringList(
+      BuildContext context, String key, List<String> value) {
+    final _PreferencesModel? model = _getModel(context);
+    model!.state.setStringList(key, value);
   }
 
   static int? getInt(BuildContext context, String key, int defaultValue) {
@@ -29,6 +48,10 @@ class Preferences extends StatefulWidget {
         InheritedModel.inheritFrom<_PreferencesModel>(context, aspect: key);
     return model!.state.getInt(key, defaultValue);
   }
+
+  static _PreferencesModel? _getModel(BuildContext context) => context
+      .getElementForInheritedWidgetOfExactType<_PreferencesModel>()
+      ?.widget as _PreferencesModel;
 }
 
 class _PreferencesState extends State<Preferences> {
