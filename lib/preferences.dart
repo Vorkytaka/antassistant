@@ -1,6 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+typedef PreferenceWidgetBuilder<T> = Widget Function(
+    BuildContext context, T? value);
+
+class PreferenceBuilder<T> extends StatelessWidget {
+  final String prefKey;
+  final PreferenceWidgetBuilder<T> builder;
+  final T defaultValue;
+
+  const PreferenceBuilder({
+    Key? key,
+    required this.prefKey,
+    required this.builder,
+    required this.defaultValue,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final T? pref = Preferences._get(context, prefKey) ?? defaultValue;
+    return builder(context, pref);
+  }
+}
+
 class Preferences extends StatefulWidget {
   final Widget? child;
   final WidgetBuilder? builder;
@@ -46,6 +68,11 @@ class Preferences extends StatefulWidget {
   static int? getInt(BuildContext context, String key, int defaultValue) {
     final _PreferencesModel? model = _getModelWithKey(context, key);
     return model!.state.getInt(key, defaultValue);
+  }
+
+  static dynamic _get(BuildContext context, String key) {
+    final _PreferencesModel? model = _getModelWithKey(context, key);
+    return model!.state._maybeValue(key);
   }
 
   static _PreferencesModel? _getModel(BuildContext context) => context
