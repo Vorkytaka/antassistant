@@ -70,6 +70,11 @@ class Preferences extends StatefulWidget {
     return model!.state.getInt(key, defaultValue);
   }
 
+  static int? maybeInt(BuildContext context, String key) {
+    final _PreferencesModel? model = _getModelWithKey(context, key);
+    return model!.state.maybeInt(key);
+  }
+
   static dynamic _get(BuildContext context, String key) {
     final _PreferencesModel? model = _getModelWithKey(context, key);
     return model!.state._maybeValue(key);

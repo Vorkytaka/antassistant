@@ -8,7 +8,8 @@ abstract class ThemeHolder {
   const ThemeHolder._();
 
   // getter for hot reload
-  static get light => ThemeData(
+  static light({TargetPlatform? platform}) => ThemeData(
+        platform: platform,
         brightness: Brightness.light,
         inputDecorationTheme: const InputDecorationTheme(
           border: OutlineInputBorder(),
@@ -36,7 +37,8 @@ abstract class ThemeHolder {
             defaultTargetPlatform.isCupertino ? NoSplash.splashFactory : null,
       );
 
-  static get dark => ThemeData(
+  static dark({TargetPlatform? platform}) => ThemeData(
+        platform: platform,
         brightness: Brightness.dark,
         inputDecorationTheme: const InputDecorationTheme(
           border: OutlineInputBorder(),
