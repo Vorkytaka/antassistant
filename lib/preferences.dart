@@ -65,7 +65,7 @@ class Preferences extends StatefulWidget {
     model!.state.setStringList(key, value);
   }
 
-  static int? getInt(BuildContext context, String key, int defaultValue) {
+  static int getInt(BuildContext context, String key, int defaultValue) {
     final _PreferencesModel? model = _getModelWithKey(context, key);
     return model!.state.getInt(key, defaultValue);
   }

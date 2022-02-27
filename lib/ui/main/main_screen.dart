@@ -291,6 +291,18 @@ class _SettingsBody extends StatelessWidget {
             onTap: () => setTheme(context: context),
           ),
           const Divider(
+            indent: 70,
+            height: 1,
+          ),
+          ListTile(
+            title: Text('Платформаы'),
+            subtitle: Text((TargetPlatform
+                    .values[Preferences.getInt(context, 'platform', 0)!])
+                .toString()),
+            trailing: Icon(Icons.adaptive.arrow_forward),
+            onTap: () => setPlatform(context: context),
+          ),
+          const Divider(
             thickness: 12,
             height: 12,
           ),
@@ -319,6 +331,29 @@ class _SettingsBody extends StatelessWidget {
     );
   }
 
+  static Future<void> setPlatform({
+    required BuildContext context,
+  }) async {
+    final currentPlatform =
+        TargetPlatform.values[Preferences.getInt(context, 'platform', 0)];
+    final TargetPlatform? selectedPlatform = await showPlatformModalSheet(
+      context: context,
+      builder: (context) => PlatformModalDialog(
+        actions: [
+          for (final platform in TargetPlatform.values)
+            PlatformModalAction(
+              child: Text(platform.toString()),
+              onPressed: () => Navigator.of(context).pop(platform),
+            ),
+        ],
+      ),
+    );
+
+    if (selectedPlatform != null && selectedPlatform != currentPlatform) {
+      Preferences.setInt(context, 'platform', selectedPlatform.index);
+    }
+  }
+
   static Future<void> setTheme({
     required BuildContext context,
   }) async {
@@ -336,18 +371,6 @@ class _SettingsBody extends StatelessWidget {
                   currentMode == mode ? const Icon(Icons.check_circle) : null,
               isDefaultAction: currentMode == mode,
             ),
-          // PlatformModalAction(
-          //   child: Text('Системная'),
-          //   onPressed: () => Navigator.of(context).pop(ThemeMode.system),
-          // ),
-          // PlatformModalAction(
-          //   child: Text('Светлая'),
-          //   onPressed: () => Navigator.of(context).pop(ThemeMode.light),
-          // ),
-          // PlatformModalAction(
-          //   child: Text('Темная'),
-          //   onPressed: () => Navigator.of(context).pop(ThemeMode.dark),
-          // ),
         ],
       ),
     );
