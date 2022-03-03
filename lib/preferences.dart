@@ -116,8 +116,8 @@ class _PreferencesState extends State<Preferences> {
   void setString(String key, String value) =>
       _setValue(key, value, widget.sharedPreferences.setString);
 
-  void setStringList(String key, List<String> value) =>
-      _setValue(key, value, widget.sharedPreferences.setStringList);
+  void setStringList(String key, List<String> value) => _setValue(key,
+      value.toList(growable: false), widget.sharedPreferences.setStringList);
 
   int getInt(String key, int defaultValue) => _getValue(key, defaultValue);
 
