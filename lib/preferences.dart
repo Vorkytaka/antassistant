@@ -119,15 +119,15 @@ class _PreferencesState extends State<Preferences> {
   void setStringList(String key, List<String> value) => _setValue(key,
       value.toList(growable: false), widget.sharedPreferences.setStringList);
 
-  int getInt(String key, int defaultValue) => _getValue(key, defaultValue);
+  int getInt(String key, int defaultValue) => maybeInt(key) ?? defaultValue;
 
-  bool getBool(String key, bool defaultValue) => _getValue(key, defaultValue);
+  bool getBool(String key, bool defaultValue) => maybeBool(key) ?? defaultValue;
 
   double getDouble(String key, double defaultValue) =>
-      _getValue(key, defaultValue);
+      maybeDouble(key) ?? defaultValue;
 
   String getString(String key, String defaultValue) =>
-      _getValue(key, defaultValue);
+      maybeString(key) ?? defaultValue;
 
   List<String> getStringList(String key, List<String> defaultValue) =>
       maybeStringList(key) ?? defaultValue;
@@ -161,8 +161,6 @@ class _PreferencesState extends State<Preferences> {
       });
     }
   }
-
-  T _getValue<T>(String key, T defaultValue) => prefs[key] ?? defaultValue;
 
   T? _maybeValue<T>(String key) => prefs[key];
 
