@@ -130,7 +130,7 @@ class _PreferencesState extends State<Preferences> {
       _getValue(key, defaultValue);
 
   List<String> getStringList(String key, List<String> defaultValue) =>
-      _getValue(key, defaultValue);
+      maybeStringList(key) ?? defaultValue;
 
   int? maybeInt(String key) => _maybeValue(key);
 
@@ -140,7 +140,14 @@ class _PreferencesState extends State<Preferences> {
 
   String? maybeString(String key) => _maybeValue(key);
 
-  List<String>? maybeStringList(String key) => _maybeValue(key);
+  List<String>? maybeStringList(String key) {
+    List<dynamic>? list = prefs[key] as List<dynamic>?;
+    if (list != null && list is! List<String>) {
+      list = list.cast<String>().toList(growable: false);
+      prefs[key] = list;
+    }
+    return list?.toList(growable: false) as List<String>?;
+  }
 
   void _setValue<T>(String key, T value, _ValueSetter<T> setter) {
     if (prefs[key] != value) {
